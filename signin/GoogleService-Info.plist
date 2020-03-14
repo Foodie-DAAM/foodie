@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>526860674382-uln1kf86egusrm1f3saaeu5bpkji8ihp.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.526860674382-uln1kf86egusrm1f3saaeu5bpkji8ihp</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAivaT2uSViVryhlQ48awV-T6cvbFH43H8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>526860674382</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>net.sandrohc.foodie</string>
+	<key>PROJECT_ID</key>
+	<string>foodie-daam</string>
+	<key>STORAGE_BUCKET</key>
+	<string>foodie-daam.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:526860674382:ios:4fe2997f43afdf92866a1f</string>
+	<key>DATABASE_URL</key>
+	<string>https://foodie-daam.firebaseio.com</string>
+</dict>
+</plist>

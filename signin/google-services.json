@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "526860674382",
+    "firebase_url": "https://foodie-daam.firebaseio.com",
+    "project_id": "foodie-daam",
+    "storage_bucket": "foodie-daam.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:526860674382:android:023b0864697d9221866a1f",
+        "android_client_info": {
+          "package_name": "net.sandrohc.foodie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "526860674382-23tmvsqgs41kue8125uf6p77tkpk466f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMdUbrpsRRw-hdd9L1FoX0PNemBNfHEXA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "526860674382-23tmvsqgs41kue8125uf6p77tkpk466f.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "526860674382-uln1kf86egusrm1f3saaeu5bpkji8ihp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "net.sandrohc.foodie"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

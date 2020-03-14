@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Blank Template",
+    "name": "Foodie",
     "slug": "foodie",
     "privacy": "public",
     "sdkVersion": "36.0.0",
@@ -24,7 +24,18 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "net.sandrohc.foodie",
+      "supportsTablet": true,
+      "googleServicesFile": "./signin/GoogleService-Info.plist",
+      "config": {
+        "googleSignIn": {
+          "reservedClientId": "com.googleusercontent.apps.526860674382-uln1kf86egusrm1f3saaeu5bpkji8ihp"
+        }
+      }
+    },
+    "android": {
+      "package": "net.sandrohc.foodie",
+      "googleServicesFile": "./signin/google-services.json"
     }
   }
 }
