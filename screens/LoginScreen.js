@@ -1,5 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Google from 'expo-google-app-auth';
 import * as firebase from 'firebase';
 
@@ -12,25 +13,16 @@ const config = {
 	scopes: ['profile', 'email'],
 };
 
-export default class AuthScreen extends React.Component {
+export default class LoginScreen extends React.Component {
 	state = { user: null, accessToken: null };
 
 	componentDidMount() {
-		// this.initAsync();
+		this.initAsync();
 	}
 
 	// TODO: remove?
 	initAsync = async () => {
-		await Google.initAsync({ });
-		this._syncUserWithStateAsync();
-	};
-
-	// TODO: remove?
-	_syncUserWithStateAsync = async (accessToken) => {
-		const user = await fetch('https://www.googleapis.com/userinfo/v2/me', {
-			headers: { Authorization: `Bearer ${accessToken}` },
-		});
-		this.setState({ user });
+		console.log("test");
 	};
 
 	signOutAsync = async () => {
@@ -40,18 +32,18 @@ export default class AuthScreen extends React.Component {
 
 	signInAsync = async () => {
 		try {
-			const { type, accessToken, user } = await Google.logInAsync(config);
+			const { type, accessToken, idToken, user } = await Google.logInAsync(config);
 
 			if (type === 'success') {
 				this.setState({ user, accessToken });
 
 				// Authenticate into Firebase
-				const credential = firebase.auth.GoogleAuthProvider.credential(null, accessToken);
+				const credential = firebase.auth.GoogleAuthProvider.credential(idToken);
 				firebase.auth().signInWithCredential(credential).catch((error) => {
 					alert('firebase login: Error:' + error);
 				});
 
-				alert('login: token: ' + accessToken + '; user: ' + user);
+				console.log("Logged in with token " + accessToken + " and user:", user.name, user.email, user.photoUrl);
 			}
 		} catch ({ message }) {
 			alert('login: Error:' + message);
@@ -67,6 +59,10 @@ export default class AuthScreen extends React.Component {
 	};
 
 	render() {
-		return <Text onPress={this.onPress}>Toggle Auth</Text>;
+		return (
+			<SafeAreaView>
+				<Text onPress={this.onPress}>{this.state.user ? 'Sign out' : 'Sign in'}</Text>
+			</SafeAreaView>
+		);
 	}
 }

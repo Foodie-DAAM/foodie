@@ -1,15 +1,29 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import * as firebase from 'firebase';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import firebase from 'firebase';
 
-import AuthScreen from './components/AuthScreen';
+import HomeScreen from './screens/HomeScreen';
+import LoginScreen from './screens/LoginScreen';
+import ProfileScreen from './screens/ProfileScreen';
+import RecipeScreen from './screens/RecipeScreen';
+
+const Stack = createStackNavigator();
 
 export default function App() {
 	return (
-		<View style={styles.container}>
-			<Text>Open up App.js to start working on your app.</Text>
-			<AuthScreen />
-		</View>
+		<SafeAreaProvider>
+			<NavigationContainer>
+				<Stack.Navigator initialRouteName="Home">
+					<Stack.Screen name="Home"    component={HomeScreen} />
+					<Stack.Screen name="Login"   component={LoginScreen} />
+					<Stack.Screen name="Profile" component={ProfileScreen} />
+					<Stack.Screen name="Recipe"  component={RecipeScreen} />
+				</Stack.Navigator>
+			</NavigationContainer>
+		</SafeAreaProvider>
 	);
 }
 
