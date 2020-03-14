@@ -15,7 +15,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#005aab"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -24,18 +24,22 @@
       "**/*"
     ],
     "ios": {
-      "bundleIdentifier": "net.sandrohc.foodie",
       "supportsTablet": true,
-      "googleServicesFile": "./signin/GoogleService-Info.plist",
+      "bundleIdentifier": "net.sandrohc.foodie",
       "config": {
         "googleSignIn": {
-          "reservedClientId": "com.googleusercontent.apps.526860674382-uln1kf86egusrm1f3saaeu5bpkji8ihp"
+          "reservedClientId": "com.googleusercontent.apps.526860674382-0ronigr9a1n2il4gf18b2mujprfk5qoh"
         }
       }
     },
     "android": {
       "package": "net.sandrohc.foodie",
-      "googleServicesFile": "./signin/google-services.json"
+      "config": {
+        "googleSignIn": {
+          "apiKey": "AIzaSyDMdUbrpsRRw-hdd9L1FoX0PNemBNfHEXA",
+          "certificateHash": "ED290BDE5DB4401B2B04C0221AEF46E155860237"
+        }
+      }
     }
   }
 }

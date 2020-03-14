@@ -1,35 +1,57 @@
 import React from 'react';
 import { Text } from 'react-native';
-import * as GoogleSignIn from 'expo-google-sign-in';
+import * as Google from 'expo-google-app-auth';
+import * as firebase from 'firebase';
+
+const config = {
+	// OAuth 2.0 client ids
+	iosClientId: '526860674382-uln1kf86egusrm1f3saaeu5bpkji8ihp.apps.googleusercontent.com',
+	iosStandaloneAppClientId: '526860674382-0ronigr9a1n2il4gf18b2mujprfk5qoh.apps.googleusercontent.com',
+	androidClientId: '526860674382-60r5t8gufr8knmu1pgo4eqgb2394450m.apps.googleusercontent.com',
+	androidStandaloneAppClientId: '526860674382-d84ab335s5r97irdkkdmnkijtnmsf2u4.apps.googleusercontent.com',
+	scopes: ['profile', 'email'],
+};
 
 export default class AuthScreen extends React.Component {
-	state = { user: null };
+	state = { user: null, accessToken: null };
 
 	componentDidMount() {
-		this.initAsync();
+		// this.initAsync();
 	}
 
+	// TODO: remove?
 	initAsync = async () => {
-		await GoogleSignIn.initAsync({ });
+		await Google.initAsync({ });
 		this._syncUserWithStateAsync();
 	};
 
-	_syncUserWithStateAsync = async () => {
-		const user = await GoogleSignIn.signInSilentlyAsync();
+	// TODO: remove?
+	_syncUserWithStateAsync = async (accessToken) => {
+		const user = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+			headers: { Authorization: `Bearer ${accessToken}` },
+		});
 		this.setState({ user });
 	};
 
 	signOutAsync = async () => {
-		await GoogleSignIn.signOutAsync();
-		this.setState({ user: null });
+		await Google.logOutAsync({ accessToken, ...config });
+		this.setState({ user: null, accessToken: null });
 	};
 
 	signInAsync = async () => {
 		try {
-			await GoogleSignIn.askForPlayServicesAsync();
-			const { type, user } = await GoogleSignIn.signInAsync();
+			const { type, accessToken, user } = await Google.logInAsync(config);
+
 			if (type === 'success') {
-				this._syncUserWithStateAsync();
+				this.setState({ user, accessToken });
+
+				// Authenticate into Firebase
+				const credential = firebase.auth.GoogleAuthProvider.credential(null, accessToken);
+				firebase.auth().signInWithCredential(credential).catch((error) => {
+					alert('firebase login: Error:' + error);
+				});
+
+				alert('login: token: ' + accessToken + '; user: ' + user);
 			}
 		} catch ({ message }) {
 			alert('login: Error:' + message);

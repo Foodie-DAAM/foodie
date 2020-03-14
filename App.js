@@ -34,3 +34,11 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 //firebase.analytics();
+firebase.auth().useDeviceLanguage();
+firebase.auth().onAuthStateChanged((user) => {
+	if (user != null) {
+		console.log("We are authenticated now!");
+	}
+
+	// Do other things
+});
