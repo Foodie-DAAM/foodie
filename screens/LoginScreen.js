@@ -22,7 +22,7 @@ export default class LoginScreen extends React.Component {
 
 	// TODO: remove?
 	initAsync = async () => {
-		console.log("test");
+		console.log("LOGIN - componentDidMount");
 	};
 
 	signOutAsync = async () => {
