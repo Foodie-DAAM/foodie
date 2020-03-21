@@ -42,6 +42,18 @@
       }
     },
     "description": "",
-    "githubUrl": "https://github.com/Foodie-DAAM/foodie"
+    "githubUrl": "https://github.com/Foodie-DAAM/foodie",
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "foodie",
+            "project": "foodie-app",
+            "authToken": "19c81d146f1f4dfdb8d8dc8abf7b1d4c68c786617349425389a346bc0dffa60f"
+          }
+        }
+      ]
+    }
   }
 }

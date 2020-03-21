@@ -9,6 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import firebase from 'firebase';
+import * as Sentry from 'sentry-expo';
 
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
@@ -47,7 +48,6 @@ const styles = StyleSheet.create({
 });
 
 
-// Initialize Firebase
 if (!firebase.apps.length) {
 	firebase.initializeApp({
 		projectId: 'foodie-daam',
@@ -67,3 +67,9 @@ if (!firebase.apps.length) {
 		// Do other things
 	});
 }
+
+Sentry.init({
+	dsn: 'https://1a78220be5554a95aa9c3e8afc0cb0fc@sentry.io/5169592',
+	enableInExpoDevelopment: true,
+	debug: true
+});
