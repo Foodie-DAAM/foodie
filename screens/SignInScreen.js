@@ -13,7 +13,7 @@ const config = {
 	scopes: ['profile', 'email'],
 };
 
-export default class LoginScreen extends React.Component {
+export default class SignInScreen extends React.Component {
 	state = { user: null, accessToken: null };
 
 	componentDidMount() {

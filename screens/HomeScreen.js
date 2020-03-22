@@ -1,26 +1,24 @@
 import React from 'react';
-import { StyleSheet, View, Text, Button } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { StyleSheet, View, Text } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+
+import Header from '../components/Header'
+import Button from '../components/Button'
+
 
 export default class HomeScreen extends React.Component {
 
 	render() {
 		return (
-			<View style={styles.container}>
-				<Text>Home</Text>
-				<Button title="Login"   onPress={() => this.props.navigation.navigate('Login')} />
-				<Button title="Profile" onPress={() => this.props.navigation.navigate('Profile')} />
-				<Button title="Recipe"  onPress={() => this.props.navigation.navigate('Recipe')} />
-			</View>
+			<SafeAreaView style={styles.safeArea}>
+				<Text>
+					Home
+				</Text>
+			</SafeAreaView>
 		);
 	}
 }
 
 const styles = StyleSheet.create({
-	container: {
-		// flex: 1,
-		backgroundColor: '#ddd',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
+
 });

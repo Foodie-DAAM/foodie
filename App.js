@@ -1,51 +1,38 @@
 import React from 'react';
-import {
-	ScrollView,
-	View,
-	Text,
-	StyleSheet,
-} from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import firebase from 'firebase';
-import * as Sentry from 'sentry-expo';
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { Appearance, AppearanceProvider, useColorScheme } from 'react-native-appearance'
+import firebase from 'firebase'
+import * as Sentry from 'sentry-expo'
 
-import HomeScreen from './screens/HomeScreen';
-import LoginScreen from './screens/LoginScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import RecipeScreen from './screens/RecipeScreen';
-
-import Header from "./components/Header";
+import HomeScreen from './screens/HomeScreen'
+import SignInScreen from './screens/SignInScreen'
+import SignUpScreen from './screens/SignUpScreen'
+import ProfileScreen from './screens/ProfileScreen'
+import RecipeScreen from './screens/RecipeScreen'
+import WelcomeScreen from './screens/WelcomeScreen'
 
 const Stack = createStackNavigator();
 
 export default function App() {
 	return (
 		<SafeAreaProvider>
-			<NavigationContainer>
-				<Header />
-
-				{/*<ScrollView style={styles.container}>*/}
-				<Stack.Navigator initialRouteName="Home">
-					<Stack.Screen name="Home"    component={HomeScreen} />
-					<Stack.Screen name="Login"   component={LoginScreen} />
-					<Stack.Screen name="Profile" component={ProfileScreen} />
-					<Stack.Screen name="Recipe"  component={RecipeScreen} />
-				</Stack.Navigator>
-				{/*</ScrollView>*/}
-			</NavigationContainer>
+			<AppearanceProvider>
+				<NavigationContainer>
+					<Stack.Navigator initialRouteName="Welcome" headerMode="none">
+						<Stack.Screen name="Welcome" component={WelcomeScreen} />
+						<Stack.Screen name="Home"    component={HomeScreen} />
+						<Stack.Screen name="SignIn"  component={SignInScreen} />
+						<Stack.Screen name="SignUp"  component={SignUpScreen} />
+						<Stack.Screen name="Profile" component={ProfileScreen} />
+						<Stack.Screen name="Recipe"  component={RecipeScreen} />
+					</Stack.Navigator>
+				</NavigationContainer>
+			</AppearanceProvider>
 		</SafeAreaProvider>
 	);
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: 'rgba(192, 192, 192, 0)',
-		padding: 15,
-	},
-});
 
 
 if (!firebase.apps.length) {
