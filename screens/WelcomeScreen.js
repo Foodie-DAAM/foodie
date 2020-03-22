@@ -24,10 +24,12 @@ export default class WelcomeScreen extends React.Component {
 					<View style={styles.buttons}>
 						<Button title="SIGN UP" onPress={() => this.props.navigation.navigate('SignUp')} />
 						<Button title="SIGN IN" secondary onPress={() => this.props.navigation.navigate('SignIn')} />
+						<Button title="TEMP - HOME" secondary onPress={() => this.props.navigation.navigate('Home')} />
+						<Button title="TEMP - PROFILE" secondary onPress={() => this.props.navigation.navigate('Profile')} />
+						<Button title="TEMP - RECIPE" secondary onPress={() => this.props.navigation.navigate('Recipe')} />
 					</View>
 				</View>
 			</SafeAreaView>
-
 		);
 	}
 }
