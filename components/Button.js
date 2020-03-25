@@ -1,5 +1,6 @@
 import React from 'react'
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
+import { getTheme } from "../theme";
 
 
 export default class Button extends React.PureComponent {
@@ -9,7 +10,7 @@ export default class Button extends React.PureComponent {
 
 	render() {
 		return (
-			<TouchableOpacity onPress={this.props.onPress}>
+			<TouchableOpacity {...this.props}>
 				<View style={[styles.button, this.styles.button, this.props.style]}>
 					<Text style={[styles.text, this.styles.text]}>
 						{this.props.title}
@@ -20,6 +21,7 @@ export default class Button extends React.PureComponent {
 	}
 }
 
+const { colors } = getTheme();
 const styles = StyleSheet.create({
 	button: {
 		alignItems: 'center',
@@ -32,18 +34,18 @@ const styles = StyleSheet.create({
 	},
 
 	buttonPrimary: {
-		backgroundColor: '#E67332',
+		backgroundColor: colors.primary,
 	},
 	buttonSecondary: {
-		backgroundColor: 'white',
-		borderColor: '#E67332',
+		backgroundColor: colors.textLight,
+		borderColor: colors.primary,
 		borderWidth: 1,
 	},
 
 	textPrimary: {
-		color: 'white',
+		color: colors.textLight,
 	},
 	textSecondary: {
-		color: '#E67332',
+		color: colors.primary,
 	}
 });

@@ -7,10 +7,11 @@ import firebase from 'firebase'
 import * as Sentry from 'sentry-expo'
 
 import HomeScreen from './screens/HomeScreen'
-import SignInScreen from './screens/SignInScreen'
-import SignUpScreen from './screens/SignUpScreen'
 import ProfileScreen from './screens/ProfileScreen'
 import RecipeScreen from './screens/RecipeScreen'
+import SettingsScreen from './screens/SettingsScreen'
+import SignInScreen from './screens/SignInScreen'
+import SignUpScreen from './screens/SignUpScreen'
 import WelcomeScreen from './screens/WelcomeScreen'
 
 const Stack = createStackNavigator();
@@ -21,12 +22,13 @@ export default function App() {
 			<AppearanceProvider>
 				<NavigationContainer>
 					<Stack.Navigator initialRouteName="Welcome" headerMode="none">
-						<Stack.Screen name="Welcome" component={WelcomeScreen} />
-						<Stack.Screen name="Home"    component={HomeScreen} />
-						<Stack.Screen name="SignIn"  component={SignInScreen} />
-						<Stack.Screen name="SignUp"  component={SignUpScreen} />
-						<Stack.Screen name="Profile" component={ProfileScreen} />
-						<Stack.Screen name="Recipe"  component={RecipeScreen} />
+						<Stack.Screen name="Welcome"  component={WelcomeScreen} />
+						<Stack.Screen name="Home"     component={HomeScreen} />
+						<Stack.Screen name="SignIn"   component={SignInScreen} />
+						<Stack.Screen name="SignUp"   component={SignUpScreen} />
+						<Stack.Screen name="Profile"  component={ProfileScreen} />
+						<Stack.Screen name="Settings" component={SettingsScreen} />
+						<Stack.Screen name="Recipe"   component={RecipeScreen} />
 					</Stack.Navigator>
 				</NavigationContainer>
 			</AppearanceProvider>

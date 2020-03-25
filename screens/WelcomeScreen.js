@@ -24,9 +24,13 @@ export default class WelcomeScreen extends React.Component {
 					<View style={styles.buttons}>
 						<Button title="SIGN UP" onPress={() => this.props.navigation.navigate('SignUp')} />
 						<Button title="SIGN IN" secondary onPress={() => this.props.navigation.navigate('SignIn')} />
-						<Button title="TEMP - HOME" secondary onPress={() => this.props.navigation.navigate('Home')} />
-						<Button title="TEMP - PROFILE" secondary onPress={() => this.props.navigation.navigate('Profile')} />
-						<Button title="TEMP - RECIPE" secondary onPress={() => this.props.navigation.navigate('Recipe')} />
+
+						<View style={{ flexDirection: 'row', flexWrap: 'wrap', margin: 10 }}>
+							<Button title="HOME"     secondary style={{ margin: 0, flexBasis: '50%', height: 60 }} onPress={() => this.props.navigation.navigate('Home')} />
+							<Button title="PROFILE"  secondary style={{ margin: 0, flexBasis: '50%', height: 60 }} onPress={() => this.props.navigation.navigate('Profile')} />
+							<Button title="SETTINGS" secondary style={{ margin: 0, flexBasis: '50%', height: 60 }} onPress={() => this.props.navigation.navigate('Settings')} />
+							<Button title="RECIPE"   secondary style={{ margin: 0, flexBasis: '50%', height: 60 }} onPress={() => this.props.navigation.navigate('Recipe')} />
+						</View>
 					</View>
 				</View>
 			</SafeAreaView>
@@ -35,12 +39,10 @@ export default class WelcomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-
 	safeArea: {
-		backgroundColor: 'white',
 		flex: 1,
+		backgroundColor: 'white',
 	},
-
 	container: {
 		flex: 1,
 		justifyContent: 'space-evenly',

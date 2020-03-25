@@ -17,10 +17,8 @@ export default class Header extends React.Component {
 
 const styles = StyleSheet.create({
 	header: {
-		justifyContent: 'center',
 		alignItems: 'center',
 		marginTop: 30,
-		// marginBottom: 30,
 	},
 	icon: {
 		color: 'rgba(230, 115, 50, 1)',

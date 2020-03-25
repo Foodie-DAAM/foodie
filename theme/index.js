@@ -1,3 +1,4 @@
+import { Appearance } from "react-native-appearance";
 
 const palette = {
 	orange: '#E67332',
@@ -13,9 +14,6 @@ export const colors = {
 };
 
 export const themedColors = {
-	default: {
-		...colors,
-	},
 	light: {
 		...colors,
 	},
@@ -24,4 +22,13 @@ export const themedColors = {
 		textDark: palette.light,
 		textLight: palette.dark,
 	},
-}
+};
+
+export const getTheme = () => {
+	const theme = Appearance.getColorScheme();
+	const colors = themedColors[theme] || themedColors['light'];
+	return {
+		colors,
+		theme,
+	}
+};
