@@ -1,12 +1,18 @@
-import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
+import React from 'react';
+import {
+	StyleSheet,
+	View,
+	Text
+} from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 export default class Header extends React.Component {
 	render() {
 		return (
 			<View style={styles.header}>
-				<Ionicons name="md-bulb" style={styles.icon} />
+				<Ionicons
+					name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'bulb'}
+					style={styles.icon} />
 				<Text style={styles.title}>
 					{this.props.title || 'Foodie'}
 				</Text>
