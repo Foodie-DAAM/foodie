@@ -10,7 +10,7 @@ import { Ionicons } from '@expo/vector-icons'
 
 import Button from '../components/Button';
 import ErrorBoundary from '../components/ErrorBoundary';
-import RecipeTabView from "../components/RecipeTabView";
+import RecipeTabView from "../components/recipe/RecipeTabView";
 
 
 export default class RecipeScreen extends React.Component {
