@@ -3,6 +3,8 @@
     "name": "Foodie",
     "slug": "foodie",
     "description": "",
+    "version": "1.0.0",
+    "icon": "./assets/icon.png",
     "githubUrl": "https://github.com/Foodie-DAAM/foodie",
     "privacy": "public",
     "sdkVersion": "36.0.0",
@@ -11,9 +13,7 @@
       "android",
       "web"
     ],
-    "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/splash.png",
@@ -27,8 +27,9 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
       "bundleIdentifier": "net.sandrohc.foodie",
+      "buildNumber": "1.0.0",
+      "supportsTablet": true,
       "config": {
         "googleSignIn": {
           "reservedClientId": "com.googleusercontent.apps.526860674382-0ronigr9a1n2il4gf18b2mujprfk5qoh"
@@ -37,6 +38,7 @@
     },
     "android": {
       "package": "net.sandrohc.foodie",
+      "versionCode": 1,
       "config": {
         "googleSignIn": {
           "apiKey": "AIzaSyDMdUbrpsRRw-hdd9L1FoX0PNemBNfHEXA",
@@ -71,6 +73,9 @@
         "wasm",
         "svg"
       ]
-    }
+    },
+    "facebookScheme": "fb780679612335829",
+    "facebookAppId": "780679612335829",
+    "facebookDisplayName": "Foodie"
   }
 }

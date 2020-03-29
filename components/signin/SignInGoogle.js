@@ -39,9 +39,8 @@ export default class SignInGoogle extends React.Component {
 
 				// Authenticate into Firebase
 				const credential = firebase.auth.GoogleAuthProvider.credential(idToken);
-				firebase.auth().signInWithCredential(credential).catch((error) => {
-					alert('firebase login: Error:' + error);
-				});
+				firebase.auth().signInWithCredential(credential)
+					.catch((error) => alert('firebase login: Error:' + error));
 
 				console.log("Logged in with token " + accessToken + " and user:", user.name, user.email, user.photoUrl);
 			}

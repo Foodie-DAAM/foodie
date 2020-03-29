@@ -29,7 +29,8 @@
     "react-native-tab-view": "^2.13.0",
     "react-native-web": "~0.11.7",
     "sentry-expo": "^2.0.1",
-    "yup": "^0.28.3"
+    "yup": "^0.28.3",
+    "expo-facebook": "~8.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
