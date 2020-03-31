@@ -5,6 +5,7 @@ import {
 	Image,
 	StyleSheet
 } from 'react-native';
+import { NavigationContext } from '@react-navigation/native';
 import { SafeAreaConsumer } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons'
 
@@ -14,6 +15,8 @@ import RecipeTabView from "../components/recipe/RecipeTabView";
 
 
 export default class RecipeScreen extends React.Component {
+	static contextType = NavigationContext;
+
 	state = {
 		recipe: {
 			"id": 232086,
@@ -66,6 +69,8 @@ export default class RecipeScreen extends React.Component {
 	};
 
 	render() {
+		const navigation = this.context;
+
 		return (
 			<View style={{ flex: 1, backgroundColor: 'white' }}>
 				<Image source={require('../assets/recipe.webp')} style={{ height: 250 }} />
@@ -76,7 +81,7 @@ export default class RecipeScreen extends React.Component {
 							name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'arrow-back'}
 							size={34}
 							style={{ position: 'absolute', left: insets.left, top: insets.top, padding: 15, color: 'white' }}
-							onPress={() => this.props.navigation.back()}
+							onPress={() => navigation.goBack()}
 						/>
 					)}
 				</SafeAreaConsumer>

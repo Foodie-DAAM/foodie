@@ -1,10 +1,14 @@
-import React from 'react';;
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { enableScreens } from 'react-native-screens';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Appearance, AppearanceProvider, useColorScheme } from 'react-native-appearance';
+import { Provider } from 'react-redux';
 import * as Sentry from 'sentry-expo';
 import firebase from 'firebase';
+
+import { store } from './store';
 
 import HomeScreen from './screens/HomeScreen';
 import ProfileScreen from './screens/ProfileScreen';
@@ -15,27 +19,30 @@ import SignUpScreen from './screens/SignUpScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import ErrorBoundary from './components/ErrorBoundary';
 
+enableScreens(); // https://reactnavigation.org/docs/react-native-screens
 const Stack = createStackNavigator();
 
 export default function App() {
 	return (
-		<SafeAreaProvider>
-			<AppearanceProvider>
-				<ErrorBoundary>
-					<NavigationContainer>
-						<Stack.Navigator initialRouteName="Welcome" headerMode="none">
-							<Stack.Screen name="Welcome"  component={WelcomeScreen} />
-							<Stack.Screen name="Home"     component={HomeScreen} />
-							<Stack.Screen name="SignIn"   component={SignInScreen} />
-							<Stack.Screen name="SignUp"   component={SignUpScreen} />
-							<Stack.Screen name="Profile"  component={ProfileScreen} />
-							<Stack.Screen name="Settings" component={SettingsScreen} />
-							<Stack.Screen name="Recipe"   component={RecipeScreen} />
-						</Stack.Navigator>
-					</NavigationContainer>
-				</ErrorBoundary>
-			</AppearanceProvider>
-		</SafeAreaProvider>
+		<Provider store={store}>
+			<SafeAreaProvider>
+				<AppearanceProvider>
+					<ErrorBoundary>
+						<NavigationContainer>
+							<Stack.Navigator initialRouteName="Welcome" headerMode="none">
+								<Stack.Screen name="Welcome"  component={WelcomeScreen} />
+								<Stack.Screen name="Home"     component={HomeScreen} />
+								<Stack.Screen name="SignIn"   component={SignInScreen} />
+								<Stack.Screen name="SignUp"   component={SignUpScreen} />
+								<Stack.Screen name="Profile"  component={ProfileScreen} />
+								<Stack.Screen name="Settings" component={SettingsScreen} />
+								<Stack.Screen name="Recipe"   component={RecipeScreen} />
+							</Stack.Navigator>
+						</NavigationContainer>
+					</ErrorBoundary>
+				</AppearanceProvider>
+			</SafeAreaProvider>
+		</Provider>
 	);
 }
 
