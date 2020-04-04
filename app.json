@@ -7,7 +7,6 @@
     "icon": "./assets/icon.png",
     "githubUrl": "https://github.com/Foodie-DAAM/foodie",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
       "android",

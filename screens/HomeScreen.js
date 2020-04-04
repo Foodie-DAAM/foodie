@@ -25,7 +25,7 @@ export default class HomeScreen extends React.Component {
 				<Text>
 					Home
 				</Text>
-				<Button title="INGREDIENTS (0)" onPress={navigation.navigate('Ingredients')} />
+				<Button title="INGREDIENTS (0)" onPress={() => navigation.navigate('Ingredients')} />
 			</SafeAreaView>
 		);
 	}
