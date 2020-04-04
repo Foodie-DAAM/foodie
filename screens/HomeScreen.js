@@ -1,51 +1,31 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { getTheme } from '../theme'
-import { connect } from 'react-redux';
+import { StyleSheet,
+	View,
+	Text,
+} from 'react-native';
+import { NavigationContext } from "@react-navigation/native";
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { getTheme } from '../theme';
 
-import { addIngredient } from '../store/ingredientsSlice';
 import Button from '../components/Button';
 
-class IngredientList extends React.Component {
-
-	handleOnPress() {
-		this.props.addIngredient('New Ingredient');
-	}
-
-	render() {
-		return (
-			<View>
-				<Text>List:</Text>
-				<Text>{this.props.ingredients.toString()}</Text>
-				<Button title="ADD INGREDIENT" onPress={this.handleOnPress} />
-			</View>
-		);
-	}
-
-}
-
-const mapStateToProps = state => {
-	return { ingredients: state.ingredients };
-};
-
-const mapDispatchToProps = dispatch => {
-	return {
-		addIngredient: ingredient => dispatch(addIngredient(ingredient))
-	};
-};
-
-export const IngredientList2 = connect(mapStateToProps, mapDispatchToProps)(IngredientList);
 
 export default class HomeScreen extends React.Component {
+	static contextType = NavigationContext;
+
+	constructor(props) {
+		super(props);
+	}
 
 	render() {
+		const navigation = this.context;
+
 		return (
 			<SafeAreaView style={styles.container}>
 				<Text>
 					Home
 				</Text>
-				<IngredientList2 />
+				<Button title="INGREDIENTS (0)" onPress={navigation.navigate('Ingredients')} />
 			</SafeAreaView>
 		);
 	}
@@ -54,6 +34,7 @@ export default class HomeScreen extends React.Component {
 const { colors } = getTheme();
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: colors.textLight
-	}
+		backgroundColor: colors.textLight,
+		flex: 1,
+	},
 });

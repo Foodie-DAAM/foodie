@@ -2,15 +2,35 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const slice = createSlice({
 	name: 'ingredient',
-	initialState: [],
+	initialState: {
+		list: [],
+		nextId: 0,
+	},
 	reducers: {
 		addIngredient: (state = [], action) => {
-			let ingredient = action.payload;
-			state.push(ingredient);
+			let name = action.payload;
+
+			for (let ingredient of state.list) {
+				if (ingredient.name === name) {
+					console.log("Ingredient already exists:", name);
+					return;
+				}
+			}
+
+			let ingredient = {
+				id: state.nextId++,
+				name: name,
+			};
+
+			state.list.push(ingredient);
+
+			console.log("Added ingredient:", ingredient);
 		},
 		removeIngredient: (state, action) => {
-			let ingredient = action.payload;
-			// state.remove(action.payload);
+			let id = action.payload;
+			console.log("Removing ingredient:", id);
+
+			state.list = state.list.filter(ingredient => ingredient.id !== id);
 		},
 	}
 });

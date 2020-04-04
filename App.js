@@ -17,6 +17,7 @@ import SettingsScreen from './screens/SettingsScreen';
 import SignInScreen from './screens/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
+import IngredientsScreen from './screens/IngredientsScreen';
 import ErrorBoundary from './components/ErrorBoundary';
 
 enableScreens(); // https://reactnavigation.org/docs/react-native-screens
@@ -30,13 +31,14 @@ export default function App() {
 					<ErrorBoundary>
 						<NavigationContainer>
 							<Stack.Navigator initialRouteName="Welcome" headerMode="none">
-								<Stack.Screen name="Welcome"  component={WelcomeScreen} />
-								<Stack.Screen name="Home"     component={HomeScreen} />
-								<Stack.Screen name="SignIn"   component={SignInScreen} />
-								<Stack.Screen name="SignUp"   component={SignUpScreen} />
-								<Stack.Screen name="Profile"  component={ProfileScreen} />
-								<Stack.Screen name="Settings" component={SettingsScreen} />
-								<Stack.Screen name="Recipe"   component={RecipeScreen} />
+								<Stack.Screen name="Welcome"     component={WelcomeScreen} />
+								<Stack.Screen name="Home"        component={HomeScreen} />
+								<Stack.Screen name="SignIn"      component={SignInScreen} />
+								<Stack.Screen name="SignUp"      component={SignUpScreen} />
+								<Stack.Screen name="Profile"     component={ProfileScreen} />
+								<Stack.Screen name="Settings"    component={SettingsScreen} />
+								<Stack.Screen name="Recipe"      component={RecipeScreen} />
+								<Stack.Screen name="Ingredients" component={IngredientsScreen} />
 							</Stack.Navigator>
 						</NavigationContainer>
 					</ErrorBoundary>
