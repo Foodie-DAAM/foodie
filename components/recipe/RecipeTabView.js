@@ -36,7 +36,6 @@ export default class RecipeTabView extends React.Component {
 
 				activeColor="orange"
 				inactiveColor="black"
-
 			/>
 		)
 	};
@@ -50,7 +49,6 @@ export default class RecipeTabView extends React.Component {
 				renderScene={this._renderScene}
 				renderTabBar={this._renderTabBar}
 				onIndexChange={this._handleIndexChange}
-				// initialLayout={{ width: Dimensions.get('window').width }}
 			/>
 		)
 	}
@@ -59,7 +57,6 @@ export default class RecipeTabView extends React.Component {
 const styles = StyleSheet.create({
 	tabBar: {
 		backgroundColor: 'transparent',
-		// backgroundColor: 'white',
 	},
 	tabStyle: {
 		backgroundColor: 'cyan',

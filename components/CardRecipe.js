@@ -15,13 +15,14 @@ export default class CardRecipe extends React.Component {
 
 	render() {
 		const navigation = this.context;
+		let { title, description } = this.props.recipe;
 
 		return (
-			<Card onPress={() => navigation.navigate('Recipe')}>
+			<Card onPress={() => navigation.navigate('Recipe', { recipe: this.props.recipe })}>
 				<Image source={require('../assets/recipe.webp')} style={styles.image} />
 				<View style={styles.info}>
-					<Text style={styles.title}>Title</Text>
-					<Text style={styles.description} numberOfLines={4}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fringilla tempus cursus. Sed hendrerit libero at quam pellentesque fringilla. Fusce dui eros, rhoncus nec dignissim nec, tincidunt eu sem. Sed non lacus non metus vulputate accumsan. Integer iaculis eros diam, quis feugiat lectus semper vel. Maecenas mi velit, dignissim ac purus at.</Text>
+					<Text style={styles.title} numberOfLines={1}>{title}</Text>
+					<Text style={styles.description} numberOfLines={3}>{description}</Text>
 				</View>
 			</Card>
 		);
@@ -34,16 +35,16 @@ const styles = StyleSheet.create({
 		height: 100,
 		borderTopLeftRadius: 15,
 		borderBottomLeftRadius: 15,
-		marginRight: 5,
 	},
 	info: {
 		flex: 1,
-		margin: 5,
+		margin: 10,
 	},
 	title: {
 		fontWeight: 'bold',
+		fontSize: 17,
+		marginBottom: 5,
 	},
 	description: {
-		// fontSize: 13,
 	}
 });

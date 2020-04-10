@@ -6,12 +6,13 @@ import {
 	View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationContext } from '@react-navigation/native';
 
 import * as firebase from 'firebase';
 import * as Yup from "yup";
 import { Formik } from "formik";
-import { getTheme } from '../theme';
 
+import { getTheme } from '../theme';
 import Header from '../components/Header';
 import Button from '../components/Button';
 import BasicInput from '../components/BasicInput';
@@ -36,6 +37,8 @@ const validationSchema = Yup.object().shape({
 
 
 export default class SignUpScreen extends React.Component {
+	static contextType = NavigationContext;
+
 	state = {
 		user: null,
 		accessToken: null,
