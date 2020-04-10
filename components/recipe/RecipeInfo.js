@@ -20,6 +20,7 @@ export default class RecipeInfo extends React.Component {
 
 const styles = StyleSheet.create({
 	container: {
+		padding: 20,
 	},
 	description: {
 	},

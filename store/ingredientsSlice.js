@@ -1,7 +1,7 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
 export const slice = createSlice({
-	name: 'ingredient',
+	name: 'ingredients',
 	initialState: {
 		list: [],
 		nextId: 0,
@@ -12,7 +12,7 @@ export const slice = createSlice({
 
 			for (let ingredient of state.list) {
 				if (ingredient.name === name) {
-					console.log("Ingredient already exists:", name);
+					console.log('Ingredient already exists:', name);
 					return;
 				}
 			}
@@ -24,11 +24,11 @@ export const slice = createSlice({
 
 			state.list.push(ingredient);
 
-			console.log("Added ingredient:", ingredient);
+			console.log('Added ingredient:', ingredient);
 		},
 		removeIngredient: (state, action) => {
 			let id = action.payload;
-			console.log("Removing ingredient:", id);
+			console.log('Removing ingredient:', id);
 
 			state.list = state.list.filter(ingredient => ingredient.id !== id);
 		},
@@ -45,6 +45,6 @@ export const { addIngredient, removeIngredient } = slice.actions;
 // };
 
 // Selector
-export const getIngredients = state => state;
+export const getIngredients = state => state.list;
 
 export default slice.reducer;

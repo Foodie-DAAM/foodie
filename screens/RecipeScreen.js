@@ -73,7 +73,7 @@ export default class RecipeScreen extends React.Component {
 
 		return (
 			<View style={{ flex: 1, backgroundColor: 'white' }}>
-				<Image source={require('../assets/recipe.webp')} style={{ height: 250 }} />
+				<Image source={require('../assets/recipe.webp')} style={styles.image} />
 
 				<SafeAreaConsumer>
 					{insets => (
@@ -96,16 +96,14 @@ export default class RecipeScreen extends React.Component {
 					)}
 				</SafeAreaConsumer>
 
-
-
-				<Text>{this.state.recipe.title}</Text>
+				<Text style={styles.title} numberOfLines={1}>{this.state.recipe.title}</Text>
 
 				<SafeAreaConsumer>
 					{insets => (
 						<View style={{ paddingBottom: insets.bottom, paddingLeft: insets.left, paddingRight: insets.right, flex: 1 }}>
 							<ErrorBoundary>
 								<RecipeTabView />
-								<Button title="START COOKING" />
+								<Button title="START COOKING" style={{ margin: 10, }} />
 							</ErrorBoundary>
 						</View>
 					)}
@@ -119,4 +117,15 @@ const styles = StyleSheet.create({
 	scene: {
 		// flex: 1,
 	},
+	image: {
+		height: 250,
+	},
+	title: {
+		fontSize: 20,
+		position: 'absolute',
+		top: 200,
+		left: 0,
+		padding: 15,
+		color: 'white',
+	}
 });

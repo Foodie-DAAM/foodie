@@ -5,6 +5,7 @@ import { AsyncStorage } from 'react-native';
 import authReducer from './authSlice';
 import counterReducer from './counterSlice';
 import ingredientsReducer from './ingredientsSlice';
+import favouritesReducer from './favouritesSlice';
 
 // TODO: use SecureStore (https://docs.expo.io/versions/latest/sdk/securestore/) for user data
 
@@ -13,6 +14,7 @@ export const store = configureStore({
 	reducer: {
 		auth:        persistReducer({ key: 'auth',        storage: AsyncStorage }, authReducer),
 		counter:     persistReducer({ key: 'counter',     storage: AsyncStorage }, counterReducer),
+		favourites:  persistReducer({ key: 'favourites',  storage: AsyncStorage }, favouritesReducer),
 		ingredients: persistReducer({ key: 'ingredients', storage: AsyncStorage }, ingredientsReducer),
 	}
 });

@@ -3,20 +3,14 @@ import {
 	StyleSheet,
 	View,
 	Text,
-	TouchableOpacity,
 	Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview';
 
 import { removeIngredient } from '../store/ingredientsSlice';
+import { Ionicons } from "@expo/vector-icons";
 
-
-class CellContainer extends React.Component {
-	render() {
-		return <View {...this.props}>{this.props.children}</View>;
-	}
-}
 
 class IngredientListBase extends React.Component {
 
@@ -30,7 +24,7 @@ class IngredientListBase extends React.Component {
 			index => 0,
 			(type, dim) => {
 				dim.width = width;
-				dim.height = 100;
+				dim.height = 60;
 			}
 		);
 
@@ -42,9 +36,8 @@ class IngredientListBase extends React.Component {
 	}
 
 	// componentDidUpdate(prevProps) {
-	// 	console.log("componentDidUpdate");
+	// 	console.log("componentDidUpdate", this.props.data.length, prevProps.data.length);
 	// 	if (this.props.data.length !== prevProps.data.length) {
-	// 		console.log("new length: " + this.props.data.length);
 	// 		this.setState({
 	// 			dataProvider: this.state.dataProvider.cloneWithRows(this.props.data)
 	// 		});
@@ -53,11 +46,14 @@ class IngredientListBase extends React.Component {
 
 	_rowRenderer(type, data) {
 		return (
-			<CellContainer style={styles.container}>
-				<TouchableOpacity onPress={() => this.props.removeIngredient(data)}>
-					<Text>{data.name}</Text>
-				</TouchableOpacity>
-			</CellContainer>
+			<View style={styles.container}>
+				<Text style={styles.itemText}>{data.name}</Text>
+				<Ionicons
+					name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'close'}
+					size={34}
+					style={styles.itemIcon}
+					onPress={() => this.props.removeIngredient(data)} />
+			</View>
 		);
 	}
 
@@ -66,7 +62,8 @@ class IngredientListBase extends React.Component {
 			<RecyclerListView
 				layoutProvider={this._layoutProvider}
 				dataProvider={this.state.dataProvider}
-				rowRenderer={this._rowRenderer} />
+				rowRenderer={this._rowRenderer}
+				style={styles.container} />
 		);
 	}
 }
@@ -82,9 +79,27 @@ export default IngredientList;
 
 const styles = StyleSheet.create({
 	container: {
-		justifyContent: "space-around",
-		alignItems: "center",
-		flex: 1,
-		backgroundColor: "#00a1f1"
+		// backgroundColor: '#0086f1',
+		// height: 60,
+		// padding: 10,
+		flexDirection: 'row',
+		borderBottomWidth: 1,
+		borderBottomColor: 'black',
 	},
+	item: {
+		// flex: 1,
+		backgroundColor: '#00a1f1',
+	},
+	itemText: {
+		backgroundColor: '#23f1eb',
+		flex: 1,
+	},
+	itemIcon: {
+		backgroundColor: '#48f120',
+		width: 50,
+		color: 'black',
+		paddingLeft: 10,
+		paddingRight: 10,
+		textAlign: 'center',
+	}
 });

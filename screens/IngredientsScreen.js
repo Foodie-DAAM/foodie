@@ -24,8 +24,8 @@ class IngredientsScreen2 extends React.Component {
 	}
 
 	handleAddIngredient() {
-		console.log("handleAddIngredient");
-		this.props.addIngredient('New Ingredient');
+		console.log('handleAddIngredient');
+		this.props.addIngredient('Ingredient ' + (Math.floor(Math.random() * Math.floor(20))));
 	}
 
 	render() {
