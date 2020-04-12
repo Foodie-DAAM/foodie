@@ -27,8 +27,6 @@ export default class RecipeScreen extends React.Component {
 
 		return (
 			<View style={{ flex: 1, backgroundColor: 'white' }}>
-				<StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
-
 				<Image source={require('../assets/recipe.webp')} style={styles.image} />
 
 				<SafeAreaConsumer>

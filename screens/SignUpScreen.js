@@ -83,7 +83,6 @@ export default class SignUpScreen extends React.Component {
 				<Header title="Create an account" />
 
 				<View style={{ flex: 1, justifyContent: 'space-evenly' }}>
-
 					<Formik
 						initialValues={{ name: '', email: '', password: '', confirm: '' }}
 						validationSchema={validationSchema}
