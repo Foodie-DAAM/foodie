@@ -1,35 +1,35 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 export const slice = createSlice({
-	name: 'favourites',
+	name: 'liked',
 	initialState: {
 		list: [],
 	},
 	reducers: {
-		addFavourite: (state = [], action) => {
+		addLiked: (state = [], action) => {
 			let id = action.payload;
 
 			for (let favourite of state.list) {
 				if (favourite === id) {
-					console.log('Favourite already exists:', id);
+					console.log('Liked recipe already exists:', id);
 					return;
 				}
 			}
 
 			state.list.push(id);
 
-			console.log('Added favourite:', id);
+			console.log('Added liked recipe:', id);
 		},
-		removeFavourite: (state, action) => {
+		removeLiked: (state, action) => {
 			let id = action.payload;
-			console.log('Removing favourite:', id);
+			console.log('Removing liked recipe:', id);
 
 			state.list = state.list.filter(thatId => thatId !== id);
 		},
 	}
 });
 
-export const { addFavourite, removeFavourite } = slice.actions;
+export const { addLiked, removeLiked } = slice.actions;
 
 // Thunk
 // export const incrementAsync = amount => dispatch => {
@@ -39,6 +39,6 @@ export const { addFavourite, removeFavourite } = slice.actions;
 // };
 
 // Selector
-export const getFavourites = state => state.list;
+export const getLiked = state => state.list;
 
 export default slice.reducer;

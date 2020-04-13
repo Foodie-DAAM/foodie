@@ -6,11 +6,11 @@ import {
 	TouchableOpacity
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { NavigationContext } from '@react-navigation/native';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { getTheme } from '../theme';
-
 import Header from '../components/Header';
 import Button from '../components/Button';
 import BasicInput from '../components/BasicInput';
@@ -27,7 +27,11 @@ const validationSchema = Yup.object().shape({
 });
 
 export default class SignInScreen extends React.Component {
-	state = { user: null, accessToken: null };
+	static contextType = NavigationContext;
+
+	state = {
+		user: null, accessToken: null
+	};
 
 	constructor(props) {
 		super(props);

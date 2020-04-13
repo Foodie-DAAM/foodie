@@ -1,4 +1,7 @@
 import React from 'react';
+import {
+	StatusBar,
+} from "react-native";
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { enableScreens } from 'react-native-screens';
@@ -10,15 +13,13 @@ import firebase from 'firebase';
 
 import { store } from './store';
 
-import HomeScreen from './screens/HomeScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import RecipeScreen from './screens/RecipeScreen';
-import SettingsScreen from './screens/SettingsScreen';
+import IngredientsScreen from './screens/IngredientsScreen';
+import MainScreen from './screens/MainScreen';
 import SignInScreen from './screens/SignInScreen';
 import SignUpScreen from './screens/SignUpScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
-import IngredientsScreen from './screens/IngredientsScreen';
 import ErrorBoundary from './components/ErrorBoundary';
+import RecipeScreen from "./screens/RecipeScreen";
 
 enableScreens(); // https://reactnavigation.org/docs/react-native-screens
 const Stack = createStackNavigator();
@@ -30,14 +31,24 @@ export default function App() {
 				<AppearanceProvider>
 					<ErrorBoundary>
 						<NavigationContainer>
-							<Stack.Navigator initialRouteName="Welcome" headerMode="none">
-								<Stack.Screen name="Welcome"     component={WelcomeScreen} />
-								<Stack.Screen name="Home"        component={HomeScreen} />
-								<Stack.Screen name="SignIn"      component={SignInScreen} />
-								<Stack.Screen name="SignUp"      component={SignUpScreen} />
-								<Stack.Screen name="Profile"     component={ProfileScreen} />
-								<Stack.Screen name="Settings"    component={SettingsScreen} />
-								<Stack.Screen name="Recipe"      component={RecipeScreen} />
+							<StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+							<Stack.Navigator initialRouteName="Welcome"
+								headerMode="float"
+								screenOptions={{
+									headerStyle: {
+										backgroundColor: '#f4511e',
+									},
+									headerTintColor: '#fff',
+									// headerTitleStyle: {
+									// 	fontWeight: 'bold',
+									// },
+								}}>
+								<Stack.Screen name="Welcome"     component={WelcomeScreen} options={() => ({ headerShown: false })} />
+								<Stack.Screen name="SignIn"      component={SignInScreen} options={() => ({ headerShown: false })} />
+								<Stack.Screen name="SignUp"      component={SignUpScreen} options={() => ({ headerShown: false })} />
+								<Stack.Screen name="Main"        component={MainScreen} />
+
+								<Stack.Screen name="Recipe"      component={RecipeScreen} options={() => ({ headerShown: false })} />
 								<Stack.Screen name="Ingredients" component={IngredientsScreen} />
 							</Stack.Navigator>
 						</NavigationContainer>

@@ -1,5 +1,10 @@
 import React from 'react';
-import Sentry from 'sentry-expo';
+import {
+	Text,
+	View,
+	StyleSheet
+} from 'react-native';
+import * as Sentry from 'sentry-expo';
 
 export default class ErrorBoundary extends React.Component {
 	constructor(props) {
@@ -14,25 +19,25 @@ export default class ErrorBoundary extends React.Component {
 	}
 
 	componentDidCatch(error, errorInfo) {
-		Sentry.captureException(error, {
-			extra: errorInfo
-		});
+		Sentry.captureException(error, { extra: errorInfo });
 		this.setState({ error: error, errorInfo: errorInfo });
 	}
 
 	render() {
 		if (this.state.hasError) {
 			return (
-				<div>
-					<h2>Something went wrong</h2>
-					<details style={{ whiteSpace: "pre-wrap" }}>
+				<View>
+					<Text>Something went wrong</Text>
+					<Text>
 						{this.state.error && this.state.error.toString()}
-						<br />
+					</Text>
+					<Text>
 						{this.state.errorInfo && this.state.errorInfo.toString()}
-					</details>
-				</div>
+					</Text>
+				</View>
 			);
 		}
+
 		return this.props.children;
 	}
 }

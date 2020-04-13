@@ -1,8 +1,10 @@
 # foodie
 
-## Prerequesites
+## Prerequisites
 
-Run `npm install -g expo-cli` and `npm install`.
+Install [NodeJS](https://nodejs.org/en/download/) and [Yarn v1](https://classic.yarnpkg.com/en/docs/install).
+
+Run `yarn global add expo-cli` and `yarn`.
 To start the app, run `expo start`.
 
 ## Debugging
