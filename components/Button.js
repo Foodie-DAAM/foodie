@@ -22,6 +22,7 @@ export default class Button extends React.PureComponent {
 }
 
 const { colors } = getTheme();
+
 const styles = StyleSheet.create({
 	button: {
 		alignItems: 'center',

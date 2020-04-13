@@ -17,12 +17,12 @@ export default class WelcomeScreen extends React.Component {
 						<Text style={{ fontWeight: 'bold', fontSize: 22 }}>
 							Welcome to Foodie!
 						</Text>
-						<Text>
+						<Text style={{fontSize: 14}}>
 							where you can find your recipes
 						</Text>
 					</View>
 					<View style={styles.buttons}>
-						<Button title="SIGN UP" onPress={() => this.props.navigation.navigate('SignUp')} />
+						<Button title="SIGN UP" onPress={() => this.props.navigation.navigate('SignUp')} style={{marginBottom: 8}} />
 						<Button title="SIGN IN" secondary onPress={() => this.props.navigation.navigate('SignIn')} />
 
 						<View style={{ flexDirection: 'row', flexWrap: 'wrap', margin: 10 }}>

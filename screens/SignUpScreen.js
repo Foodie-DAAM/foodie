@@ -100,7 +100,7 @@ export default class SignUpScreen extends React.Component {
 									keyboardType="default"
 									autoCapitalize="words"
 
-									placeholder="full name"
+									placeholder="Full name"
 									onChangeText={text => props.setFieldValue('name', text)}
 									onBlur={() => props.setTouched('name')}
 									error={props.touched.name || props.submitCount > 0 ? props.errors.name : null}
@@ -136,7 +136,7 @@ export default class SignUpScreen extends React.Component {
 									secureTextEntry={true}
 									autoCapitalize="none"
 
-									placeholder="password"
+									placeholder="Password"
 									onChangeText={text => props.setFieldValue('password', text)}
 									onBlur={() => props.setTouched('password')}
 									error={props.touched.password || props.submitCount > 0 ? props.errors.password : null}
@@ -154,7 +154,7 @@ export default class SignUpScreen extends React.Component {
 									secureTextEntry={true}
 									autoCapitalize="none"
 
-									placeholder="confirm password"
+									placeholder="Confirm password"
 									onChangeText={text => props.setFieldValue('confirm', text)}
 									onBlur={() => props.setTouched('confirm')}
 									error={props.touched.confirm || props.submitCount > 0 ? props.errors.confirm : null}
@@ -172,7 +172,7 @@ export default class SignUpScreen extends React.Component {
 
 					<SignIn />
 
-					<TouchableOpacity onPress={() => this.props.navigate('SignIn')} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+					<TouchableOpacity onPress={() => this.props.navigate('SignIn')} style={{ flexDirection: 'row', justifyContent: 'center'}}>
 						<Text style={styles.text}>Already have an account?</Text>
 						<Text style={[styles.text, { color: colors.primary }]}>Sign in.</Text>
 					</TouchableOpacity>
@@ -186,6 +186,7 @@ export default class SignUpScreen extends React.Component {
 const { colors } = getTheme();
 const styles = StyleSheet.create({
 	submitButton: {
+		marginTop: 8,
 		marginLeft: 40,
 		marginRight: 40,
 	},

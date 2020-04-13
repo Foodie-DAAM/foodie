@@ -39,7 +39,11 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#fff',
 		padding: 10,
-		margin: 0, // 5
+		margin: 0, //5
+		marginTop: 10,
+		marginLeft: 40,
+		marginRight: 40,
+		borderRadius: 10,
 
 		borderBottomWidth: 2,
 		borderBottomColor: '#000',
@@ -51,7 +55,7 @@ const styles = StyleSheet.create({
 	icon: {
 		textAlign: 'center',
 		width: 26,
-		color: '#000',
+		color: '#E67332',
 		marginRight: 10,
 	}
 });

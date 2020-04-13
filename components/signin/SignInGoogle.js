@@ -72,4 +72,5 @@ export default class SignInGoogle extends React.Component {
 }
 
 const styles = StyleSheet.create({
+
 });
