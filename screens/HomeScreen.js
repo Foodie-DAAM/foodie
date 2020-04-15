@@ -4,6 +4,7 @@ import {
 	View,
 	Text,
 	ScrollView,
+	StatusBar,
 } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -27,14 +28,14 @@ export default class HomeScreen extends React.Component {
 			"servings": 3,
 			"picture": "https://images.media-allrecipes.com/userphotos/560x315/1273282.jpg",
 			"ingredients": [
-				{ "name": "water", "type": "VOLUME", "amount": 1.0, "extra": null },
-				{ "name": "frozen cauliflower", "type": "WEIGHT", "amount": 0.625, "extra": null },
-				{ "name": "canola oil", "type": "VOLUME", "amount": 0.125, "extra": null },
-				{ "name": "large onion", "type": "TYPELESS", "amount": 0.5, "extra": "sliced" },
-				{ "name": "cloves garlic", "type": "TYPELESS", "amount": 2.0, "extra": "minced" },
-				{ "name": "nonfat plain yogurt", "type": "VOLUME", "amount": 0.125, "extra": null },
-				{ "name": "chopped fresh parsley (optional)", "type": "VOLUME", "amount": 0.0625, "extra": null },
-				{ "name": "garlic and herb seasoning blend (such as Mrs. Dash)", "type": "VOLUME", "amount": 0.020833334, "extra": "or to taste (optional)" }
+				{ "name": "water", "textImperial": "1 cup", "textMetric": "WIP" },
+				{ "name": "frozen cauliflower", "textImperial": "10 ounces", "textMetric": "WIP" },
+				{ "name": "canola oil", "textImperial": "2 tablespoons", "textMetric": "WIP" },
+				{ "name": "large onion", "textImperial": "1/2", "textMetric": "WIP" },
+				{ "name": "cloves garlic", "textImperial": "2", "textMetric": "WIP" },
+				{ "name": "nonfat plain yogurt", "textImperial": "2 tablespoons", "textMetric": "WIP" },
+				{ "name": "chopped fresh parsley (optional)", "textImperial": "1 tablespoon", "textMetric": "WIP" },
+				{ "name": "garlic and herb seasoning blend (such as Mrs. Dash)", "textImperial": "1 teaspoon", "textMetric": "WIP" }
 			],
 			"steps": [
 				{
@@ -57,12 +58,12 @@ export default class HomeScreen extends React.Component {
 				}
 			],
 			"nutritionFacts": [
-				{ "type": "CALORIES", "amount": 125.0 },
-				{ "type": "FAT", "amount": 9.5 },
-				{ "type": "CARBOHYDRATES", "amount": 8.8 },
-				{ "type": "PROTEIN", "amount": 2.9 },
-				{ "type": "CHOLESTEROL", "amount": 0.001 },
-				{ "type": "SODIUM", "amount": 0.04 }
+				{ "type": "CALORIES", "amount": 125.0, "text": "125" },
+				{ "type": "FAT", "amount": 9.5, "text": "9.5 g" },
+				{ "type": "CARBOHYDRATES", "amount": 8.8, "text": "8.8 g" },
+				{ "type": "PROTEIN", "amount": 2.9, "text": "2.9 g" },
+				{ "type": "CHOLESTEROL", "amount": 0.001, "text": "1 mg" },
+				{ "type": "SODIUM", "amount": 0.04, "text": "40 mg" }
 			]
 		},
 	};
@@ -76,6 +77,8 @@ export default class HomeScreen extends React.Component {
 
 		return (
 			<SafeAreaView style={styles.safeArea}>
+				<StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+
 				<View style={styles.container}>
 					<Text>Home</Text>
 

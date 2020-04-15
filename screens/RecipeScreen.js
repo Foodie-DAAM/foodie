@@ -3,27 +3,46 @@ import {
 	Text,
 	View,
 	Image,
-	StatusBar,
-	StyleSheet
+	ActivityIndicator,
+	StyleSheet,
 } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 import { SafeAreaConsumer } from 'react-native-safe-area-context';
-import { Ionicons } from '@expo/vector-icons'
+import { Ionicons } from '@expo/vector-icons';
+
+import { getTheme } from '../theme';
 
 import Button from '../components/Button';
 import ErrorBoundary from '../components/ErrorBoundary';
-import RecipeTabView from "../components/recipe/RecipeTabView";
+import RecipeTabView from '../components/recipe/RecipeTabView';
 
 
 export default class RecipeScreen extends React.Component {
 	static contextType = NavigationContext;
 
 	state = {
-		liked: false
+		liked: false,
+		loading: false,
 	};
 
 	render() {
 		const recipe = this.props.route.params.recipe;
+
+		let content;
+		if (this.state.loading) {
+			content = (
+				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+					<ActivityIndicator size={Platform.OS === 'android' ? 60 : 'large'} color={colors.primary} />
+				</View>
+			)
+		} else {
+			content = (
+				<View style={{ flex: 1 }}>
+					<RecipeTabView recipe={recipe} />
+					<Button title="START COOKING" onPress={() => alert('not implemented')} style={styles.startCookingButton} />
+				</View>
+			)
+		}
 
 		return (
 			<View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -31,22 +50,27 @@ export default class RecipeScreen extends React.Component {
 
 				<SafeAreaConsumer>
 					{insets => (
-						<Ionicons
-							name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'arrow-back'}
-							size={34}
-							style={{ position: 'absolute', left: insets.left, top: insets.top, padding: 15, color: 'white' }}
-							onPress={() => this.props.navigation.goBack()}
-						/>
-					)}
-				</SafeAreaConsumer>
-				<SafeAreaConsumer>
-					{insets => (
-						<Ionicons
-							name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'heart' + (this.state.liked ? '' : '-empty')}
-							size={34}
-							style={{ position: 'absolute', right: insets.right, top: insets.top, padding: 15, color: 'white' }}
-							onPress={() => this.setState({ liked: !this.state.liked })}
-						/>
+						<View style={[styles.icons, { left: insets.left, top: insets.top, right: insets.right }]}>
+							<Ionicons
+								name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'arrow-back'}
+								size={34}
+								style={styles.icon}
+								onPress={() => this.props.navigation.goBack()} />
+
+							<View style={{ flex: 1 }} />{/*spacer*/}
+
+							<Ionicons
+								name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'bug'}
+								size={34}
+								style={styles.icon}
+								onPress={() => this.setState({ loading: !this.state.loading })} />
+
+							<Ionicons
+								name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'heart' + (this.state.liked ? '' : '-empty')}
+								size={34}
+								style={styles.icon}
+								onPress={() => this.setState({ liked: !this.state.liked })} />
+						</View>
 					)}
 				</SafeAreaConsumer>
 
@@ -56,8 +80,7 @@ export default class RecipeScreen extends React.Component {
 					{insets => (
 						<View style={{ paddingBottom: insets.bottom, paddingLeft: insets.left, paddingRight: insets.right, flex: 1 }}>
 							<ErrorBoundary>
-								<RecipeTabView recipe={recipe} />
-								<Button title="START COOKING" onPress={() => alert('not implemented')} style={styles.startCookingButton} />
+								{content}
 							</ErrorBoundary>
 						</View>
 					)}
@@ -67,6 +90,7 @@ export default class RecipeScreen extends React.Component {
 	}
 }
 
+const { colors } = getTheme();
 const styles = StyleSheet.create({
 	scene: {
 		// flex: 1,
@@ -84,5 +108,15 @@ const styles = StyleSheet.create({
 	},
 	startCookingButton: {
 		margin: 10,
-	}
+	},
+
+	icons: {
+		position: 'absolute',
+		flex: 1,
+		flexDirection: 'row',
+	},
+	icon: {
+		padding: 15,
+		color: 'white',
+	},
 });

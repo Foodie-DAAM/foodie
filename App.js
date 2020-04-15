@@ -31,7 +31,6 @@ export default function App() {
 				<AppearanceProvider>
 					<ErrorBoundary>
 						<NavigationContainer>
-							<StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
 							<Stack.Navigator initialRouteName="Welcome"
 								headerMode="float"
 								screenOptions={{
