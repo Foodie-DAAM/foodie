@@ -9,15 +9,25 @@ export default class Button extends React.PureComponent {
 		: { button: styles.buttonSecondary, text: styles.textSecondary };
 
 	render() {
-		let content = this.props.children ? this.props.children : <Text style={[styles.text, this.styles.text]}>{this.props.title}</Text>;
+		let content = (
+			<View style={[styles.button, this.styles.button, this.props.style]}>
+				{this.props.children ? this.props.children : <Text style={[styles.text, this.styles.text]}>{this.props.title}</Text>}
+			</View>
+		);
 
-		return (
-			<TouchableOpacity {...this.props}>
-				<View style={[styles.button, this.styles.button, this.props.style]}>
+		if (this.props.onPress) {
+			return (
+				<TouchableOpacity {...this.props}>
+					{content}
+				</TouchableOpacity>
+			)
+		} else {
+			return(
+				<View>
 					{content}
 				</View>
-			</TouchableOpacity>
-		);
+			)
+		}
 	}
 }
 

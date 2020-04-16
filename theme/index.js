@@ -2,12 +2,14 @@ import { Appearance } from "react-native-appearance";
 
 const palette = {
 	orange: '#E67332',
+	orangeDark: '#E63527',
 	light: '#FFFFFF',
 	dark: '#000000',
 };
 
 export const colors = {
 	primary: palette.orange,
+	primaryDark: palette.orangeDark,
 	accent: '',
 	textDark: palette.dark,
 	textLight: palette.light,
