@@ -15,11 +15,11 @@ export default class CardRecipe extends React.Component {
 
 	render() {
 		const navigation = this.context;
-		let { title, description } = this.props.recipe;
+		let { title, picture, description } = this.props.recipe;
 
 		return (
-			<Card onPress={() => navigation.navigate('Recipe', { recipe: this.props.recipe })}>
-				<Image source={require('../assets/recipe.webp')} style={styles.image} />
+			<Card onPress={() => navigation.navigate('Recipe', { recipe: this.props.recipe })} style={styles.container} >
+				<Image source={{ uri: picture, cache: 'force-cache' }} defaultSource={require('../assets/recipe.webp')} style={styles.image} />
 				<View style={styles.info}>
 					<Text style={styles.title} numberOfLines={1}>{title}</Text>
 					<Text style={styles.description} numberOfLines={3}>{description}</Text>
@@ -30,6 +30,9 @@ export default class CardRecipe extends React.Component {
 }
 
 const styles = StyleSheet.create({
+	container: {
+		height: 110,
+	},
 	image: {
 		width: 100,
 		height: 100,

@@ -2,8 +2,8 @@ import React from 'react';
 import {
 	Text,
 	View,
-	Image,
 	ActivityIndicator,
+	Image,
 	StyleSheet,
 } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
@@ -21,13 +21,33 @@ export default class RecipeScreen extends React.Component {
 	static contextType = NavigationContext;
 
 	state = {
+		recipe: false,
 		liked: false,
-		loading: false,
-	};
+		loading: true,
+		error: false,
+	}
+
+	componentDidMount() {
+		const recipe = this.props.route.params.recipe;
+		this.state.recipe = { ...recipe }
+
+		fetch("https://foodie.sandrohc.net/recipes/" + recipe.id)
+			.then(response => response.json())
+			.then(data => {
+				this.setState({
+					recipe: data,
+					loading: false,
+				})
+			})
+			.catch(error => {
+				console.error('Error while fetching recipe with ID ' + recipe.id, error);
+				this.setState({
+					error: true,
+				})
+			});
+	}
 
 	render() {
-		const recipe = this.props.route.params.recipe;
-
 		let content;
 		if (this.state.loading) {
 			content = (
@@ -35,10 +55,18 @@ export default class RecipeScreen extends React.Component {
 					<ActivityIndicator size={Platform.OS === 'android' ? 60 : 'large'} color={colors.primary} />
 				</View>
 			)
+		} else if (this.state.error) {
+			content = (
+				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+					<Text>
+						Error loading the recipe. Try again later.
+					</Text>
+				</View>
+			)
 		} else {
 			content = (
 				<View style={{ flex: 1 }}>
-					<RecipeTabView recipe={recipe} />
+					<RecipeTabView recipe={this.state.recipe} />
 					<Button title="START COOKING" onPress={() => alert('not implemented')} style={styles.startCookingButton} />
 				</View>
 			)
@@ -46,7 +74,7 @@ export default class RecipeScreen extends React.Component {
 
 		return (
 			<View style={{ flex: 1, backgroundColor: 'white' }}>
-				<Image source={require('../assets/recipe.webp')} style={styles.image} />
+				<Image source={{ uri: this.state.recipe.picture, cache: 'force-cache' }} defaultSource={require('../assets/recipe.webp')} style={styles.image} />
 
 				<SafeAreaConsumer>
 					{insets => (
@@ -60,12 +88,6 @@ export default class RecipeScreen extends React.Component {
 							<View style={{ flex: 1 }} />{/*spacer*/}
 
 							<Ionicons
-								name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'bug'}
-								size={34}
-								style={styles.icon}
-								onPress={() => this.setState({ loading: !this.state.loading })} />
-
-							<Ionicons
 								name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'heart' + (this.state.liked ? '' : '-empty')}
 								size={34}
 								style={styles.icon}
@@ -74,7 +96,7 @@ export default class RecipeScreen extends React.Component {
 					)}
 				</SafeAreaConsumer>
 
-				<Text style={styles.title} numberOfLines={1}>{recipe.title}</Text>
+				<Text style={styles.title} numberOfLines={1}>{this.state.recipe.title}</Text>
 
 				<SafeAreaConsumer>
 					{insets => (

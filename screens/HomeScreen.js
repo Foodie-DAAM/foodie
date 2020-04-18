@@ -4,7 +4,7 @@ import {
 	View,
 	Text,
 	ScrollView,
-	StatusBar,
+	StatusBar, FlatList, ActivityIndicator,
 } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -13,67 +13,122 @@ import { getTheme } from '../theme';
 import Button from '../components/Button';
 import CardRecipe from '../components/CardRecipe';
 import SearchBar from '../components/SearchBar';
+import ErrorBoundary from "../components/ErrorBoundary";
 
 
 export default class HomeScreen extends React.Component {
 	static contextType = NavigationContext;
 
 	state = {
-		recipe: {
-			"id": 232086,
-			"title": "(I Can't Believe It's) Mashed Cauliflower",
-			"url": "https://www.allrecipes.com/recipe/232086/i-cant-believe-its-mashed-cauliflower/",
-			"description": "A tasty alternative to mashed potatoes that is lower in carbohydrates, sodium, and saturated fat than typical mashed potato recipes.",
-			"duration": 30,
-			"servings": 3,
-			"picture": "https://images.media-allrecipes.com/userphotos/560x315/1273282.jpg",
-			"ingredients": [
-				{ "name": "water", "textImperial": "1 cup", "textMetric": "WIP" },
-				{ "name": "frozen cauliflower", "textImperial": "10 ounces", "textMetric": "WIP" },
-				{ "name": "canola oil", "textImperial": "2 tablespoons", "textMetric": "WIP" },
-				{ "name": "large onion", "textImperial": "1/2", "textMetric": "WIP" },
-				{ "name": "cloves garlic", "textImperial": "2", "textMetric": "WIP" },
-				{ "name": "nonfat plain yogurt", "textImperial": "2 tablespoons", "textMetric": "WIP" },
-				{ "name": "chopped fresh parsley (optional)", "textImperial": "1 tablespoon", "textMetric": "WIP" },
-				{ "name": "garlic and herb seasoning blend (such as Mrs. Dash)", "textImperial": "1 teaspoon", "textMetric": "WIP" }
-			],
-			"steps": [
-				{
-					"description": "Bring water to a boil in a saucepan. Add cauliflower, reduce heat to medium-low, place a cover on saucepan, and cook cauliflower until tender, about 10 minutes; drain. Set cauliflower aside to cool for about 5 minutes; transfer to a blender.",
-					"url": null,
-					"picture": null,
-					"timer": null
-				},
-				{
-					"description": "Heat oil in a skillet over medium-high heat. Cook and stir onion and garlic in hot oil until tender, 3 to 5 minutes. Set aside to cool for about 5 minutes; add to blender.",
-					"url": null,
-					"picture": null,
-					"timer": null
-				},
-				{
-					"description": "Pour yogurt into blender with cauliflower and onion mixture; blend until smooth. Season with parsley and garlic and herb seasoning to serve.",
-					"url": null,
-					"picture": null,
-					"timer": null
-				}
-			],
-			"nutritionFacts": [
-				{ "type": "CALORIES", "amount": 125.0, "text": "125" },
-				{ "type": "FAT", "amount": 9.5, "text": "9.5 g" },
-				{ "type": "CARBOHYDRATES", "amount": 8.8, "text": "8.8 g" },
-				{ "type": "PROTEIN", "amount": 2.9, "text": "2.9 g" },
-				{ "type": "CHOLESTEROL", "amount": 0.001, "text": "1 mg" },
-				{ "type": "SODIUM", "amount": 0.04, "text": "40 mg" }
-			]
-		},
+		data: [],
+		page: 0,
+		loading: true,
+		loadingMore: true,
+		refreshing: false,
+		error: null,
 	};
 
-	constructor(props) {
-		super(props);
+	componentDidMount() {
+		this._fetchRecipes();
+	}
+
+	_fetchRecipes = () => {
+		const { page } = this.state;
+		let url = `https://foodie.sandrohc.net/recipes/?page=${page}&size=10`;
+
+		fetch(url)
+			.then(response => response.json())
+			.then(data => {
+				this.setState({
+					data: page === 0
+						? Array.from(data.content)
+						: [...this.state.data, ...data.content],
+					loading: false,
+					loadingMore: false,
+					refreshing: false,
+				})
+			})
+			.catch(error => {
+				console.error('Error while searching recipes for: ' + url, error);
+				this.setState({
+					error,
+					loading: false,
+				})
+			});
+	}
+
+	_handleLoadMore = () => {
+		this.setState(
+			(prevState, nextProps) => ({
+				page: prevState.page + 1,
+				loadingMore: false,
+			}),
+			() => {
+				this._fetchRecipes();
+			}
+		);
+	}
+
+	_handleRefresh = () => {
+		this.setState(
+			{
+				data: [],
+				page: 0,
+				refreshing: true,
+			},
+			() => {
+				this._fetchRecipes();
+			}
+		);
+	}
+
+	_renderFooter = () => {
+		if (!this.state.loadingMore) return null;
+
+		return (
+			<View style={{
+					paddingVertical: 20,
+					marginTop: 10,
+					marginBottom: 10,
+				}}>
+				<ActivityIndicator animating size="large" color={colors.primary} />
+			</View>
+		);
 	}
 
 	render() {
-		const navigation = this.context;
+		let content;
+		if (this.state.loading) {
+			content = (
+				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+					<ActivityIndicator animating size={Platform.OS === 'android' ? 60 : 'large'} color={colors.primary} />
+					<Text style={{ alignSelf: 'center' }}>Loading recipes...</Text>
+				</View>
+			)
+		} else if (this.state.error) {
+			content = (
+				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+					<Text>
+						Error loading. Try again later.
+					</Text>
+				</View>
+			)
+		} else {
+			content = (
+				<FlatList
+					data={this.state.data}
+					renderItem={({ item }) => <CardRecipe recipe={item} />}
+					keyExtractor={item => item.id.toString()}
+					// ListHeaderComponent={this._renderHeader}
+					ListFooterComponent={this._renderFooter}
+					onRefresh={this._handleRefresh}
+					refreshing={this.state.refreshing}
+					onEndReached={this._handleLoadMore}
+					onEndReachedThreshold={0.5}
+					initialNumToRender={10}
+				/>
+			)
+		}
 
 		return (
 			<SafeAreaView style={styles.safeArea}>
@@ -85,15 +140,11 @@ export default class HomeScreen extends React.Component {
 					<SearchBar style={{ marginLeft: 20, marginRight: 20, }} />
 
 					<Text>Suggested</Text>
-					<ScrollView style={styles.scroll}>
-						<CardRecipe recipe={this.state.recipe} />
-						<CardRecipe recipe={this.state.recipe} />
-						<CardRecipe recipe={this.state.recipe} />
-						<CardRecipe recipe={this.state.recipe} />
-						<CardRecipe recipe={this.state.recipe} />
-						<CardRecipe recipe={this.state.recipe} />
-					</ScrollView>
-					<Button title="INGREDIENTS (0)" style={styles.ingredientsButton} onPress={() => navigation.navigate('Ingredients')} />
+					<ErrorBoundary>
+						{content}
+					</ErrorBoundary>
+
+					<Button title="INGREDIENTS (0)" style={styles.ingredientsButton} onPress={() => this.props.navigation.navigate('Ingredients')} />
 				</View>
 			</SafeAreaView>
 		);
