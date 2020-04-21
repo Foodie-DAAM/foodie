@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	StyleSheet,
 	View,
-	Text
+	Text,
 } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -11,6 +11,7 @@ import { getTheme } from '../theme';
 
 import Button from '../components/Button';
 import IngredientList from '../components/IngredientList';
+import InputIngredientAutocomplete from '../components/InputIngredientAutocomplete';
 
 import { addIngredient } from '../store/ingredientsSlice';
 
@@ -20,30 +21,34 @@ class IngredientsScreen2 extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.handleAddIngredient = this.handleAddIngredient.bind(this);
+		this._addIngredient = this._addIngredient.bind(this);
 	}
 
-	handleAddIngredient() {
+	_addIngredient() {
 		console.log('handleAddIngredient');
 		this.props.addIngredient('Ingredient ' + (Math.floor(Math.random() * Math.floor(20))));
 	}
 
 	render() {
+		let content;
+
 		if (this.props.ingredients.list.length < 1) {
-			return (
-				<SafeAreaView style={styles.container}>
-					<Text>Start by adding anything...</Text>
-					<Button title="ADD INGREDIENT" onPress={this.handleAddIngredient} />
-				</SafeAreaView>
-			);
+			content = (
+				<View>
+					<Text>Start by adding something...</Text>
+				</View>
+			)
+		} else {
+			content = <IngredientList data={this.props.ingredients.list} />
 		}
 
 		return (
 			<SafeAreaView style={styles.container}>
-				<Text>My Ingredients</Text>
-				<Text>Search...</Text>
-				<IngredientList data={this.props.ingredients.list} />
-				<Button title="ADD INGREDIENT" onPress={this.handleAddIngredient} />
+				<InputIngredientAutocomplete />
+
+				{content}
+
+				<Button title="ADD INGREDIENT" onPress={this._addIngredient} style={styles.buttonAddIngredient} />
 			</SafeAreaView>
 		);
 	}
@@ -67,5 +72,8 @@ const styles = StyleSheet.create({
 	container: {
 		backgroundColor: colors.textLight,
 		flex: 1,
+	},
+	buttonAddIngredient: {
+		margin: 10,
 	}
 });

@@ -3,8 +3,9 @@ import {
 	StyleSheet,
 	View,
 	Text,
-	ScrollView,
-	StatusBar, FlatList, ActivityIndicator,
+	StatusBar,
+	FlatList,
+	ActivityIndicator,
 } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -125,8 +126,7 @@ export default class HomeScreen extends React.Component {
 					refreshing={this.state.refreshing}
 					onEndReached={this._handleLoadMore}
 					onEndReachedThreshold={0.5}
-					initialNumToRender={10}
-				/>
+					initialNumToRender={10} />
 			)
 		}
 

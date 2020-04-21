@@ -3,67 +3,47 @@ import {
 	StyleSheet,
 	View,
 	Text,
-	Dimensions,
+	FlatList,
 } from 'react-native';
+import { Ionicons } from "@expo/vector-icons";
 import { connect } from 'react-redux';
-import { RecyclerListView, DataProvider, LayoutProvider } from 'recyclerlistview';
+
+import Card from './Card';
 
 import { removeIngredient } from '../store/ingredientsSlice';
-import { Ionicons } from "@expo/vector-icons";
 
 
 class IngredientListBase extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this._rowRenderer = this._rowRenderer.bind(this);
-
-		let { width } = Dimensions.get("window");
-
-		this._layoutProvider = new LayoutProvider(
-			index => 0,
-			(type, dim) => {
-				dim.width = width;
-				dim.height = 60;
-			}
-		);
-
-		this.state = {
-			dataProvider: new DataProvider((r1, r2) => {
-				return r1 !== r2;
-			}).cloneWithRows(this.props.data)
-		};
+		this._renderRow = this._renderRow.bind(this);
 	}
 
-	// componentDidUpdate(prevProps) {
-	// 	console.log("componentDidUpdate", this.props.data.length, prevProps.data.length);
-	// 	if (this.props.data.length !== prevProps.data.length) {
-	// 		this.setState({
-	// 			dataProvider: this.state.dataProvider.cloneWithRows(this.props.data)
-	// 		});
-	// 	}
-	// }
-
-	_rowRenderer(type, data) {
+	_renderRow(ingredient) {
 		return (
-			<View style={styles.container}>
-				<Text style={styles.itemText}>{data.name}</Text>
+			<View style={styles.item}>
+				<Text style={styles.itemText}>{ingredient.name}</Text>
 				<Ionicons
 					name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'close'}
-					size={34}
+					size={30}
 					style={styles.itemIcon}
-					onPress={() => this.props.removeIngredient(data)} />
+					onPress={() => this.props.removeIngredient(ingredient)} />
 			</View>
 		);
 	}
 
 	render() {
 		return (
-			<RecyclerListView
-				layoutProvider={this._layoutProvider}
-				dataProvider={this.state.dataProvider}
-				rowRenderer={this._rowRenderer}
-				style={styles.container} />
+			<Card style={styles.container}>
+				<FlatList
+					data={this.props.data}
+					renderItem={({ item }) => this._renderRow(item)}
+					keyExtractor={item => item.id.toString()}
+					// ListHeaderComponent={this._renderHeader}
+					// ListFooterComponent={this._renderFooter}
+				/>
+			</Card>
 		);
 	}
 }
@@ -79,27 +59,21 @@ export default IngredientList;
 
 const styles = StyleSheet.create({
 	container: {
-		// backgroundColor: '#0086f1',
-		// height: 60,
-		// padding: 10,
-		flexDirection: 'row',
-		borderBottomWidth: 1,
-		borderBottomColor: 'black',
+		flex: 1,
 	},
 	item: {
-		// flex: 1,
-		backgroundColor: '#00a1f1',
+		flexDirection: 'row',
+		alignItems: 'center',
+		borderBottomWidth: 1,
+		borderBottomColor: 'black',
+		height: 60,
+		padding: 10,
+		paddingLeft: 20,
+		paddingRight: 20,
 	},
 	itemText: {
-		backgroundColor: '#23f1eb',
 		flex: 1,
 	},
 	itemIcon: {
-		backgroundColor: '#48f120',
-		width: 50,
-		color: 'black',
-		paddingLeft: 10,
-		paddingRight: 10,
-		textAlign: 'center',
 	}
 });
