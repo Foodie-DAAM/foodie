@@ -28,10 +28,10 @@ export default class WelcomeScreen extends React.Component {
 						</Text>
 					</View>
 					<View style={styles.buttons}>
-						<Button title="SIGN UP" onPress={() => this.props.navigation.navigate('SignUp')} style={{marginBottom: 8}} />
-						<Button title="SIGN IN" secondary onPress={() => this.props.navigation.navigate('SignIn')} style={{ marginTop: 10 }} />
-
-						<Button title="HOME" secondary onPress={() => this.props.navigation.navigate('Main')} style={{ marginTop: 10 }} />
+						<Button title="SIGN UP" onPress={() => this.props.navigation.navigate('SignUp')} />
+						<Button title="SIGN IN" secondary onPress={() => this.props.navigation.navigate('SignIn')} style={{ marginTop: 8 }} />
+						<Button title="HOME" secondary onPress={() => this.props.navigation.navigate('Main')} style={{ marginTop: 8 }} />
+						<Button title="PROFILE" secondary onPress={() => this.props.navigation.navigate('Profile')} style={{ marginTop: 8 }} />
 					</View>
 				</View>
 			</SafeAreaView>

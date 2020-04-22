@@ -20,6 +20,7 @@ import SignUpScreen from './screens/SignUpScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import ErrorBoundary from './components/ErrorBoundary';
 import RecipeScreen from "./screens/RecipeScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
 enableScreens(); // https://reactnavigation.org/docs/react-native-screens
 const Stack = createStackNavigator();
@@ -47,6 +48,7 @@ export default function App() {
 								<Stack.Screen name="SignIn"      component={SignInScreen} options={() => ({ headerShown: false })} />
 								<Stack.Screen name="SignUp"      component={SignUpScreen} options={() => ({ headerShown: false })} />
 								<Stack.Screen name="Main"        component={MainScreen} />
+								<Stack.Screen name="Profile"	 component={ProfileScreen} options={() =>({headerShown: false})} />
 
 								<Stack.Screen name="Recipe"      component={RecipeScreen} options={() => ({ headerShown: false })} />
 								<Stack.Screen name="Ingredients" component={IngredientsScreen} />
