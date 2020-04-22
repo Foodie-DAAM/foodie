@@ -2,18 +2,30 @@ import React from 'react';
 import {
 	StyleSheet,
 	View,
-	TouchableWithoutFeedback,
+	TouchableHighlight,
 } from 'react-native';
 
 export default class Card extends React.Component {
 	render() {
-		return (
-			<TouchableWithoutFeedback onPress={this.props.onPress}>
-				<View style={styles.container}>
-					{this.props.children}
+		const content = (
+			<View style={styles.container}>
+				{this.props.children}
+			</View>
+		)
+
+		if (this.props.onPress) {
+			return (
+				<TouchableHighlight {...this.props}>
+					{content}
+				</TouchableHighlight>
+			)
+		} else {
+			return (
+				<View {...this.props}>
+					{content}
 				</View>
-			</TouchableWithoutFeedback>
-		);
+			)
+		}
 	}
 }
 

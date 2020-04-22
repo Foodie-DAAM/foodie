@@ -20,9 +20,9 @@ export default class RecipeTabView extends React.Component {
 	};
 
 	_renderScene = SceneMap({
-		info: RecipeInfo,
-		ingredients: RecipeIngredients,
-		nutrition: RecipeNutrition,
+		info:        () => <RecipeInfo        recipe={this.props.recipe} />,
+		ingredients: () => <RecipeIngredients recipe={this.props.recipe} />,
+		nutrition:   () => <RecipeNutrition   recipe={this.props.recipe} />,
 	});
 
 	_renderTabBar = props => {

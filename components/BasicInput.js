@@ -6,6 +6,7 @@ import {
 	TextInput
 } from 'react-native'
 import { Ionicons } from "@expo/vector-icons";
+import { getTheme } from "../theme";
 
 
 export default class BasicInput extends React.Component {
@@ -35,6 +36,7 @@ export default class BasicInput extends React.Component {
 	}
 }
 
+const { colors } = getTheme();
 const styles = StyleSheet.create({
 	container: {
 		backgroundColor: '#fff',
@@ -55,7 +57,7 @@ const styles = StyleSheet.create({
 	icon: {
 		textAlign: 'center',
 		width: 26,
-		color: '#E67332',
+		color: colors.primary,
 		marginRight: 10,
 	}
 });

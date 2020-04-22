@@ -1,13 +1,11 @@
 import React from 'react';
-import {
-	StatusBar,
-} from "react-native";
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { enableScreens } from 'react-native-screens';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Appearance, AppearanceProvider, useColorScheme } from 'react-native-appearance';
+import { AppearanceProvider } from 'react-native-appearance';
 import { Provider } from 'react-redux';
+import { Ionicons } from "@expo/vector-icons";
 import * as Sentry from 'sentry-expo';
 import firebase from 'firebase';
 
@@ -32,7 +30,6 @@ export default function App() {
 				<AppearanceProvider>
 					<ErrorBoundary>
 						<NavigationContainer>
-							<StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
 							<Stack.Navigator initialRouteName="Welcome"
 								headerMode="float"
 								screenOptions={{
@@ -40,18 +37,20 @@ export default function App() {
 										backgroundColor: '#f4511e',
 									},
 									headerTintColor: '#fff',
-									// headerTitleStyle: {
-									// 	fontWeight: 'bold',
-									// },
 								}}>
 								<Stack.Screen name="Welcome"     component={WelcomeScreen} options={() => ({ headerShown: false })} />
 								<Stack.Screen name="SignIn"      component={SignInScreen} options={() => ({ headerShown: false })} />
 								<Stack.Screen name="SignUp"      component={SignUpScreen} options={() => ({ headerShown: false })} />
-								<Stack.Screen name="Main"        component={MainScreen} />
 								<Stack.Screen name="Profile"	 component={ProfileScreen} options={() =>({headerShown: false})} />
-
-								<Stack.Screen name="Recipe"      component={RecipeScreen} options={() => ({ headerShown: false })} />
+								<Stack.Screen name="Recipe"      component={RecipeScreen}  options={() => ({ headerShown: false })} />
 								<Stack.Screen name="Ingredients" component={IngredientsScreen} />
+								<Stack.Screen name="Main"        component={MainScreen}    options={({ navigation }) => ({ headerLeft: props => (
+										<Ionicons
+											name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'menu'}
+											size={34}
+											style={{ marginLeft: 20, color: 'white' }}
+											onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} />
+									)})} />
 							</Stack.Navigator>
 						</NavigationContainer>
 					</ErrorBoundary>
