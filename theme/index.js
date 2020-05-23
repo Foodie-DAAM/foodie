@@ -27,7 +27,7 @@ export const themedColors = {
 };
 
 export const getTheme = () => {
-	const theme = Appearance.getColorScheme();
+	const theme = 'light'; // TODO: support dark theme; then use Appearance.getColorScheme()
 	const colors = themedColors[theme] || themedColors['light'];
 	return {
 		colors,

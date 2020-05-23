@@ -7,6 +7,19 @@ Install [NodeJS](https://nodejs.org/en/download/) and [Yarn v1](https://classic.
 Run `yarn global add expo-cli` and `yarn`.
 To start the app, run `expo start`.
 
+## Building
+
+* **Windows only:** Enable WDL, as specified [here](https://docs.expo.io/distribution/building-standalone-apps/#1-install-expo-cli)
+* Install the expo-cli: `npm install -g expo-cli` or `yarn global add expo-cli`
+* Build for Android:
+  * `expo start`
+  * `expo build:android -t app-bundle`
+  * `expo upload:android --key <path to JSON key> --track <production,beta,alpha,internal,rollout>`
+* Build for iOS:
+  * `expo start`
+  * `expo build:ios -t archive`
+  * `expo upload:ios --apple-id <id> --apple-id-password <pass>`
+
 ## Debugging
 
 In IntelliJ IDEA, follow the instructions [here](https://jetbrains.com/help/idea/react-native.html#ws_react_native_debug_expo).

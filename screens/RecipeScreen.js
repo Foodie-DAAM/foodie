@@ -31,7 +31,7 @@ export default class RecipeScreen extends React.Component {
 		const recipe = this.props.route.params.recipe;
 		this.state.recipe = { ...recipe }
 
-		fetch("https://foodie.sandrohc.net/recipes/" + recipe.id)
+		fetch('https://foodie.sandrohc.net/recipes/' + recipe.id)
 			.then(response => response.json())
 			.then(data => {
 				this.setState({
