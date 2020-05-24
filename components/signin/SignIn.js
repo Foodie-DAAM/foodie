@@ -15,7 +15,7 @@ export default class SignIn extends React.Component {
 	render() {
 		return (
 			<View style={{ alignItems: 'center' }}>
-				<Text>or sign in with</Text>
+				<Text style={styles.text}>or sign in with</Text>
 
 				<View style={{ flexDirection: 'row' }}>
 					<SignInGoogle />
@@ -28,4 +28,7 @@ export default class SignIn extends React.Component {
 
 const { colors } = getTheme();
 const styles = StyleSheet.create({
+	text: {
+		color: colors.dark,
+	}
 });

@@ -4,15 +4,17 @@ const palette = {
 	orange: '#E67332',
 	orangeDark: '#E63527',
 	light: '#FFFFFF',
+	lightish: '#f2f2f2',
 	dark: '#000000',
+	darkish: '#333333',
 };
 
 export const colors = {
 	primary: palette.orange,
 	primaryDark: palette.orangeDark,
 	accent: '',
-	textDark: palette.dark,
-	textLight: palette.light,
+	light: palette.light,
+	dark: palette.dark,
 };
 
 export const themedColors = {
@@ -21,13 +23,17 @@ export const themedColors = {
 	},
 	dark: {
 		...colors,
-		textDark: palette.light,
-		textLight: palette.dark,
+		dark: palette.light,
+		darkish: palette.lightish,
+		light: palette.dark,
+		lightish: palette.darkish,
 	},
 };
 
 export const getTheme = () => {
-	const theme = 'light'; // TODO: support dark theme; then use Appearance.getColorScheme()
+	const theme = Appearance.getColorScheme();
+	// const theme = 'light'; // TODO: support dark theme
+
 	const colors = themedColors[theme] || themedColors['light'];
 	return {
 		colors,

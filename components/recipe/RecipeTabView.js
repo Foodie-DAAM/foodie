@@ -4,10 +4,11 @@ import {
 	Dimensions,
 } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
+import { getTheme } from '../../theme';
 
 import RecipeInfo from './RecipeInfo';
-import RecipeIngredients from "./RecipeIngredients";
-import RecipeNutrition from "./RecipeNutrition";
+import RecipeIngredients from './RecipeIngredients';
+import RecipeNutrition from './RecipeNutrition';
 
 export default class RecipeTabView extends React.Component {
 	state = {
@@ -30,12 +31,12 @@ export default class RecipeTabView extends React.Component {
 			<TabBar
 				{...props}
 				style={styles.tabBar}
-				// tabStyle={styles.tabStyle}
 				indicatorStyle={styles.indicator}
+				// tabStyle={styles.tabStyle}
 				// labelStyle={styles.label}
 
-				activeColor="orange"
-				inactiveColor="black"
+				activeColor={colors.primary}
+				inactiveColor={colors.dark}
 			/>
 		)
 	};
@@ -54,17 +55,12 @@ export default class RecipeTabView extends React.Component {
 	}
 }
 
+const { colors } = getTheme();
 const styles = StyleSheet.create({
 	tabBar: {
 		backgroundColor: 'transparent',
 	},
-	tabStyle: {
-		backgroundColor: 'cyan',
-	},
 	indicator: {
 		backgroundColor: 'orange',
-	},
-	label: {
-		color: 'orange',
 	},
 });

@@ -8,6 +8,7 @@ import {
 import { NavigationContext } from '@react-navigation/native';
 
 import Card from './Card';
+import { getTheme } from "../theme";
 
 
 export default class CardRecipe extends React.Component {
@@ -29,6 +30,7 @@ export default class CardRecipe extends React.Component {
 	}
 }
 
+const { colors } = getTheme();
 const styles = StyleSheet.create({
 	container: {
 		height: 110,
@@ -44,10 +46,12 @@ const styles = StyleSheet.create({
 		margin: 10,
 	},
 	title: {
+		color: colors.dark,
 		fontWeight: 'bold',
 		fontSize: 17,
 		marginBottom: 5,
 	},
 	description: {
+		color: colors.dark,
 	}
 });

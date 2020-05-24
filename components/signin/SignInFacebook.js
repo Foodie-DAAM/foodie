@@ -1,7 +1,8 @@
 import React from 'react';
 import {
 	StyleSheet,
-	TouchableOpacity
+	TouchableOpacity,
+	View,
 } from 'react-native';
 
 import * as firebase from 'firebase';
@@ -54,12 +55,21 @@ export default class SignInFacebook extends React.Component {
 
 	render() {
 		return (
-			<TouchableOpacity style={{ margin: 10, backgroundColor: '#1877f2', borderRadius: 120 }} onPress={this.onPress}>
-				<LogoFacebook width={50} height={50} fill="#fff" style={{ borderRadius: 50 }} />
+			<TouchableOpacity style={styles.touchable} onPress={this.onPress}>
+				<View style={styles.container}>
+					<LogoFacebook width={60} height={60} fill="#fff" />
+				</View>
 			</TouchableOpacity>
 		)
 	}
 }
 
 const styles = StyleSheet.create({
+	touchable: {
+		padding: 20,
+	},
+	container: {
+		backgroundColor: '#1877f2',
+		borderRadius: 120,
+	},
 });

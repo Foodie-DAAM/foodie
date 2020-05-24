@@ -2,20 +2,21 @@ import React from 'react';
 import {
 	StyleSheet,
 	Text,
+	View,
 	TouchableOpacity,
-	View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContext } from '@react-navigation/native';
+import HideWithKeyboard from 'react-native-hide-with-keyboard';
 
-import * as firebase from 'firebase';
-import * as Yup from "yup";
 import { Formik } from "formik";
+import * as Yup from "yup";
+import * as firebase from 'firebase';
 
 import { getTheme } from '../theme';
 import Header from '../components/Header';
 import Button from '../components/Button';
-import BasicInput from '../components/BasicInput';
+import StyledInput from '../components/input/StyledInput';
 import SignIn from '../components/signin/SignIn';
 
 
@@ -79,7 +80,7 @@ export default class SignUpScreen extends React.Component {
 
 	render() {
 		return (
-			<SafeAreaView style={{ flex: 1 }}>
+			<SafeAreaView style={styles.container}>
 				<Header title="Create an account" />
 
 				<View style={{ flex: 1, justifyContent: 'space-evenly' }}>
@@ -96,8 +97,8 @@ export default class SignUpScreen extends React.Component {
 						}}
 					>
 						{props => (
-							<View>
-								<BasicInput
+							<View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'stretch' }}>
+								<StyledInput
 									autoCorrect={true}
 									keyboardType="default"
 									autoCapitalize="words"
@@ -113,14 +114,15 @@ export default class SignUpScreen extends React.Component {
 									blurOnSubmit={false}
 
 									icon="person"
+									style={styles.input}
 								/>
 
-								<BasicInput
+								<StyledInput
 									autoCorrect={false}
 									keyboardType="email-address"
 									autoCapitalize="none"
 
-									placeholder="email"
+									placeholder="Email"
 									onChangeText={text => props.setFieldValue('email', text)}
 									onBlur={() => props.setTouched('email')}
 									error={props.touched.email || props.submitCount > 0 ? props.errors.email : null}
@@ -131,9 +133,10 @@ export default class SignUpScreen extends React.Component {
 									blurOnSubmit={false}
 
 									icon="mail"
+									style={styles.input}
 								/>
 
-								<BasicInput
+								<StyledInput
 									autoCorrect={false}
 									secureTextEntry={true}
 									autoCapitalize="none"
@@ -149,9 +152,10 @@ export default class SignUpScreen extends React.Component {
 									blurOnSubmit={false}
 
 									icon="lock"
+									style={styles.input}
 								/>
 
-								<BasicInput
+								<StyledInput
 									autoCorrect={false}
 									secureTextEntry={true}
 									autoCapitalize="none"
@@ -165,6 +169,7 @@ export default class SignUpScreen extends React.Component {
 									onSubmitEditing={props.handleSubmit}
 
 									icon="lock"
+									style={styles.input}
 								/>
 
 								<Button title="SIGN UP" onPress={props.handleSubmit} disabled={props.isSubmitting} style={styles.submitButton} />
@@ -172,12 +177,14 @@ export default class SignUpScreen extends React.Component {
 						)}
 					</Formik>
 
-					<SignIn />
+					<HideWithKeyboard>
+						<SignIn />
 
-					<TouchableOpacity onPress={() => this.props.navigate('SignIn')} style={{ flexDirection: 'row', justifyContent: 'center'}}>
-						<Text style={styles.text}>Already have an account?</Text>
-						<Text style={[styles.text, { color: colors.primary }]}>Sign in.</Text>
-					</TouchableOpacity>
+						<TouchableOpacity onPress={() => this.props.navigate('SignIn')} style={{ flexDirection: 'row', justifyContent: 'center'}}>
+							<Text style={styles.text}>Already have an account?</Text>
+							<Text style={[styles.text, { color: colors.primary }]}>Sign in.</Text>
+						</TouchableOpacity>
+					</HideWithKeyboard>
 
 				</View>
 			</SafeAreaView>
@@ -187,13 +194,23 @@ export default class SignUpScreen extends React.Component {
 
 const { colors } = getTheme();
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: colors.light,
+	},
 	submitButton: {
-		marginTop: 8,
+		marginTop: 10,
 		marginLeft: 40,
 		marginRight: 40,
 	},
 	text: {
+		color: colors.dark,
 		paddingRight: 2,
 		fontSize: 20,
+	},
+	input: {
+		marginBottom: 10,
+		marginLeft: 40,
+		marginRight: 40,
 	}
 });

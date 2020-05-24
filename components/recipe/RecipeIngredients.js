@@ -5,6 +5,7 @@ import {
 	Text,
 	FlatList,
 } from 'react-native';
+import { getTheme } from '../../theme';
 
 
 class IngredientItem extends React.Component {
@@ -12,11 +13,11 @@ class IngredientItem extends React.Component {
 		let { name, textImperial } = this.props.ingredient;
 
 		return (
-			<View style={{ flex: 1, flexDirection: 'row', padding: 15 }}>
-				<Text  style={{ flex: 1 }}>
+			<View style={styles.item}>
+				<Text style={[styles.itemText, { flex: 1 }]}>
 					{name}
 				</Text>
-				<Text  style={{ flex: 0, textAlign: 'right' }}>
+				<Text style={[styles.itemText, { flex: 0, textAlign: 'right' }]}>
 					{textImperial}
 				</Text>
 			</View>
@@ -38,8 +39,17 @@ export default class RecipeInfo extends React.Component {
 	}
 }
 
+const { colors } = getTheme();
 const styles = StyleSheet.create({
 	container: {
 		padding: 20,
+	},
+	item: {
+		flex: 1,
+		flexDirection: 'row',
+		padding: 15,
+	},
+	itemText: {
+		color: colors.dark,
 	},
 });

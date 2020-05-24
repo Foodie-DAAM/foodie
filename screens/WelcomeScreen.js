@@ -9,6 +9,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import Header from '../components/Header';
 import Button from '../components/Button';
+import { getTheme } from "../theme";
 
 
 export default class WelcomeScreen extends React.Component {
@@ -20,10 +21,10 @@ export default class WelcomeScreen extends React.Component {
 
 				<View style={styles.container}>
 					<View style={styles.welcome}>
-						<Text style={{ fontWeight: 'bold', fontSize: 22 }}>
+						<Text style={[styles.text, { fontWeight: 'bold', fontSize: 22 }]}>
 							Welcome to Foodie!
 						</Text>
-						<Text style={{fontSize: 14}}>
+						<Text style={[styles.text, { fontSize: 14 }]}>
 							where you can find your recipes
 						</Text>
 					</View>
@@ -31,7 +32,6 @@ export default class WelcomeScreen extends React.Component {
 						<Button title="SIGN UP" onPress={() => this.props.navigation.navigate('SignUp')} />
 						<Button title="SIGN IN" secondary onPress={() => this.props.navigation.navigate('SignIn')} style={{ marginTop: 8 }} />
 						<Button title="HOME" secondary onPress={() => this.props.navigation.navigate('Main')} style={{ marginTop: 8 }} />
-						<Button title="PROFILE" secondary onPress={() => this.props.navigation.navigate('Profile')} style={{ marginTop: 8 }} />
 					</View>
 				</View>
 			</SafeAreaView>
@@ -39,10 +39,11 @@ export default class WelcomeScreen extends React.Component {
 	}
 }
 
+const { colors } = getTheme();
 const styles = StyleSheet.create({
 	safeArea: {
 		flex: 1,
-		backgroundColor: 'white',
+		backgroundColor: colors.light,
 	},
 	container: {
 		flex: 1,
@@ -54,5 +55,8 @@ const styles = StyleSheet.create({
 	buttons: {
 		marginLeft: 50,
 		marginRight: 50,
+	},
+	text: {
+		color: colors.dark,
 	},
 });

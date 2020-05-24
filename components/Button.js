@@ -47,13 +47,13 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.primary,
 	},
 	buttonSecondary: {
-		backgroundColor: colors.textLight,
+		backgroundColor: colors.light,
 		borderColor: colors.primary,
 		borderWidth: 1,
 	},
 
 	textPrimary: {
-		color: colors.textLight,
+		color: 'white',
 	},
 	textSecondary: {
 		color: colors.primary,

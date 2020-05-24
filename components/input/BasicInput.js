@@ -6,14 +6,16 @@ import {
 	TextInput
 } from 'react-native'
 import { Ionicons } from "@expo/vector-icons";
-import { getTheme } from "../theme";
+import { getTheme } from "../../theme";
 
 
 export default class BasicInput extends React.Component {
 
 	render() {
+		let { style, styleInput, ...inputProps} = this.props;
+
 		return (
-			<View style={styles.container}
+			<View style={[styles.container, style]}
 				// onPress={() => this.input.clicked()}
 			>
 				{this.props.icon &&
@@ -25,9 +27,9 @@ export default class BasicInput extends React.Component {
 				}
 
 				<TextInput
-					{...this.props}
+					{...inputProps}
 					ref={(input) => this.props.inputRef && this.props.inputRef(input)}
-					style={styles.input} />
+					style={[styles.input, styleInput]} />
 				<Text>
 					{this.props.error}
 				</Text>
@@ -39,25 +41,20 @@ export default class BasicInput extends React.Component {
 const { colors } = getTheme();
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: '#fff',
-		padding: 10,
-		margin: 0, //5
-		marginTop: 10,
-		marginLeft: 40,
-		marginRight: 40,
-		borderRadius: 10,
-
-		borderBottomWidth: 2,
-		borderBottomColor: '#000',
-
-		flexDirection: 'row'
-	},
-	input: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		width: 'auto',
+		height: 50,
 	},
 	icon: {
+		flexBasis: 40,
+		flexGrow: 0,
 		textAlign: 'center',
-		width: 26,
 		color: colors.primary,
-		marginRight: 10,
+	},
+	input: {
+		flexGrow: 1,
+		padding: 10,
+		color: colors.dark,
 	}
 });

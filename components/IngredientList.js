@@ -5,8 +5,9 @@ import {
 	Text,
 	FlatList,
 } from 'react-native';
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import { getTheme } from '../theme';
 
 import Card from './Card';
 
@@ -57,6 +58,7 @@ const mapDispatchToProps = dispatch => {
 const IngredientList = connect(null, mapDispatchToProps)(IngredientListBase);
 export default IngredientList;
 
+const { colors } = getTheme();
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
@@ -65,7 +67,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'center',
 		borderBottomWidth: 1,
-		borderBottomColor: 'black',
+		borderBottomColor: colors.dark,
 		height: 60,
 		padding: 10,
 		paddingLeft: 20,
@@ -73,7 +75,9 @@ const styles = StyleSheet.create({
 	},
 	itemText: {
 		flex: 1,
+		color: colors.dark,
 	},
 	itemIcon: {
+		color: colors.dark,
 	}
 });

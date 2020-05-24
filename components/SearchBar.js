@@ -2,26 +2,29 @@ import React from 'react';
 import {
 	StyleSheet,
 	View,
-	Text, TouchableWithoutFeedback
+	TouchableWithoutFeedback,
 } from 'react-native';
-import Logo from '../assets/hamburger.svg';
 import { Ionicons } from "@expo/vector-icons";
+import { getTheme } from "../theme";
+
+import BasicInput from "./input/BasicInput";
 
 export default class SearchBar extends React.Component {
 	render() {
 		return (
 			<View style={[styles.container, this.props.style]}>
-				<TouchableWithoutFeedback onPress={() => alert('search')}>
-					<View style={[styles.item, styles.button]}>
-						<Ionicons
-							name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'search'}
-							size={34}
-							style={styles.icon}
-						/>
-						<Text style={styles.text}>Search recipes...</Text>
-					</View>
-				</TouchableWithoutFeedback>
-				<TouchableWithoutFeedback onPress={() => alert('search settings')}>
+				<View style={[styles.item, styles.button]}>
+					<Ionicons
+						name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'search'}
+						size={34}
+						style={styles.icon}
+					/>
+					<BasicInput
+						placeholder="Search..."
+						style={styles.text}
+						onSubmitEditing={this.props.onSubmit} />
+				</View>
+				<TouchableWithoutFeedback onPress={() => alert('Search Settings\n[NOT IMPLEMENTED]')}>
 					<View style={[styles.item, styles.settings2]}>
 						<Ionicons
 							name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'more'}
@@ -35,6 +38,7 @@ export default class SearchBar extends React.Component {
 	}
 }
 
+const { colors } = getTheme();
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'row',
@@ -44,7 +48,7 @@ const styles = StyleSheet.create({
 	item: {
 		flexDirection: 'row',
 		alignItems: 'center',
-		backgroundColor: '#f2f2f2',
+		backgroundColor: colors.lightish,
 		borderRadius: 10,
 	},
 	button: {
@@ -54,6 +58,7 @@ const styles = StyleSheet.create({
 	icon: {
 		width: 54,
 		textAlign: 'center',
+		color: colors.darkish,
 	},
 	text: {
 		flex: 1,
@@ -64,5 +69,6 @@ const styles = StyleSheet.create({
 	settings: {
 		width: 54,
 		textAlign: 'center',
+		color: colors.darkish,
 	},
 });

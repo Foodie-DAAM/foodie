@@ -1,5 +1,8 @@
 import React from 'react'
-import {Text, StyleSheet, TextInput, View} from 'react-native'
+import {Text, StyleSheet, View} from 'react-native'
+import { getTheme } from '../../theme';
+
+import StyledInput from './StyledInput';
 
 export default class ProfileInput extends React.Component {
 
@@ -7,12 +10,13 @@ export default class ProfileInput extends React.Component {
         return (
             <View>
                 <Text style={style.title}> {this.props.title} </Text>
-                <TextInput style={style.input} multiline={false} maxLength={25} editable={!this.props.isReadonly}>{this.props.value}</TextInput>
+                <StyledInput style={style.input} multiline={false} maxLength={25} editable={!this.props.isReadonly}>{this.props.value}</StyledInput>
             </View>
         )
     }
 }
 
+const { colors } = getTheme();
 const style = StyleSheet.create({
     title: {
         width: '50%',
@@ -20,15 +24,12 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         marginLeft: 0,
         marginBottom: 0,
+        color: colors.dark,
     },
     input: {
         width: '70%',
         alignSelf: 'stretch',
-        color: "black",
         fontSize: 18,
-        paddingLeft: 0,
-        borderBottomColor: 'black',
-        borderBottomWidth: 1,
         marginLeft: 5,
         marginBottom: 10,
     }

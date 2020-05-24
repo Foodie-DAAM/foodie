@@ -5,6 +5,7 @@ import {
 	Text
 } from 'react-native';
 import Logo from '../assets/hamburger.svg';
+import { getTheme } from "../theme";
 
 export default class Header extends React.Component {
 	render() {
@@ -20,6 +21,7 @@ export default class Header extends React.Component {
 	}
 }
 
+const { colors } = getTheme();
 const styles = StyleSheet.create({
 	header: {
 		alignItems: 'center',
@@ -28,7 +30,7 @@ const styles = StyleSheet.create({
 	title: {
 		textAlign: 'center',
 		fontSize: 40,
-		color: 'black',
+		color: colors.dark,
 		fontWeight: 'bold',
 		marginTop: 5,
 	},

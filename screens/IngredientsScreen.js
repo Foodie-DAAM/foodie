@@ -70,7 +70,7 @@ export default IngredientsScreen;
 const { colors } = getTheme();
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: colors.textLight,
+		backgroundColor: colors.light,
 		flex: 1,
 	},
 	buttonAddIngredient: {

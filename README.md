@@ -10,7 +10,7 @@ To start the app, run `expo start`.
 ## Building
 
 * **Windows only:** Enable WDL, as specified [here](https://docs.expo.io/distribution/building-standalone-apps/#1-install-expo-cli)
-* Install the expo-cli: `npm install -g expo-cli` or `yarn global add expo-cli`
+* Install the expo-cli: `yarn global add expo-cli`
 * Build for Android:
   * `expo start`
   * `expo build:android -t app-bundle`

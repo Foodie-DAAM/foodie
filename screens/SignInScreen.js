@@ -7,13 +7,15 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContext } from '@react-navigation/native';
+import HideWithKeyboard from 'react-native-hide-with-keyboard';
+
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 import { getTheme } from '../theme';
 import Header from '../components/Header';
 import Button from '../components/Button';
-import BasicInput from '../components/BasicInput';
+import StyledInput from '../components/input/StyledInput';
 import SignIn from '../components/signin/SignIn';
 
 
@@ -41,7 +43,7 @@ export default class SignInScreen extends React.Component {
 
 	render() {
 		return (
-			<SafeAreaView style={{ flex: 1 }}>
+			<SafeAreaView style={styles.container}>
 				<Header title="Login" />
 
 				<View style={{ flex: 1, justifyContent: 'space-evenly' }}>
@@ -58,7 +60,7 @@ export default class SignInScreen extends React.Component {
 					>
 						{props => (
 							<View>
-								<BasicInput
+								<StyledInput
 									autoCorrect={false}
 									keyboardType="email-address"
 									autoCapitalize="none"
@@ -74,9 +76,10 @@ export default class SignInScreen extends React.Component {
 									blurOnSubmit={false}
 
 									icon="mail"
+									style={styles.input}
 								/>
 
-								<BasicInput
+								<StyledInput
 									autoCorrect={false}
 									secureTextEntry={true}
 									autoCapitalize="none"
@@ -90,6 +93,7 @@ export default class SignInScreen extends React.Component {
 									onSubmitEditing={props.handleSubmit}
 
 									icon="lock"
+									style={styles.input}
 								/>
 
 								<Button title="SIGN IN" onPress={props.handleSubmit} disabled={props.isSubmitting} style={styles.submitButton} />
@@ -97,29 +101,40 @@ export default class SignInScreen extends React.Component {
 						)}
 					</Formik>
 
-					<SignIn />
+					<HideWithKeyboard>
+						<SignIn />
 
-					<TouchableOpacity onPress={() => this.props.navigate('SignUp')} style={{ flexDirection: 'row', justifyContent: 'center' }}>
-						<Text style={styles.text}>New user?</Text>
-						<Text style={[styles.text, { color: colors.primary }]}>Create an account.</Text>
-					</TouchableOpacity>
+						<TouchableOpacity onPress={() => this.props.navigate('SignUp')} style={{ flexDirection: 'row', justifyContent: 'center' }}>
+							<Text style={styles.text}>New user?</Text>
+							<Text style={[styles.text, { color: colors.primary }]}>Create an account.</Text>
+						</TouchableOpacity>
+					</HideWithKeyboard>
 
 				</View>
 			</SafeAreaView>
 		)
 	}
-
 }
 
 const { colors } = getTheme();
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: colors.light,
+	},
 	submitButton: {
+		marginTop: 10,
 		marginLeft: 40,
 		marginRight: 40,
-		marginTop: 10
 	},
 	text: {
+		color: colors.dark,
 		paddingRight: 2,
 		fontSize: 20,
+	},
+	input: {
+		marginBottom: 10,
+		marginLeft: 40,
+		marginRight: 40,
 	}
 });

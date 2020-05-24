@@ -4,6 +4,7 @@ import {
 	View,
 	TouchableHighlight,
 } from 'react-native';
+import { getTheme } from "../theme";
 
 export default class Card extends React.Component {
 	render() {
@@ -29,12 +30,13 @@ export default class Card extends React.Component {
 	}
 }
 
+const { colors } = getTheme();
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: 'row',
 		borderRadius: 15,
-		backgroundColor: 'white',
+		backgroundColor: colors.light,
 
 		marginTop: 5,
 		marginBottom: 5,
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
 
 		// https://ethercreative.github.io/react-native-shadow-generator
 		elevation: 5,
-		shadowColor: '#000',
+		shadowColor: colors.dark,
 		shadowOffset: {
 			width: 0,
 			height: 2,

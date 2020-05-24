@@ -1,10 +1,11 @@
 import React from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaConsumer } from 'react-native-safe-area-context';
+import { getTheme } from '../theme';
 
 import Button from '../components/Button';
-import ProfileInput from '../components/ProfileInput';
-import ErrorBoundary from "../components/ErrorBoundary";
-import { SafeAreaConsumer } from "react-native-safe-area-context";
+import ProfileInput from '../components/input/ProfileInput';
+import ErrorBoundary from '../components/ErrorBoundary';
 
 
 let mockProfile = {
@@ -26,7 +27,7 @@ export default class ProfileScreen extends React.Component {
 
 	render() {
 		return (
-			<View style={{ flex: 1 }}>
+			<View style={styles.container}>
 				<Image source={{ uri: mockProfile.imageUrl, cache: 'force-cache' }} style={ styles.image } />
 
 				<Text style={styles.title}>Account Info</Text>
@@ -48,32 +49,34 @@ export default class ProfileScreen extends React.Component {
 						</View>
 					)}
 				</SafeAreaConsumer>
-
-
 			</View>
 		);
 	}
 }
 
-const styles = StyleSheet.create(
-	{
-		image: {
-			width: Dimensions.get('window').width,
-			height: 250,
-		},
-		title: {
-			fontWeight: 'bold',
-			fontSize: 30,
-			marginLeft: 5,
-			marginTop: 10,
-		},
-		contentScrollView: {
-			flex: 1,
-			marginBottom: 15,
-		},
-		logOut: {
-			backgroundColor: 'transparent',
-			borderWidth: 0,
-		}
+const { colors } = getTheme();
+const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: colors.light,
+	},
+	image: {
+		width: Dimensions.get('window').width,
+		height: 250,
+	},
+	title: {
+		fontWeight: 'bold',
+		fontSize: 30,
+		color: colors.dark,
+		marginLeft: 5,
+		marginTop: 10,
+	},
+	contentScrollView: {
+		flex: 1,
+		marginBottom: 15,
+	},
+	logOut: {
+		backgroundColor: 'transparent',
+		borderWidth: 0,
 	}
-)
+})

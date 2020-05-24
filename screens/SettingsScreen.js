@@ -1,7 +1,6 @@
 import React from 'react';
 import {
 	StyleSheet,
-	Text,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Appearance } from 'react-native-appearance';
@@ -30,22 +29,23 @@ export default class SettingsScreen extends React.Component {
 	}
 
 	render() {
-		const { colors1 } = getTheme();
-
 		return (
 			<SafeAreaView style={styles.container}>
-				<SettingsList borderColor='#d6d5d9' defaultItemSize={50}>
+				<SettingsList borderColor={colors.lightish} defaultItemSize={50} backgroundColor={colors.light}>
 					<SettingsList.Item
 						title='Theme'
 						titleInfo={this.state.theme}
+						titleStyle={{ color: colors.dark, fontSize: 16 }}
 						switchState={this.state.theme === 'dark'}
 						switchOnValueChange={this.onThemeChange}
 						hasNavArrow={false}
-						hasSwitch={true} />
+						hasSwitch={true}
+					/>
 
 					<SettingsList.Item
 						title='Unit System'
 						titleInfo={this.state.unitSystem ? 'Imperial' : 'Metric'}
+						titleStyle={{ color: colors.dark, fontSize: 16 }}
 						switchState={this.state.unitSystem}
 						switchOnValueChange={value => this.setState({ unitSystem: value })}
 						hasNavArrow={false}
@@ -54,6 +54,7 @@ export default class SettingsScreen extends React.Component {
 					<SettingsList.Item
 						id="report"
 						title='Report a problem'
+						titleStyle={{ color: colors.dark, fontSize: 16 }}
 						onPress={() => alert('Report')} />
 
 					<SettingsList.Item
@@ -70,6 +71,6 @@ export default class SettingsScreen extends React.Component {
 const { colors } = getTheme();
 const styles = StyleSheet.create({
 	container: {
-		backgroundColor: colors.textLight
+		backgroundColor: colors.light,
 	}
 });

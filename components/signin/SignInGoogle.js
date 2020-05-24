@@ -2,7 +2,7 @@ import React from 'react';
 import {
 	StyleSheet,
 	TouchableOpacity,
-	Image
+	View,
 } from 'react-native';
 
 import * as firebase from 'firebase';
@@ -64,13 +64,21 @@ export default class SignInGoogle extends React.Component {
 
 	render() {
 		return (
-			<TouchableOpacity style={{ margin: 10, backgroundColor: 'white', borderRadius: 120 }} onPress={this.onPress}>
-				<LogoGoogle width={50} height={50} />
+			<TouchableOpacity style={styles.touchable} onPress={this.onPress}>
+				<View style={styles.container}>
+					<LogoGoogle width={60} height={60} />
+				</View>
 			</TouchableOpacity>
 		)
 	}
 }
 
 const styles = StyleSheet.create({
-
+	touchable: {
+		padding: 20,
+	},
+	container: {
+		backgroundColor: 'white',
+		borderRadius: 120,
+	},
 });

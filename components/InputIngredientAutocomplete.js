@@ -6,7 +6,7 @@ import {
 	TouchableOpacity, FlatList,
 } from 'react-native';
 
-import BasicInput from './BasicInput';
+import BasicInput from './input/BasicInput';
 
 export default class InputIngredientAutocomplete extends React.Component {
 	state = {

@@ -8,7 +8,7 @@ import {
 	ActivityIndicator,
 } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaConsumer } from 'react-native-safe-area-context';
 import { getTheme } from '../theme';
 
 import Button from '../components/Button';
@@ -27,15 +27,40 @@ export default class HomeScreen extends React.Component {
 		loadingMore: true,
 		refreshing: false,
 		error: null,
+		search: null,
 	};
+
+	constructor(props) {
+		super(props);
+		this.onSearch = this.onSearch.bind(this);
+	}
 
 	componentDidMount() {
 		this._fetchRecipes();
 	}
 
+	onSearch(event) {
+		let title = event.nativeEvent.text;
+		this.setState({
+			search: title,
+			data: [],
+			page: 0,
+			loading: true,
+			loadingMore: true,
+		}, this._fetchRecipes);
+	}
+
 	_fetchRecipes = () => {
-		const { page } = this.state;
-		let url = `https://foodie.sandrohc.net/recipes/?page=${page}&size=10`;
+		const { page, search } = this.state;
+
+		let url;
+		if (search) {
+			console.log('Searching for:', search);
+			url = `https://foodie.sandrohc.net/recipes/search?title=${search}&page=${page}&size=10`;
+		} else {
+			console.log('Fetching recipes');
+			url = `https://foodie.sandrohc.net/recipes/?page=${page}&size=10`;
+		}
 
 		fetch(url)
 			.then(response => response.json())
@@ -101,15 +126,15 @@ export default class HomeScreen extends React.Component {
 		let content;
 		if (this.state.loading) {
 			content = (
-				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<View style={styles.loading}>
 					<ActivityIndicator animating size={Platform.OS === 'android' ? 60 : 'large'} color={colors.primary} />
-					<Text style={{ alignSelf: 'center' }}>Loading recipes...</Text>
+					<Text style={{ alignSelf: 'center', color: colors.dark }}>Loading recipes...</Text>
 				</View>
 			)
 		} else if (this.state.error) {
 			content = (
-				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-					<Text>
+				<View style={styles.error}>
+					<Text style={{ color: colors.dark }}>
 						Error loading. Try again later.
 					</Text>
 				</View>
@@ -131,22 +156,24 @@ export default class HomeScreen extends React.Component {
 		}
 
 		return (
-			<SafeAreaView style={styles.safeArea}>
-				<StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+			<SafeAreaConsumer>
+				{insets => (
+					<View style={[styles.safeArea, { left: insets.left, right: insets.right }]}>
 
-				<View style={styles.container}>
-					<Text>Home</Text>
+						<StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
 
-					<SearchBar style={{ marginLeft: 20, marginRight: 20, }} />
+						<View style={styles.container}>
+							<SearchBar style={{ marginLeft: 20, marginRight: 20, marginTop: 20, marginBottom: 20, }} onSubmit={this.onSearch} />
 
-					<Text>Suggested</Text>
-					<ErrorBoundary>
-						{content}
-					</ErrorBoundary>
+							<ErrorBoundary>
+								{content}
+							</ErrorBoundary>
 
-					<Button title="INGREDIENTS (0)" style={styles.ingredientsButton} onPress={() => this.props.navigation.navigate('Ingredients')} />
-				</View>
-			</SafeAreaView>
+							<Button title="INGREDIENTS (0)" style={styles.ingredientsButton} onPress={() => this.props.navigation.navigate('Ingredients')} />
+						</View>
+					</View>
+				)}
+			</SafeAreaConsumer>
 		);
 	}
 }
@@ -157,9 +184,19 @@ const styles = StyleSheet.create({
 		flex: 1,
 	},
 	container: {
-		backgroundColor: colors.textLight, // TODO: move to root component
+		backgroundColor: colors.light, // TODO: move to root component
 		flex: 1,
 		// padding: 20,
+	},
+	loading: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	error: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	scroll: {
 		flex: 1,

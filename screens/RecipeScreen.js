@@ -51,14 +51,14 @@ export default class RecipeScreen extends React.Component {
 		let content;
 		if (this.state.loading) {
 			content = (
-				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+				<View style={styles.loading}>
 					<ActivityIndicator size={Platform.OS === 'android' ? 60 : 'large'} color={colors.primary} />
 				</View>
 			)
 		} else if (this.state.error) {
 			content = (
-				<View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-					<Text>
+				<View style={styles.error}>
+					<Text style={styles.errorText}>
 						Error loading the recipe. Try again later.
 					</Text>
 				</View>
@@ -73,7 +73,7 @@ export default class RecipeScreen extends React.Component {
 		}
 
 		return (
-			<View style={{ flex: 1, backgroundColor: 'white' }}>
+			<View style={styles.container}>
 				<Image source={{ uri: this.state.recipe.picture, cache: 'force-cache' }} defaultSource={require('../assets/recipe.webp')} style={styles.image} />
 
 				<SafeAreaConsumer>
@@ -114,6 +114,23 @@ export default class RecipeScreen extends React.Component {
 
 const { colors } = getTheme();
 const styles = StyleSheet.create({
+	container: {
+		flex: 1,
+		backgroundColor: colors.light,
+	},
+	loading: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	error: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+	},
+	errorText: {
+		color: colors.dark,
+	},
 	scene: {
 		// flex: 1,
 	},
