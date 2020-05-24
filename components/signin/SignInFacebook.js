@@ -55,7 +55,7 @@ export default class SignInFacebook extends React.Component {
 
 	render() {
 		return (
-			<TouchableOpacity style={styles.touchable} onPress={this.onPress}>
+			<TouchableOpacity style={styles.touchable} onPress={this.onPress} accessibilityLabel="Sign-in with Facebook">
 				<View style={styles.container}>
 					<LogoFacebook width={60} height={60} fill="#fff" />
 				</View>

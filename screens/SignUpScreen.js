@@ -79,6 +79,8 @@ export default class SignUpScreen extends React.Component {
 	}
 
 	render() {
+		const navigation = this.context;
+
 		return (
 			<SafeAreaView style={styles.container}>
 				<Header title="Create an account" />
@@ -97,7 +99,7 @@ export default class SignUpScreen extends React.Component {
 						}}
 					>
 						{props => (
-							<View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'stretch' }}>
+							<View style={styles.form}>
 								<StyledInput
 									autoCorrect={true}
 									keyboardType="default"
@@ -173,18 +175,18 @@ export default class SignUpScreen extends React.Component {
 								/>
 
 								<Button title="SIGN UP" onPress={props.handleSubmit} disabled={props.isSubmitting} style={styles.submitButton} />
+
+								<HideWithKeyboard>
+									<SignIn />
+
+									<TouchableOpacity onPress={() => navigation.navigate('SignIn')} style={styles.buttonRegister}>
+										<Text style={styles.text}>Already have an account?</Text>
+										<Text style={[styles.text, { color: colors.primary }]}>Sign in.</Text>
+									</TouchableOpacity>
+								</HideWithKeyboard>
 							</View>
 						)}
 					</Formik>
-
-					<HideWithKeyboard>
-						<SignIn />
-
-						<TouchableOpacity onPress={() => this.props.navigate('SignIn')} style={{ flexDirection: 'row', justifyContent: 'center'}}>
-							<Text style={styles.text}>Already have an account?</Text>
-							<Text style={[styles.text, { color: colors.primary }]}>Sign in.</Text>
-						</TouchableOpacity>
-					</HideWithKeyboard>
 
 				</View>
 			</SafeAreaView>
@@ -198,10 +200,17 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: colors.light,
 	},
+	form: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'stretch',
+	},
 	submitButton: {
 		marginTop: 10,
 		marginLeft: 40,
 		marginRight: 40,
+		marginBottom: 10,
 	},
 	text: {
 		color: colors.dark,
@@ -212,5 +221,11 @@ const styles = StyleSheet.create({
 		marginBottom: 10,
 		marginLeft: 40,
 		marginRight: 40,
-	}
+	},
+	buttonRegister: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: 48,
+	},
 });

@@ -42,6 +42,8 @@ export default class SignInScreen extends React.Component {
 	}
 
 	render() {
+		const navigation = this.context;
+
 		return (
 			<SafeAreaView style={styles.container}>
 				<Header title="Login" />
@@ -59,7 +61,7 @@ export default class SignInScreen extends React.Component {
 						}}
 					>
 						{props => (
-							<View>
+							<View style={styles.form}>
 								<StyledInput
 									autoCorrect={false}
 									keyboardType="email-address"
@@ -97,19 +99,19 @@ export default class SignInScreen extends React.Component {
 								/>
 
 								<Button title="SIGN IN" onPress={props.handleSubmit} disabled={props.isSubmitting} style={styles.submitButton} />
+
+								<HideWithKeyboard>
+									<SignIn />
+
+									<TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.buttonRegister}>
+										<Text style={styles.text}>New user?</Text>
+										<Text style={[styles.text, { color: colors.primary }]}>Create an account.</Text>
+									</TouchableOpacity>
+								</HideWithKeyboard>
+
 							</View>
 						)}
 					</Formik>
-
-					<HideWithKeyboard>
-						<SignIn />
-
-						<TouchableOpacity onPress={() => this.props.navigate('SignUp')} style={{ flexDirection: 'row', justifyContent: 'center' }}>
-							<Text style={styles.text}>New user?</Text>
-							<Text style={[styles.text, { color: colors.primary }]}>Create an account.</Text>
-						</TouchableOpacity>
-					</HideWithKeyboard>
-
 				</View>
 			</SafeAreaView>
 		)
@@ -122,10 +124,17 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: colors.light,
 	},
+	form: {
+		flex: 1,
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'stretch',
+	},
 	submitButton: {
 		marginTop: 10,
 		marginLeft: 40,
 		marginRight: 40,
+		marginBottom: 10,
 	},
 	text: {
 		color: colors.dark,
@@ -136,5 +145,11 @@ const styles = StyleSheet.create({
 		marginBottom: 10,
 		marginLeft: 40,
 		marginRight: 40,
-	}
+	},
+	buttonRegister: {
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: 48,
+	},
 });

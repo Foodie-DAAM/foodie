@@ -64,7 +64,7 @@ export default class SignInGoogle extends React.Component {
 
 	render() {
 		return (
-			<TouchableOpacity style={styles.touchable} onPress={this.onPress}>
+			<TouchableOpacity style={styles.touchable} onPress={this.onPress}  accessibilityLabel="Sign-in with Google">
 				<View style={styles.container}>
 					<LogoGoogle width={60} height={60} />
 				</View>

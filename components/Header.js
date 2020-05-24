@@ -25,7 +25,7 @@ const { colors } = getTheme();
 const styles = StyleSheet.create({
 	header: {
 		alignItems: 'center',
-		marginTop: 25,
+		marginTop: 20,
 	},
 	title: {
 		textAlign: 'center',

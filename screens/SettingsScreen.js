@@ -1,6 +1,7 @@
 import React from 'react';
 import {
 	StyleSheet,
+	AsyncStorage,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Appearance } from 'react-native-appearance';
@@ -26,6 +27,7 @@ export default class SettingsScreen extends React.Component {
 
 		this.setState({ theme: colorScheme });
 		Appearance.set({ colorScheme });
+		AsyncStorage.setItem('theme', colorScheme);
 	}
 
 	render() {
