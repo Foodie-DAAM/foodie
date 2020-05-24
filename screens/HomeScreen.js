@@ -6,6 +6,7 @@ import {
 	StatusBar,
 	FlatList,
 	ActivityIndicator,
+	AsyncStorage,
 } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 import { SafeAreaConsumer } from 'react-native-safe-area-context';
@@ -14,8 +15,10 @@ import { getTheme } from '../theme';
 import Button from '../components/Button';
 import CardRecipe from '../components/CardRecipe';
 import SearchBar from '../components/SearchBar';
-import ErrorBoundary from "../components/ErrorBoundary";
+import ErrorBoundary from '../components/ErrorBoundary';
 
+
+const STORE_INGREDIENTS = 'ingredients';
 
 export default class HomeScreen extends React.Component {
 	static contextType = NavigationContext;
@@ -28,16 +31,20 @@ export default class HomeScreen extends React.Component {
 		refreshing: false,
 		error: null,
 		search: null,
+		ingredientCount: null,
 	};
 
 	constructor(props) {
 		super(props);
 		this.onSearch = this.onSearch.bind(this);
-		this._getIngredientCount = this._getIngredientCount.bind(this);
+		this._fillIngredientCount = this._fillIngredientCount.bind(this);
 	}
 
 	componentDidMount() {
+		console.log('HomeScreen componentDidMount');
+
 		this._fetchRecipes();
+		this._fillIngredientCount();
 	}
 
 	onSearch(event) {
@@ -123,11 +130,22 @@ export default class HomeScreen extends React.Component {
 		);
 	}
 
-	_getIngredientCount() {
-		// TODO: get data from AsyncStorage 'ingredients'
+	_fillIngredientCount() {
+		this.setState({ ingredientCount: null });
+
+		AsyncStorage.getItem(STORE_INGREDIENTS)
+			.then(data => {
+				data = JSON.parse(data) || [];
+				this.setState({ ingredientCount: data.length });
+			})
 	}
 
 	render() {
+		let ingredientTitle = 'INGREDIENTS';
+		if (this.state.ingredientCount) {
+			ingredientTitle += ' (' + this.state.ingredientCount + ')';
+		}
+
 		let content;
 		if (this.state.loading) {
 			content = (
@@ -174,7 +192,7 @@ export default class HomeScreen extends React.Component {
 								{content}
 							</ErrorBoundary>
 
-							<Button title="INGREDIENTS (0)" style={styles.ingredientsButton} onPress={() => this.props.navigation.navigate('Ingredients')} />
+							<Button title={ingredientTitle} style={styles.ingredientsButton} onPress={() => this.props.navigation.navigate('Ingredients')} />
 						</View>
 					</View>
 				)}
