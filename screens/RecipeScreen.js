@@ -48,6 +48,8 @@ export default class RecipeScreen extends React.Component {
 	}
 
 	render() {
+		const navigation = this.context;
+
 		let content;
 		if (this.state.loading) {
 			content = (
@@ -67,7 +69,7 @@ export default class RecipeScreen extends React.Component {
 			content = (
 				<View style={{ flex: 1 }}>
 					<RecipeTabView recipe={this.state.recipe} />
-					<Button title="START COOKING" onPress={() => alert('not implemented')} style={styles.startCookingButton} />
+					<Button title="START COOKING" onPress={() => navigation.navigate('RecipeSteps', { recipe: this.state.recipe })} style={styles.buttonStartCooking} />
 				</View>
 			)
 		}
@@ -145,7 +147,7 @@ const styles = StyleSheet.create({
 		padding: 15,
 		color: 'white',
 	},
-	startCookingButton: {
+	buttonStartCooking: {
 		margin: 10,
 	},
 
