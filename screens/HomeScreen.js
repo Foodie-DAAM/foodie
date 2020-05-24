@@ -33,6 +33,7 @@ export default class HomeScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onSearch = this.onSearch.bind(this);
+		this._getIngredientCount = this._getIngredientCount.bind(this);
 	}
 
 	componentDidMount() {
@@ -120,6 +121,10 @@ export default class HomeScreen extends React.Component {
 				<ActivityIndicator animating size="large" color={colors.primary} />
 			</View>
 		);
+	}
+
+	_getIngredientCount() {
+		// TODO: get data from AsyncStorage 'ingredients'
 	}
 
 	render() {

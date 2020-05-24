@@ -6,15 +6,12 @@ import {
 	FlatList,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { connect } from 'react-redux';
 import { getTheme } from '../theme';
 
 import Card from './Card';
 
-import { removeIngredient } from '../store/ingredientsSlice';
 
-
-class IngredientListBase extends React.Component {
+export default class IngredientList extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -24,12 +21,12 @@ class IngredientListBase extends React.Component {
 	_renderRow(ingredient) {
 		return (
 			<View style={styles.item}>
-				<Text style={styles.itemText}>{ingredient.name}</Text>
+				<Text style={styles.itemText}>{ingredient}</Text>
 				<Ionicons
 					name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'close'}
 					size={30}
 					style={styles.itemIcon}
-					onPress={() => this.props.removeIngredient(ingredient)} />
+					onPress={() => this.props.onRemove(ingredient)} />
 			</View>
 		);
 	}
@@ -40,7 +37,7 @@ class IngredientListBase extends React.Component {
 				<FlatList
 					data={this.props.data}
 					renderItem={({ item }) => this._renderRow(item)}
-					keyExtractor={item => item.id.toString()}
+					keyExtractor={item => item.toString()}
 					// ListHeaderComponent={this._renderHeader}
 					// ListFooterComponent={this._renderFooter}
 				/>
@@ -48,15 +45,6 @@ class IngredientListBase extends React.Component {
 		);
 	}
 }
-
-const mapDispatchToProps = dispatch => {
-	return {
-		removeIngredient: ingredient => dispatch(removeIngredient(ingredient.id))
-	};
-};
-
-const IngredientList = connect(null, mapDispatchToProps)(IngredientListBase);
-export default IngredientList;
 
 const { colors } = getTheme();
 const styles = StyleSheet.create({
