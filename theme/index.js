@@ -7,14 +7,18 @@ const palette = {
 	lightish: '#f2f2f2',
 	dark: '#000000',
 	darkish: '#333333',
+	gray: '#808080',
 };
 
 export const colors = {
-	primary: palette.orange,
+	primary:  palette.orange,
 	primaryDark: palette.orangeDark,
 	accent: '',
-	light: palette.light,
-	dark: palette.dark,
+	light:    palette.light,
+	lightish: palette.lightish,
+	dark:     palette.dark,
+	darkish:  palette.darkish,
+	gray:     palette.gray,
 };
 
 export const themedColors = {
@@ -23,9 +27,9 @@ export const themedColors = {
 	},
 	dark: {
 		...colors,
-		dark: palette.light,
-		darkish: palette.lightish,
-		light: palette.dark,
+		dark:     palette.light,
+		darkish:  palette.lightish,
+		light:    palette.dark,
 		lightish: palette.darkish,
 	},
 };

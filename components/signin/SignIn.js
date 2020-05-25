@@ -3,7 +3,6 @@ import {
 	StyleSheet,
 	Text,
 	View,
-	TouchableOpacity
 } from 'react-native';
 
 import { getTheme } from '../../theme';
@@ -18,8 +17,8 @@ export default class SignIn extends React.Component {
 				<Text style={styles.text}>or sign in with</Text>
 
 				<View style={{ flexDirection: 'row' }}>
-					<SignInGoogle />
-					<SignInFacebook />
+					<SignInGoogle   onSuccess={this.props.onSuccess} onError={this.props.onError} onLoading={this.props.onLoading} />
+					<SignInFacebook onSuccess={this.props.onSuccess} onError={this.props.onError} onLoading={this.props.onLoading} />
 				</View>
 			</View>
 		)

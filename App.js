@@ -18,53 +18,79 @@ import RecipeScreen from "./screens/RecipeScreen";
 import RecipeStepsScreen from "./screens/RecipeStepsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 
+
 enableScreens(); // https://reactnavigation.org/docs/react-native-screens
 const Stack = createStackNavigator();
 
+// TODO: wait until the user, theme, and language are initialized
+export default class App extends React.Component {
+	state = {
+		loading: false,
+		error: null,
+	};
 
-export default function App() {
-	return (
-		<SafeAreaProvider>
-			<AppearanceProvider>
-				<ErrorBoundary>
-					<NavigationContainer>
-						<Stack.Navigator
-							initialRouteName={getInitialScreen()}
-							headerMode="float"
-							screenOptions={{
-								headerStyle: {
-									backgroundColor: '#f4511e',
-								},
-								headerTintColor: '#fff',
-							}}>
-							<Stack.Screen name="Welcome"     component={WelcomeScreen} options={() => ({ headerShown: false })} />
-							<Stack.Screen name="SignIn"      component={SignInScreen} options={() => ({ headerShown: false })} />
-							<Stack.Screen name="SignUp"      component={SignUpScreen} options={() => ({ headerShown: false })} />
-							<Stack.Screen name="Profile"	 component={ProfileScreen} options={() =>({headerShown: false})} />
-							<Stack.Screen name="Recipe"      component={RecipeScreen}  options={() => ({ headerShown: false })} />
-							<Stack.Screen name="RecipeSteps" component={RecipeStepsScreen} options={() => ({ headerShown: false })} />
-							<Stack.Screen name="Ingredients" component={IngredientsScreen} />
-							<Stack.Screen name="Main"        component={MainScreen}    options={({ navigation }) => ({ headerLeft: props => (
-									<Ionicons
-										name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'menu'}
-										size={34}
-										style={{ marginLeft: 20, color: 'white' }}
-										onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} />
-								)})} />
-						</Stack.Navigator>
-					</NavigationContainer>
-				</ErrorBoundary>
-			</AppearanceProvider>
-		</SafeAreaProvider>
-	);
+	constructor(props) {
+		super(props);
+		this._initialScreen = this._initialScreen.bind(this);
+	}
+
+	_initialScreen() {
+		let isAuthed = firebase.auth().currentUser; // TODO: user is loaded async; redirect in the 'firebase.auth().onAuthStateChanged'
+		console.log('IS AUTHED:', isAuthed);
+		return isAuthed ? 'Main' : 'Welcome';
+	}
+
+	_renderLoading() {
+		return null;
+	}
+
+	_renderNavigator() {
+		return (
+			<Stack.Navigator
+				initialRouteName={this._initialScreen()}
+				headerMode="float"
+				screenOptions={{
+					headerStyle: {
+						backgroundColor: '#f4511e',
+					},
+					headerTintColor: '#fff',
+				}}>
+				<Stack.Screen name="Welcome" component={WelcomeScreen} options={() => ({ headerShown: false })} />
+				<Stack.Screen name="SignIn" component={SignInScreen}   options={() => ({ headerShown: false })} />
+				<Stack.Screen name="SignUp" component={SignUpScreen}   options={() => ({ headerShown: false })} />
+				<Stack.Screen name="Profile" component={ProfileScreen} options={() => ({ headerShown: false })} />
+				<Stack.Screen name="Recipe" component={RecipeScreen}   options={() => ({ headerShown: false })} />
+				<Stack.Screen name="RecipeSteps" component={RecipeStepsScreen} options={() => ({ headerShown: false })} />
+				<Stack.Screen name="Ingredients" component={IngredientsScreen} />
+				<Stack.Screen name="Main" component={MainScreen} options={({ navigation }) => ({
+					headerLeft: props => (
+						<Ionicons
+							name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'menu'}
+							size={34}
+							style={{ marginLeft: 20, color: 'white' }}
+							onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} />
+					)
+				})} />
+			</Stack.Navigator>
+		)
+	}
+
+	render() {
+		let content = this.state.loading ? this._renderLoading() : this._renderNavigator();
+
+		return (
+			<SafeAreaProvider>
+				<AppearanceProvider>
+					<ErrorBoundary>
+						<NavigationContainer>
+							{content}
+						</NavigationContainer>
+					</ErrorBoundary>
+				</AppearanceProvider>
+			</SafeAreaProvider>
+		)
+	}
 }
-
-function getInitialScreen() {
-	let isAuthed = firebase.auth().currentUser; // TODO: user is loaded async; redirect in the 'firebase.auth().onAuthStateChanged'
-	console.log('IS AUTHED:', isAuthed);
-	return isAuthed ? 'Main' : 'Welcome';
-}
-
 
 if (!firebase.apps.length) {
 	firebase.initializeApp({
@@ -80,6 +106,8 @@ if (!firebase.apps.length) {
 	firebase.auth().onAuthStateChanged((user) => {
 		if (user != null) {
 			console.log('[Firebase]', 'Authenticated with ' + user.displayName + ' <mail:' + user.email + '> <photo:' + user.photoURL + '>');
+		} else {
+			console.log('[Firebase]', 'Unauthenticated');
 		}
 	});
 }

@@ -1,7 +1,6 @@
 import React from 'react';
 import {
 	ActivityIndicator,
-	AsyncStorage,
 	StyleSheet,
 	Text,
 	View,
@@ -42,57 +41,59 @@ export default class SignInScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this._onSubmit = this._onSubmit.bind(this);
+		this._onSuccess = this._onSuccess.bind(this);
+		this._onError = this._onError.bind(this);
+		this._startLoading = this._startLoading.bind(this);
+		this._doAnonymousLogin = this._doAnonymousLogin.bind(this);
 		this.inputEmail = null;
 		this.inputPassword = null;
 	}
 
 	_onSubmit(values, { setSubmitting }) {
-		const navigation = this.context;
 		let { email, password } = values;
 
 		console.log('SignInScreen _onSubmit', email, password);
 
-		this.setState({
-			loading: true
-		});
+		this._startLoading();
 
-		// let _this = this;
 		firebase.auth().signInWithEmailAndPassword(email, password)
-			.then(data => {
-				this._storeUser(data);
-				this.setState({
-					loading: false,
-					error: null,
-				});
-
-				setSubmitting(false);
-
-				// navigation.navigate('Main'); // TODO
-			})
-			.catch(error => {
-				console.log('Error submitting:', error);
-
-				this.setState({
-					loading: false,
-					error: error.message + ' (' + error.code + ')',
-				});
-
-				setSubmitting(false);
-			});
+			.then(this._onSuccess)
+			.catch(this._onError)
+			.finally(() => setSubmitting(false));
 	}
 
-	_storeUser(user) {
-		console.log('Storing user:', user);
+	_onSuccess(user) {
+		console.log('Logged in!', user);
 
-		let newUser = {
-			uid: user.uid,
-			displayName: user.displayName,
-			photo: user.photoURL,
-			email: user.email,
-			phone: user.phoneNumber,
-		}
+		this.setState({
+			loading: false,
+			error: null,
+		});
 
-		AsyncStorage.setItem('auth', JSON.stringify(newUser));
+		const navigation = this.context;
+		navigation.navigate('Main');
+	}
+
+	_onError(error) {
+		console.log('Error submitting:', error);
+
+		this.setState({
+			loading: false,
+			error: error.message + ' (' + error.code + ')',
+		});
+	}
+
+	_startLoading() {
+		this.setState({
+			loading: true,
+			error: null,
+		});
+	}
+
+	_doAnonymousLogin() {
+		firebase.auth().signInAnonymously()
+			.then(this._onSuccess)
+			.catch(this._onError);
 	}
 
 	render() {
@@ -158,12 +159,15 @@ export default class SignInScreen extends React.Component {
 								style={styles.submitButton} />
 
 							<HideWithKeyboard>
-								<SignIn />
+								<SignIn onSuccess={this._onSuccess} onError={this._onError} onLoading={this._startLoading} />
 
-								<TouchableOpacity onPress={() => navigation.navigate('SignUp')}
-									style={styles.buttonRegister}>
+								<TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.buttonRegister}>
 									<Text style={styles.text}>New user?</Text>
 									<Text style={[ styles.text, { color: colors.primary } ]}>Create an account.</Text>
+								</TouchableOpacity>
+
+								<TouchableOpacity onPress={this._doAnonymousLogin} style={styles.buttonRegister}>
+									<Text style={[ styles.text, { color: colors.primary } ]}>Or enter without an account.</Text>
 								</TouchableOpacity>
 							</HideWithKeyboard>
 

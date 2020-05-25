@@ -1,6 +1,8 @@
 import React from 'react';
-import { AsyncStorage, Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaConsumer } from 'react-native-safe-area-context';
+import { NavigationContext } from "@react-navigation/native";
+import * as firebase from "firebase";
 import { getTheme } from '../theme';
 
 import Button from '../components/Button';
@@ -8,19 +10,18 @@ import ProfileInput from '../components/input/ProfileInput';
 import ErrorBoundary from '../components/ErrorBoundary';
 
 
-let mockProfile = {
-	fullName: 'Juan Luis Londoño Arias',
-	nickName: 'Maluma',
-	birthDate: '28/01/1994',
-	email: 'maluma@foodie.com',
-	country: 'PT',
-	imageUrl: 'https://i.sandrohc.net/maluma.jpg'
-};
-
 export default class ProfileScreen extends React.Component {
+	static contextType = NavigationContext;
 
 	state = {
-		user: null
+		user: {
+			uid: null,
+			displayName: 'Juan Luis Londoño Arias',
+			email: 'maluma@foodie.com',
+			photoURL: 'https://i.sandrohc.net/maluma.jpg',
+			phoneNumber: '',
+		},
+		isAnonymous: false,
 	};
 
 	constructor(props) {
@@ -29,24 +30,39 @@ export default class ProfileScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		AsyncStorage.getItem('auth')
-			.then(data => JSON.parse(data))
-			.then(user => {
-				console.log('Profile user:', user);
+		let user = firebase.auth().currentUser;
+		let { uid, displayName, email, photoURL, phoneNumber, isAnonymous } = user;
 
-				this.setState({ user: user });
-			})
+		if (isAnonymous) {
+			displayName = 'Anonymous User';
+		}
+
+		console.log(`User: <uid:${uid}, displayName:${displayName}, email:${email}, photo:${photoURL}, phone:${phoneNumber}, anonymous:${isAnonymous}>`);
+
+		this.setState({
+			user: { uid, displayName, email, photoURL, phoneNumber },
+			isAnonymous,
+		});
 	}
 
 	_onLogout() {
-		// TODO
-		alert('Logout\n[NOT IMPLEMENTED]');
+		const navigation = this.context;
+		console.log('Attempting to log out...');
+
+		firebase.auth().signOut()
+			.then(() => {
+				console.log('Logout successful');
+				navigation.navigate('Welcome');
+			});
 	}
 
 	render() {
+		let { uid, displayName, email, photoURL, phoneNumber } = this.state.user;
+		let isAnonymous = this.state.isAnonymous;
+
 		return (
 			<View style={styles.container}>
-				<Image source={{ uri: mockProfile.imageUrl, cache: 'force-cache' }} style={ styles.image } />
+				<Image source={{ uri: photoURL, cache: 'force-cache' }} style={ styles.image } />
 
 				<Text style={styles.title}>Account Info</Text>
 
@@ -55,11 +71,10 @@ export default class ProfileScreen extends React.Component {
 						<View style={{ paddingBottom: insets.bottom, paddingLeft: insets.left, paddingRight: insets.right, flex: 1 }}>
 							<ErrorBoundary>
 								<ScrollView style={styles.scrollView} contentContainerStyle={styles.contentScrollView}>
-									<ProfileInput title="Name" isReadonly={false} value={mockProfile.fullName} />
-									<ProfileInput title="Nickname" isReadonly={false} value={mockProfile.nickName} />
-									<ProfileInput title="Date of Birth" isReadonly={false} value={mockProfile.birthDate} />
-									<ProfileInput title="Email" isReadonly={false} value={mockProfile.email} />
-									<ProfileInput title="Country" isReadonly={false} value={mockProfile.country} />
+									<ProfileInput title="ID"    isReadonly={true} value={uid} />
+									<ProfileInput title="Name"  isReadonly={isAnonymous} value={displayName} />
+									<ProfileInput title="Email" isReadonly={isAnonymous} value={email} />
+									<ProfileInput title="Phone" isReadonly={isAnonymous} value={phoneNumber} />
 								</ScrollView>
 
 								<Button secondary title="Log Out" style={styles.logOut} onPress={this._onLogout} />

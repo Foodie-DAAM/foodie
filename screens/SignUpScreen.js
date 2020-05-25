@@ -43,6 +43,8 @@ export default class SignUpScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this._onSubmit = this._onSubmit.bind(this);
+		this._onSuccess = this._onSuccess.bind(this);
+		this._onError = this._onError.bind(this);
 		this.inputName = null;
 		this.inputEmail = null;
 		this.inputPassword = null;
@@ -50,36 +52,40 @@ export default class SignUpScreen extends React.Component {
 	}
 
 	_onSubmit(values, { setSubmitting }) {
-		const navigation = this.context;
 		let { name, email, password } = values;
 
-		alert("Name: " + name + "\nEmail: " + email + "\nPassword: " + password);
+		console.log('SignUpnScreen _onSubmit', name, email, password);
 
 		firebase.auth().createUserWithEmailAndPassword(email, password)
-			.then(data => {
-				this.setState({
-					loading: false,
-					error: null,
-				});
-
-				setSubmitting(false);
-				alert('Data:\n' + JSON.stringify(data, null, 2));
+			.then(user => {
+				return firebase.auth().currentUser.updateProfile({
+					displayName: name
+				})
 			})
-			.then(data => {
-				alert('Data 2:\n' + JSON.stringify(data, null, 2));
+			.then(this._onSuccess)
+			.catch(this._onError)
+			.finally(() => setSubmitting(false));
+	}
 
-				// navigation.navigate('Main'); // TODO
-			})
-			.catch(error => {
-				console.log('Error submitting:', error);
+	_onSuccess(user) {
+		console.log('Registered!', user);
 
-				this.setState({
-					loading: false,
-					error: error.message + ' (' + error.code + ')',
-				});
+		this.setState({
+			loading: false,
+			error: null,
+		});
 
-				setSubmitting(false);
-			});
+		const navigation = this.context;
+		navigation.navigate('Main');
+	}
+
+	_onError(error) {
+		console.log('Error submitting:', error);
+
+		this.setState({
+			loading: false,
+			error: error.message + ' (' + error.code + ')',
+		});
 	}
 
 	render() {

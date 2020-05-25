@@ -6,20 +6,32 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Appearance } from 'react-native-appearance';
 import SettingsList from 'react-native-settings-list';
+import { NavigationContext } from "@react-navigation/native";
+import * as firebase from "firebase";
 
 import { getTheme } from '../theme';
 
 
 export default class SettingsScreen extends React.Component {
+	static contextType = NavigationContext;
+
 	state = {
 		theme: Appearance.getColorScheme() || 'light',
 		unitSystem: false,
 		stages: 20,
+		email: null,
 	}
 
 	constructor(props) {
 		super(props);
 		this.onThemeChange = this.onThemeChange.bind(this);
+		this._onLogout = this._onLogout.bind(this);
+	}
+
+	componentDidMount() {
+		this.setState({
+			email: firebase.auth().currentUser?.email
+		})
 	}
 
 	onThemeChange(value) {
@@ -28,6 +40,18 @@ export default class SettingsScreen extends React.Component {
 		this.setState({ theme: colorScheme });
 		Appearance.set({ colorScheme });
 		AsyncStorage.setItem('theme', colorScheme);
+	}
+
+	_onLogout() {
+		console.log('Attempting to log out...');
+
+		firebase.auth().signOut()
+			.then(() => {
+				console.log('Logout successful');
+
+				const navigation = this.context;
+				navigation.navigate('Welcome');
+			});
 	}
 
 	render() {
@@ -57,13 +81,14 @@ export default class SettingsScreen extends React.Component {
 						id="report"
 						title='Report a problem'
 						titleStyle={{ color: colors.dark, fontSize: 16 }}
-						onPress={() => alert('Report')} />
+						onPress={() => alert('Report\n[NOT IMPLEMENTED]')} />
 
 					<SettingsList.Item
 						title='Logout'
-						titleInfo='user@mail.com'
+						titleInfo={this.state.email}
 						titleStyle={{ color: colors.primaryDark, fontSize: 16 }}
-						hasNavArrow={false} />
+						hasNavArrow={false}
+						onPress={this._onLogout} />
 				</SettingsList>
 			</SafeAreaView>
 		);

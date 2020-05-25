@@ -12,50 +12,55 @@ import LogoFacebook from '../../assets/signin/facebook-2-opt.svg';
 
 
 const FACEBOOK_APP_ID = "780679612335829";
+const permissions = [ 'public_profile', 'email' ];
 
 export default class SignInFacebook extends React.Component {
-	state = {
-		user: null,
-		token: null,
-	};
 
-	onPress = async () => {
+	constructor(props) {
+		super(props);
+		this.signInAsync = this.signInAsync.bind(this);
+	}
+
+	async signInAsync() {
 		try {
-			const permissions = [ 'public_profile', 'email' ];
+			this.props.onLoading();
 
 			console.log("Facebook.initializeAsync");
 			await Facebook.initializeAsync(FACEBOOK_APP_ID);
+
 			console.log("Facebook.logInWithReadPermissionsAsync");
-			const {
-				type,
-				token,
-			} = await Facebook.logInWithReadPermissionsAsync({permissions});
+			const { type, token } = await Facebook.logInWithReadPermissionsAsync({ permissions });
 
 			console.log("Facebook login type: " + type);
-			if (type === 'success') {
-				await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL); // Set persistent auth state
-				const credential = firebase.auth.FacebookAuthProvider.credential(token);
+			if (type !== 'success')
+				return;
 
-				console.log("Firebase login");
-				await firebase.auth().signInWithCredential(credential)
-					.catch((error) => alert('firebase login: Error:' + error));
+			console.log("Firebase login");
+			const credential = firebase.auth.FacebookAuthProvider.credential(token);
 
-				// Get the user's name using Facebook's Graph API
-				console.log("Facebook Graph API: " + token);
-				const response = await fetch(`https://graph.facebook.com/me?fields=id,name,email,picture.type(large)&access_token=${token}`);
-				const user = await response.json();
-				alert(`Hi ${user.name}!\n` + JSON.stringify(user, null, 2));
+			firebase.auth().signInWithCredential(credential)
+				.then(async user => {
+					const currentUser = firebase.auth().currentUser;
+					// await currentUser.updateEmail(user.additionalUserInfo.email);
+					await currentUser.updateProfile({
+						displayName: user.additionalUserInfo?.name,
+						photoURL: user.additionalUserInfo?.picture?.data?.url,
+					});
 
-				this.setState({ user, token });
-			}
-		} catch ({ message }) {
-			alert(`Facebook Login Error: ${message}`);
+					return user;
+				})
+				.then(this.props.onSuccess)
+				.catch(this.props.onError);
+
+
+		} catch (error) {
+			this.props.onError(error);
 		}
 	};
 
 	render() {
 		return (
-			<TouchableOpacity style={styles.touchable} onPress={this.onPress} accessibilityLabel="Sign-in with Facebook">
+			<TouchableOpacity style={styles.touchable} onPress={this.signInAsync} accessibilityLabel="Sign-in with Facebook">
 				<View style={styles.container}>
 					<LogoFacebook width={60} height={60} fill="#fff" />
 				</View>

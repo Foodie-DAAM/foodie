@@ -31,7 +31,6 @@ export default class WelcomeScreen extends React.Component {
 					<View style={styles.buttons}>
 						<Button title="SIGN UP" onPress={() => this.props.navigation.navigate('SignUp')} />
 						<Button title="SIGN IN" secondary onPress={() => this.props.navigation.navigate('SignIn')} style={{ marginTop: 8 }} />
-						<Button title="HOME" secondary onPress={() => this.props.navigation.navigate('Main')} style={{ marginTop: 8 }} />
 					</View>
 				</View>
 			</SafeAreaView>

@@ -21,50 +21,42 @@ const config = {
 };
 
 export default class SignInGoogle extends React.Component {
-	state = {
-		user: null,
-		accessToken: null
-	};
 
 	constructor(props) {
 		super(props);
+		this.signInAsync = this.signInAsync.bind(this);
 	}
 
 	signInAsync = async () => {
 		try {
-			const { type, accessToken, idToken, user } = await Google.logInAsync(config);
+			this.props.onLoading();
 
-			if (type === 'success') {
-				this.setState({ user, accessToken });
+			const { type, idToken } = await Google.logInAsync(config);
+			if (type !== 'success')
+				return;
 
-				// Authenticate into Firebase
-				const credential = firebase.auth.GoogleAuthProvider.credential(idToken);
-				firebase.auth().signInWithCredential(credential)
-					.catch((error) => alert('firebase login: Error:' + error));
+			const credential = firebase.auth.GoogleAuthProvider.credential(idToken);
+			firebase.auth().signInWithCredential(credential)
+				.then(async user => {
+					const currentUser = firebase.auth().currentUser;
+					// await currentUser.updateEmail(user.additionalUserInfo?.profile?.email);
+					await currentUser.updateProfile({
+						displayName: user.additionalUserInfo?.profile?.name,
+						photoURL: user.additionalUserInfo?.profile?.picture,
+					});
 
-				console.log("Logged in with token " + accessToken + " and user:", user.name, user.email, user.photoUrl);
-			}
-		} catch ({ message }) {
-			alert('login: Error:' + message);
-		}
-	};
-
-	signOutAsync = async () => {
-		await Google.logOutAsync({ accessToken, ...config });
-		this.setState({ user: null, accessToken: null });
-	};
-
-	onPress = () => {
-		if (this.state.user) {
-			this.signOutAsync();
-		} else {
-			this.signInAsync();
+					return user;
+				})
+				.then(this.props.onSuccess)
+				.catch(this.props.onError);
+		} catch (error) {
+			this.props.onError(error);
 		}
 	};
 
 	render() {
 		return (
-			<TouchableOpacity style={styles.touchable} onPress={this.onPress}  accessibilityLabel="Sign-in with Google">
+			<TouchableOpacity style={styles.touchable} onPress={this.signInAsync}  accessibilityLabel="Sign-in with Google">
 				<View style={styles.container}>
 					<LogoGoogle width={60} height={60} />
 				</View>
