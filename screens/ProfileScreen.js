@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { AsyncStorage, Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaConsumer } from 'react-native-safe-area-context';
 import { getTheme } from '../theme';
 
@@ -18,11 +18,29 @@ let mockProfile = {
 };
 
 export default class ProfileScreen extends React.Component {
-	state = { user: null };
 
-	componentDidMount() { // TODO: Load the profile information !?!?
-		this.setState({user: null})
-		console.log("ProfileScreen ComponentDidMount Ended")
+	state = {
+		user: null
+	};
+
+	constructor(props) {
+		super(props);
+		this._onLogout = this._onLogout.bind(this);
+	}
+
+	componentDidMount() {
+		AsyncStorage.getItem('auth')
+			.then(data => JSON.parse(data))
+			.then(user => {
+				console.log('Profile user:', user);
+
+				this.setState({ user: user });
+			})
+	}
+
+	_onLogout() {
+		// TODO
+		alert('Logout\n[NOT IMPLEMENTED]');
 	}
 
 	render() {
@@ -44,7 +62,7 @@ export default class ProfileScreen extends React.Component {
 									<ProfileInput title="Country" isReadonly={false} value={mockProfile.country} />
 								</ScrollView>
 
-								<Button secondary title="Log Out" style={styles.logOut} />
+								<Button secondary title="Log Out" style={styles.logOut} onPress={this._onLogout} />
 							</ErrorBoundary>
 						</View>
 					)}

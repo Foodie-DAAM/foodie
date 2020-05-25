@@ -19,6 +19,8 @@ To start the app, run `expo start`.
   * `expo start`
   * `expo build:ios -t archive`
   * `expo upload:ios --apple-id <id> --apple-id-password <pass>`
+* Build for Expo:
+  * `expo publish`
 
 ## Debugging
 

@@ -12,7 +12,7 @@ import { getTheme } from "../../theme";
 export default class BasicInput extends React.Component {
 
 	render() {
-		let { style, styleInput, ...inputProps} = this.props;
+		let { style, styleInput, styleError, ...inputProps} = this.props;
 
 		return (
 			<View style={[styles.container, style]}
@@ -30,9 +30,8 @@ export default class BasicInput extends React.Component {
 					{...inputProps}
 					ref={(input) => this.props.inputRef && this.props.inputRef(input)}
 					style={[styles.input, styleInput]} />
-				<Text>
-					{this.props.error}
-				</Text>
+
+				<Text style={[styles.error, { flexGrow: this.props.error ? 1 : 0 }, styleError]}>{this.props.error}</Text>
 			</View>
 		);
 	}
@@ -56,5 +55,9 @@ const styles = StyleSheet.create({
 		flexGrow: 1,
 		padding: 10,
 		color: colors.dark,
+	},
+	error: {
+		color: colors.dark,
+		textAlign: 'right',
 	}
 });

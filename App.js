@@ -21,13 +21,15 @@ import ProfileScreen from "./screens/ProfileScreen";
 enableScreens(); // https://reactnavigation.org/docs/react-native-screens
 const Stack = createStackNavigator();
 
+
 export default function App() {
 	return (
 		<SafeAreaProvider>
 			<AppearanceProvider>
 				<ErrorBoundary>
 					<NavigationContainer>
-						<Stack.Navigator initialRouteName="Welcome"
+						<Stack.Navigator
+							initialRouteName={getInitialScreen()}
 							headerMode="float"
 							screenOptions={{
 								headerStyle: {
@@ -57,6 +59,12 @@ export default function App() {
 	);
 }
 
+function getInitialScreen() {
+	let isAuthed = firebase.auth().currentUser; // TODO: user is loaded async; redirect in the 'firebase.auth().onAuthStateChanged'
+	console.log('IS AUTHED:', isAuthed);
+	return isAuthed ? 'Main' : 'Welcome';
+}
+
 
 if (!firebase.apps.length) {
 	firebase.initializeApp({
@@ -71,10 +79,8 @@ if (!firebase.apps.length) {
 	firebase.auth().useDeviceLanguage();
 	firebase.auth().onAuthStateChanged((user) => {
 		if (user != null) {
-			console.log('[Firebase]', 'Authenticated with ' + user.displayName + ' <' + user.email + '>');
+			console.log('[Firebase]', 'Authenticated with ' + user.displayName + ' <mail:' + user.email + '> <photo:' + user.photoURL + '>');
 		}
-
-		// Do other things
 	});
 }
 
