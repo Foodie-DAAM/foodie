@@ -48,10 +48,10 @@ export default class RecipeInfo extends React.Component {
 				</ScrollView>
 				<Button secondary style={this.styles.details}>
 					<Text style={[this.styles.detailsItem, { paddingBottom: 8 }]}>
-						{i18n.t('recipe.duration', { count: duration, formatted: i18n.toNumber(duration) })}
+						{i18n.t('recipe.duration', { count: duration, formatted: i18n.toNumber(duration, { precision: 0 }) })}
 					</Text>
 					<Text style={this.styles.detailsItem}>
-						{i18n.t('recipe.servings', { count: servings, formatted: i18n.toNumber(servings) })}
+						{i18n.t('recipe.servings', { count: servings, formatted: i18n.toNumber(servings, { precision: 0 }) })}
 					</Text>
 					{/*<Text style={this.styles.detailsItem}>100% positive | hard</Text>*/}
 				</Button>
