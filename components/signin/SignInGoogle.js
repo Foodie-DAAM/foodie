@@ -7,6 +7,7 @@ import {
 
 import * as firebase from 'firebase';
 import * as Google from 'expo-google-app-auth';
+import i18n from 'i18n-js';
 
 import LogoGoogle from '../../assets/signin/google.svg';
 
@@ -68,7 +69,7 @@ export default class SignInGoogle extends React.PureComponent {
 
 	render() {
 		return (
-			<TouchableOpacity style={SignInGoogle.styles.touchable} onPress={this.signInAsync}  accessibilityLabel="Sign-in with Google">
+			<TouchableOpacity style={SignInGoogle.styles.touchable} onPress={this.signInAsync}  accessibilityLabel={i18n.t('signIn.social.google')}>
 				<View style={SignInGoogle.styles.container}>
 					<LogoGoogle width={60} height={60} />
 				</View>

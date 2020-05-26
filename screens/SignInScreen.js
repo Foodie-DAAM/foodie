@@ -13,6 +13,7 @@ import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import * as firebase from 'firebase';
+import i18n from 'i18n-js';
 
 import { getTheme } from '../theme';
 import Header from '../components/Header';
@@ -170,7 +171,7 @@ export default class SignInScreen extends React.Component {
 								keyboardType="email-address"
 								autoCapitalize="none"
 
-								placeholder="email"
+								placeholder={i18n.t('profile.email')}
 								onChangeText={text => props.setFieldValue('email', text)}
 								onBlur={() => props.setTouched('email')}
 								error={props.touched.email || props.submitCount > 0 ? props.errors.email : null}
@@ -189,7 +190,7 @@ export default class SignInScreen extends React.Component {
 								secureTextEntry={true}
 								autoCapitalize="none"
 
-								placeholder="password"
+								placeholder={i18n.t('profile.password')}
 								onChangeText={text => props.setFieldValue('password', text)}
 								onBlur={() => props.setTouched('password')}
 								error={props.touched.password || props.submitCount > 0 ? props.errors.password : null}
@@ -201,7 +202,7 @@ export default class SignInScreen extends React.Component {
 								style={this.styles.input}
 							/>
 
-							<Button title="SIGN IN"
+							<Button title={i18n.t('signIn.titleCaps')}
 								onPress={props.handleSubmit}
 								disabled={props.isSubmitting}
 								style={this.styles.submitButton} />
@@ -210,12 +211,12 @@ export default class SignInScreen extends React.Component {
 								<SignIn onSuccess={this._onSuccess} onError={this._onError} onCancel={this._onCancel} onLoading={this._startLoading} />
 
 								<TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={this.styles.buttonRegister}>
-									<Text style={this.styles.text}>New user?</Text>
-									<Text style={[ this.styles.text, { color: this.colors.primary } ]}>Create an account.</Text>
+									<Text style={this.styles.text}>{i18n.t('signIn.gotoSignUp.text')}</Text>
+									<Text style={[ this.styles.text, { color: this.colors.primary } ]}>{i18n.t('signIn.gotoSignUp.link')}</Text>
 								</TouchableOpacity>
 
 								<TouchableOpacity onPress={this._doAnonymousLogin} style={this.styles.buttonRegister}>
-									<Text style={[ this.styles.text, { color: this.colors.primary } ]}>Or enter without an account.</Text>
+									<Text style={[ this.styles.text, { color: this.colors.primary } ]}>{i18n.t('signIn.anonymous')}</Text>
 								</TouchableOpacity>
 							</HideWithKeyboard>
 
@@ -227,7 +228,7 @@ export default class SignInScreen extends React.Component {
 
 		return (
 			<SafeAreaView style={this.styles.container}>
-				<Header title="Login" />
+				<Header title={i18n.t('signIn.title')} />
 
 				<View style={{ flex: 1, justifyContent: 'space-evenly' }}>
 					{content}

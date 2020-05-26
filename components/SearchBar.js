@@ -4,6 +4,7 @@ import {
 	View,
 	TouchableWithoutFeedback,
 } from 'react-native';
+import i18n from 'i18n-js';
 import { Ionicons } from "@expo/vector-icons";
 import { getTheme } from '../theme';
 
@@ -56,7 +57,7 @@ export default class SearchBar extends React.PureComponent {
 						style={this.styles.icon}
 					/>
 					<BasicInput
-						placeholder="Search..."
+						placeholder={i18n.t('search.bar')}
 						style={this.styles.text}
 						onSubmitEditing={this.props.onSubmit} />
 				</View>

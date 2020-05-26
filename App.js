@@ -1,4 +1,5 @@
 import React from 'react';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { enableScreens } from 'react-native-screens';
@@ -8,6 +9,10 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Sentry from 'sentry-expo';
 import firebase from 'firebase';
 
+import * as i18n from './i18n';
+import { getTheme, loadTheme } from './theme';
+
+
 import IngredientsScreen from './screens/IngredientsScreen';
 import MainScreen from './screens/MainScreen';
 import SignInScreen from './screens/SignInScreen';
@@ -15,10 +20,8 @@ import SignUpScreen from './screens/SignUpScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
 import ErrorBoundary from './components/ErrorBoundary';
 import RecipeScreen from "./screens/RecipeScreen";
-import RecipeStepsScreen from "./screens/RecipeStepsScreen";
-import ProfileScreen from "./screens/ProfileScreen";
-import { ActivityIndicator, StyleSheet, View } from "react-native";
-import { getTheme, loadTheme } from "./theme";
+import RecipeStepsScreen from './screens/RecipeStepsScreen';
+import ProfileScreen from './screens/ProfileScreen';
 
 
 enableScreens(); // https://reactnavigation.org/docs/react-native-screens
@@ -132,8 +135,6 @@ export default class App extends React.Component {
 }
 
 
-
-
 if (!firebase.apps.length) {
 	firebase.initializeApp({
 		projectId: 'foodie-daam',
@@ -158,3 +159,5 @@ Sentry.init({
 	enableInExpoDevelopment: true,
 	debug: true
 });
+
+i18n.init();

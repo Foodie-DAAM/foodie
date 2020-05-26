@@ -7,6 +7,7 @@ import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import { Formik } from "formik";
 import * as Yup from "yup";
 import * as firebase from 'firebase';
+import i18n from 'i18n-js';
 
 import { getTheme } from '../theme';
 import Header from '../components/Header';
@@ -170,7 +171,7 @@ export default class SignUpScreen extends React.Component {
 								keyboardType="default"
 								autoCapitalize="words"
 
-								placeholder="Full name"
+								placeholder={i18n.t('profile.name')}
 								onChangeText={text => props.setFieldValue('name', text)}
 								onBlur={() => props.setTouched('name')}
 								error={props.touched.name || props.submitCount > 0 ? props.errors.name : null}
@@ -189,7 +190,7 @@ export default class SignUpScreen extends React.Component {
 								keyboardType="email-address"
 								autoCapitalize="none"
 
-								placeholder="Email"
+								placeholder={i18n.t('profile.email')}
 								onChangeText={text => props.setFieldValue('email', text)}
 								onBlur={() => props.setTouched('email')}
 								error={props.touched.email || props.submitCount > 0 ? props.errors.email : null}
@@ -208,7 +209,7 @@ export default class SignUpScreen extends React.Component {
 								secureTextEntry={true}
 								autoCapitalize="none"
 
-								placeholder="Password"
+								placeholder={i18n.t('profile.password')}
 								onChangeText={text => props.setFieldValue('password', text)}
 								onBlur={() => props.setTouched('password')}
 								error={props.touched.password || props.submitCount > 0 ? props.errors.password : null}
@@ -227,7 +228,7 @@ export default class SignUpScreen extends React.Component {
 								secureTextEntry={true}
 								autoCapitalize="none"
 
-								placeholder="Confirm password"
+								placeholder={i18n.t('profile.passwordConfirm')}
 								onChangeText={text => props.setFieldValue('confirm', text)}
 								onBlur={() => props.setTouched('confirm')}
 								error={props.touched.confirm || props.submitCount > 0 ? props.errors.confirm : null}
@@ -239,7 +240,7 @@ export default class SignUpScreen extends React.Component {
 								style={this.styles.input}
 							/>
 
-							<Button title="SIGN UP"
+							<Button title={i18n.t('signUp.titleCaps')}
 								onPress={props.handleSubmit}
 								disabled={props.isSubmitting}
 								style={this.styles.submitButton} />
@@ -249,8 +250,8 @@ export default class SignUpScreen extends React.Component {
 
 								<TouchableOpacity onPress={() => navigation.navigate('SignIn')}
 									style={this.styles.buttonRegister}>
-									<Text style={this.styles.text}>Already have an account?</Text>
-									<Text style={[ this.styles.text, { color: this.colors.primary } ]}>Sign in.</Text>
+									<Text style={this.styles.text}>{i18n.t('signUp.gotoSignIn.text')}</Text>
+									<Text style={[ this.styles.text, { color: this.colors.primary, marginLeft: 6 } ]}>{i18n.t('signUp.gotoSignIn.link')}</Text>
 								</TouchableOpacity>
 							</HideWithKeyboard>
 						</View>
@@ -261,7 +262,7 @@ export default class SignUpScreen extends React.Component {
 
 		return (
 			<SafeAreaView style={this.styles.container}>
-				<Header title="Create an account" />
+				<Header title={i18n.t('signUp.title')} />
 
 				<View style={{ flex: 1, justifyContent: 'space-evenly' }}>
 					{content}

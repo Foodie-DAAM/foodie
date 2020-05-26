@@ -7,6 +7,7 @@ import {
 
 import * as firebase from 'firebase';
 import * as Facebook from 'expo-facebook';
+import i18n from 'i18n-js';
 
 import LogoFacebook from '../../assets/signin/facebook-2-opt.svg';
 
@@ -72,7 +73,7 @@ export default class SignInFacebook extends React.PureComponent {
 
 	render() {
 		return (
-			<TouchableOpacity style={SignInFacebook.styles.touchable} onPress={this.signInAsync} accessibilityLabel="Sign-in with Facebook">
+			<TouchableOpacity style={SignInFacebook.styles.touchable} onPress={this.signInAsync} accessibilityLabel={i18n.t('signIn.social.facebook')}>
 				<View style={SignInFacebook.styles.container}>
 					<LogoFacebook width={60} height={60} fill="#fff" />
 				</View>

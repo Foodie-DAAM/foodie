@@ -1,7 +1,15 @@
 import React from 'react';
-import { Dimensions, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+	Dimensions,
+	Image,
+	ScrollView,
+	StyleSheet,
+	Text,
+	View,
+} from 'react-native';
 import { SafeAreaConsumer } from 'react-native-safe-area-context';
 import { NavigationContext } from "@react-navigation/native";
+import i18n from 'i18n-js';
 import * as firebase from "firebase";
 import { getTheme } from '../theme';
 
@@ -70,7 +78,7 @@ export default class ProfileScreen extends React.Component {
 		this.setState({
 			user: {
 				uid,
-				displayName: isAnonymous ? 'Anonymous User' : displayName,
+				displayName: isAnonymous ? i18n.t('profile.anonymous') : displayName,
 				email,
 				photoURL: photoURL || DEFAULT_PHOTO,
 				phoneNumber
@@ -89,22 +97,22 @@ export default class ProfileScreen extends React.Component {
 
 		return (
 			<View style={this.styles.container}>
-				<Image source={{ uri: photoURL, cache: 'force-cache' }} style={this.styles.image} />
+				<Image source={{ uri: photoURL, cache: 'force-cache' }} style={this.styles.image} accessibilityLabel={i18n.t('profile.photoLabel')} />
 
-				<Text style={this.styles.title}>Account Info</Text>
+				<Text style={this.styles.title}>{i18n.t('profile.title')}</Text>
 
 				<SafeAreaConsumer>
 					{insets => (
 						<View style={{ paddingBottom: insets.bottom, paddingLeft: insets.left, paddingRight: insets.right, flex: 1 }}>
 							<ErrorBoundary>
 								<ScrollView style={this.styles.scrollView} contentContainerStyle={this.styles.contentScrollView}>
-									<ProfileInput title="ID"    isReadonly={true} value={uid} />
-									<ProfileInput title="Name"  isReadonly={isAnonymous} value={displayName} />
-									<ProfileInput title="Email" isReadonly={isAnonymous} value={email} />
-									<ProfileInput title="Phone" isReadonly={isAnonymous} value={phoneNumber} />
+									<ProfileInput title={i18n.t('profile.id')}    isReadonly={true} value={uid} />
+									<ProfileInput title={i18n.t('profile.name')}  isReadonly={isAnonymous} value={displayName} />
+									<ProfileInput title={i18n.t('profile.email')} isReadonly={isAnonymous} value={email} />
+									<ProfileInput title={i18n.t('profile.phone')} isReadonly={isAnonymous} value={phoneNumber} />
 								</ScrollView>
 
-								<Button title="Save" style={this.styles.buttonSave} onPress={this._onSave} />
+								<Button title={i18n.t('profile.save')} style={this.styles.buttonSave} onPress={this._onSave} />
 							</ErrorBoundary>
 						</View>
 					)}

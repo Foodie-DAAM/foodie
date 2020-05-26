@@ -3,6 +3,7 @@ import { ActivityIndicator, AsyncStorage, StyleSheet, Text, View, } from 'react-
 import { NavigationContext } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DialogInput from 'react-native-dialog-input';
+import i18n from 'i18n-js';
 
 import { getTheme } from '../theme';
 
@@ -115,7 +116,7 @@ export default class IngredientsScreen extends React.Component {
 		} else if (!this.state.ingredients || this.state.ingredients.length < 1) {
 			content = (
 				<View>
-					<Text style={{ color: this.colors.dark }}>Start by adding something...</Text>
+					<Text style={{ color: this.colors.dark }}>{i18n.t('ingredient.empty')}</Text>
 				</View>
 			)
 		} else {
@@ -128,14 +129,14 @@ export default class IngredientsScreen extends React.Component {
 			<SafeAreaView style={this.styles.container}>
 				{content}
 
-				<Button title="ADD INGREDIENT"
+				<Button title={i18n.t('ingredient.add').toUpperCase()}
 					style={this.styles.buttonAddIngredient}
 					onPress={this._addIngredient} />
 
 				<DialogInput
 					isDialogVisible={this.state.dialogVisible}
-					title="Add Ingredient"
-					hintInput="Name"
+					title={i18n.t('ingredient.add')}
+					hintInput={i18n.t('ingredient.addName')}
 					submitInput={input => this._addIngredientSubmit(input)}
 					closeDialog={() => this._setDialogVisibility(false)}>
 				</DialogInput>

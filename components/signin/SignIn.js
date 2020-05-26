@@ -4,6 +4,7 @@ import {
 	Text,
 	View,
 } from 'react-native';
+import i18n from 'i18n-js';
 
 import { getTheme } from '../../theme';
 
@@ -22,7 +23,7 @@ export default class SignIn extends React.PureComponent {
 	render() {
 		return (
 			<View style={{ alignItems: 'center' }}>
-				<Text style={this.styles.text}>or sign in with</Text>
+				<Text style={this.styles.text}>{i18n.t('signIn.social.title')}</Text>
 
 				<View style={{ flexDirection: 'row' }}>
 					<SignInGoogle   onSuccess={this.props.onSuccess} onError={this.props.onError} onCancel={this.props.onCancel} onLoading={this.props.onLoading} />

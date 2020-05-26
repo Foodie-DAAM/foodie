@@ -6,10 +6,11 @@ import {
 	StatusBar
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import i18n from 'i18n-js';
+import { getTheme } from '../theme';
 
 import Header from '../components/Header';
 import Button from '../components/Button';
-import { getTheme } from '../theme';
 
 
 export default class WelcomeScreen extends React.Component {
@@ -47,15 +48,15 @@ export default class WelcomeScreen extends React.Component {
 				<View style={this.styles.container}>
 					<View style={this.styles.welcome}>
 						<Text style={[this.styles.text, { fontWeight: 'bold', fontSize: 22 }]}>
-							Welcome to Foodie!
+							{i18n.t('welcome.title')}
 						</Text>
 						<Text style={[this.styles.text, { fontSize: 14 }]}>
-							where you can find your recipes
+							{i18n.t('welcome.slogan')}
 						</Text>
 					</View>
 					<View style={this.styles.buttons}>
-						<Button title="SIGN UP" onPress={() => this.props.navigation.navigate('SignUp')} />
-						<Button title="SIGN IN" secondary onPress={() => this.props.navigation.navigate('SignIn')} style={{ marginTop: 8 }} />
+						<Button title={i18n.t('signUp.titleCaps')} onPress={() => this.props.navigation.navigate('SignUp')} />
+						<Button title={i18n.t('signIn.titleCaps')} secondary onPress={() => this.props.navigation.navigate('SignIn')} style={{ marginTop: 8 }} />
 					</View>
 				</View>
 			</SafeAreaView>

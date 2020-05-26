@@ -9,6 +9,7 @@ import {
 import { NavigationContext } from '@react-navigation/native';
 import { SafeAreaConsumer } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import i18n from 'i18n-js';
 
 import { getTheme } from '../theme';
 
@@ -109,7 +110,7 @@ export default class RecipeScreen extends React.Component {
 			content = (
 				<View style={this.styles.error}>
 					<Text style={this.styles.errorText}>
-						Error loading the recipe. Try again later.
+						{i18n.t('recipe.error')}
 					</Text>
 				</View>
 			)
@@ -117,14 +118,22 @@ export default class RecipeScreen extends React.Component {
 			content = (
 				<View style={{ flex: 1 }}>
 					<RecipeTabView recipe={this.state.recipe} />
-					<Button title="START COOKING" onPress={() => navigation.navigate('RecipeSteps', { recipe: this.state.recipe })} style={this.styles.buttonStartCooking} />
+
+					<Button
+						title={i18n.t('recipe.startCooking')}
+						onPress={() => navigation.navigate('RecipeSteps', { recipe: this.state.recipe })}
+						style={this.styles.buttonStartCooking} />
 				</View>
 			)
 		}
 
 		return (
 			<View style={this.styles.container}>
-				<Image source={{ uri: this.state.recipe.picture, cache: 'force-cache' }} defaultSource={require('../assets/recipe.webp')} style={this.styles.image} />
+				<Image
+					source={{ uri: this.state.recipe.picture, cache: 'force-cache' }}
+					defaultSource={require('../assets/recipe.webp')}
+					style={this.styles.image}
+					accessibilityLabel={i18n.t('recipe.photoLabel')}/>
 
 				<SafeAreaConsumer>
 					{insets => (

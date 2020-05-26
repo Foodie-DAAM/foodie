@@ -4,6 +4,7 @@ import {
 	StyleSheet,
 	View, ScrollView,
 } from 'react-native';
+import i18n from 'i18n-js';
 import { NavigationContext } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -153,7 +154,10 @@ export default class RecipeStepsScreen extends React.Component {
 						<Text style={this.styles.description}>{step.description}</Text>
 					</ScrollView>
 
-					<Button title={this.state.isLast ? 'RATE IT' : 'NEXT'} onPress={this._nextStep} style={this.styles.buttonNext} />
+					<Button
+						title={this.state.isLast ? i18n.t('recipe.steps.rate').toUpperCase() : i18n.t('recipe.steps.next').toUpperCase()}
+						onPress={this._nextStep}
+						style={this.styles.buttonNext} />
 				</SafeAreaView>
 			</ErrorBoundary>
 		);

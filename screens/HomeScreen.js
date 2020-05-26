@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { NavigationContext } from '@react-navigation/native';
 import { SafeAreaConsumer } from 'react-native-safe-area-context';
+import i18n from 'i18n-js';
 import { getTheme } from '../theme';
 
 import Button from '../components/Button';
@@ -172,7 +173,7 @@ export default class HomeScreen extends React.Component {
 	}
 
 	render() {
-		let ingredientTitle = 'INGREDIENTS';
+		let ingredientTitle = i18n.t('ingredient.title').toUpperCase();
 		if (this.state.ingredientCount) {
 			ingredientTitle += ' (' + this.state.ingredientCount + ')';
 		}
@@ -182,14 +183,14 @@ export default class HomeScreen extends React.Component {
 			content = (
 				<View style={this.styles.loading}>
 					<ActivityIndicator animating size={Platform.OS === 'android' ? 60 : 'large'} color={this.colors.primary} />
-					<Text style={{ alignSelf: 'center', color: this.colors.dark }}>Loading recipes...</Text>
+					<Text style={{ alignSelf: 'center', color: this.colors.dark }}>{i18n.t('recipe.loading', { count: 2 })}</Text>
 				</View>
 			)
 		} else if (this.state.error) {
 			content = (
 				<View style={this.styles.error}>
 					<Text style={{ color: this.colors.dark }}>
-						Error loading. Try again later.
+						{i18n.t('recipe.error')}
 					</Text>
 				</View>
 			)

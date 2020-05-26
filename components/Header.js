@@ -4,6 +4,7 @@ import {
 	View,
 	Text
 } from 'react-native';
+import i18n from 'i18n-js';
 import { getTheme } from '../theme';
 
 import Logo from '../assets/hamburger.svg';
@@ -31,7 +32,7 @@ export default class Header extends React.PureComponent {
 				<Logo width={130} height={130} />
 
 				<Text style={this.styles.title}>
-					{this.props.title || 'Foodie'}
+					{this.props.title || i18n.t('app')}
 				</Text>
 			</View>
 		);

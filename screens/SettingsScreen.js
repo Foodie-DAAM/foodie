@@ -8,6 +8,7 @@ import { Appearance } from 'react-native-appearance';
 import SettingsList from 'react-native-settings-list';
 import { NavigationContext } from "@react-navigation/native";
 import * as firebase from "firebase";
+import i18n from 'i18n-js';
 
 import { getTheme, currentTheme } from '../theme';
 
@@ -52,9 +53,6 @@ export default class SettingsScreen extends React.Component {
 		this.setState({ theme: colorScheme });
 		Appearance.set({ colorScheme });
 		await AsyncStorage.setItem('theme', colorScheme);
-
-		// console.log('THEME CHANGE', RNRestart)
-		// RNRestart.Restart();
 	}
 
 	_onLogout() {
@@ -73,8 +71,8 @@ export default class SettingsScreen extends React.Component {
 					defaultItemSize={50}
 				>
 					<SettingsList.Item
-						title='Theme'
-						titleInfo={this.state.theme}
+						title={i18n.t('settings.theme._')}
+						titleInfo={this.state.theme === 'dark' ? i18n.t('settings.theme.dark') : i18n.t('settings.theme.light')}
 						titleStyle={this.styles.item}
 						switchState={this.state.theme === 'dark'}
 						switchOnValueChange={this.onThemeChange}
@@ -83,8 +81,8 @@ export default class SettingsScreen extends React.Component {
 					/>
 
 					<SettingsList.Item
-						title='Unit System'
-						titleInfo={this.state.unitSystem ? 'Imperial' : 'Metric'}
+						title={i18n.t('settings.units._')}
+						titleInfo={this.state.unitSystem ? i18n.t('settings.units.imperial') : i18n.t('settings.units.metric')}
 						titleStyle={this.styles.item}
 						switchState={this.state.unitSystem}
 						switchOnValueChange={value => this.setState({ unitSystem: value })}
@@ -93,12 +91,12 @@ export default class SettingsScreen extends React.Component {
 
 					<SettingsList.Item
 						id="report"
-						title='Report a problem'
+						title={i18n.t('settings.report._')}
 						titleStyle={this.styles.item}
 						onPress={() => alert('Report\n[NOT IMPLEMENTED]')} />
 
 					<SettingsList.Item
-						title='Logout'
+						title={i18n.t('settings.logout._')}
 						titleInfo={this.state.email}
 						titleStyle={[ this.styles.item, { color: this.colors.primaryDark } ]}
 						hasNavArrow={false}

@@ -5,6 +5,7 @@ import {
 	ScrollView,
 	Text
 } from 'react-native';
+import i18n from 'i18n-js';
 import { getTheme } from '../../theme';
 
 import Button from '../Button';
@@ -46,8 +47,12 @@ export default class RecipeInfo extends React.Component {
 					</Text>
 				</ScrollView>
 				<Button secondary style={this.styles.details}>
-					<Text style={[this.styles.detailsItem, { paddingBottom: 8 }]}>{duration} minutes</Text>
-					<Text style={this.styles.detailsItem}>{servings} servings</Text>
+					<Text style={[this.styles.detailsItem, { paddingBottom: 8 }]}>
+						{i18n.t('recipe.duration', { count: duration, formatted: i18n.toNumber(duration) })}
+					</Text>
+					<Text style={this.styles.detailsItem}>
+						{i18n.t('recipe.servings', { count: servings, formatted: i18n.toNumber(servings) })}
+					</Text>
 					{/*<Text style={this.styles.detailsItem}>100% positive | hard</Text>*/}
 				</Button>
 			</View>

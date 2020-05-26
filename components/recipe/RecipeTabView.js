@@ -2,6 +2,7 @@ import * as React from 'react';
 import {
 	StyleSheet,
 } from 'react-native';
+import i18n from 'i18n-js';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import { getTheme } from '../../theme';
 
@@ -24,9 +25,9 @@ export default class RecipeTabView extends React.Component {
 	state = {
 		index: 0,
 		routes: [
-			{ key: 'info', title: 'Info' },
-			{ key: 'ingredients', title: 'Ingredients' },
-			{ key: 'nutrition', title: 'Nutrition' },
+			{ key: 'info',        title: i18n.t('recipe.nav.info') },
+			{ key: 'ingredients', title: i18n.t('recipe.nav.ingredients') },
+			{ key: 'nutrition',   title: i18n.t('recipe.nav.nutrition') },
 		],
 	}
 
