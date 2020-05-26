@@ -23,6 +23,37 @@ const STORE_INGREDIENTS = 'ingredients';
 export default class HomeScreen extends React.Component {
 	static contextType = NavigationContext;
 
+	colors = getTheme().colors;
+	styles = StyleSheet.create({
+		safeArea: {
+			flex: 1,
+		},
+		container: {
+			backgroundColor: this.colors.light, // TODO: move to root component
+			flex: 1,
+			// padding: 20,
+		},
+		loading: {
+			flex: 1,
+			justifyContent: 'center',
+			alignItems: 'center',
+		},
+		error: {
+			flex: 1,
+			justifyContent: 'center',
+			alignItems: 'center',
+		},
+		scroll: {
+			flex: 1,
+		},
+		ingredientsButton: {
+			marginTop: 10,
+			marginLeft: 10,
+			marginRight: 10,
+			marginBottom: 10,
+		},
+	})
+
 	state = {
 		data: [],
 		page: 0,
@@ -32,7 +63,7 @@ export default class HomeScreen extends React.Component {
 		error: null,
 		search: null,
 		ingredientCount: null,
-	};
+	}
 
 	constructor(props) {
 		super(props);
@@ -125,7 +156,7 @@ export default class HomeScreen extends React.Component {
 					marginTop: 10,
 					marginBottom: 10,
 				}}>
-				<ActivityIndicator animating size="large" color={colors.primary} />
+				<ActivityIndicator animating size="large" color={this.colors.primary} />
 			</View>
 		);
 	}
@@ -149,15 +180,15 @@ export default class HomeScreen extends React.Component {
 		let content;
 		if (this.state.loading) {
 			content = (
-				<View style={styles.loading}>
-					<ActivityIndicator animating size={Platform.OS === 'android' ? 60 : 'large'} color={colors.primary} />
-					<Text style={{ alignSelf: 'center', color: colors.dark }}>Loading recipes...</Text>
+				<View style={this.styles.loading}>
+					<ActivityIndicator animating size={Platform.OS === 'android' ? 60 : 'large'} color={this.colors.primary} />
+					<Text style={{ alignSelf: 'center', color: this.colors.dark }}>Loading recipes...</Text>
 				</View>
 			)
 		} else if (this.state.error) {
 			content = (
-				<View style={styles.error}>
-					<Text style={{ color: colors.dark }}>
+				<View style={this.styles.error}>
+					<Text style={{ color: this.colors.dark }}>
 						Error loading. Try again later.
 					</Text>
 				</View>
@@ -181,18 +212,18 @@ export default class HomeScreen extends React.Component {
 		return (
 			<SafeAreaConsumer>
 				{insets => (
-					<View style={[styles.safeArea, { left: insets.left, right: insets.right }]}>
+					<View style={[this.styles.safeArea, { left: insets.left, right: insets.right }]}>
 
 						<StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
 
-						<View style={styles.container}>
+						<View style={this.styles.container}>
 							<SearchBar style={{ marginLeft: 20, marginRight: 20, marginTop: 20, marginBottom: 20, }} onSubmit={this.onSearch} />
 
 							<ErrorBoundary>
 								{content}
 							</ErrorBoundary>
 
-							<Button title={ingredientTitle} style={styles.ingredientsButton} onPress={() => this.props.navigation.navigate('Ingredients')} />
+							<Button title={ingredientTitle} style={this.styles.ingredientsButton} onPress={() => this.props.navigation.navigate('Ingredients')} />
 						</View>
 					</View>
 				)}
@@ -200,34 +231,3 @@ export default class HomeScreen extends React.Component {
 		);
 	}
 }
-
-const { colors } = getTheme();
-const styles = StyleSheet.create({
-	safeArea: {
-		flex: 1,
-	},
-	container: {
-		backgroundColor: colors.light, // TODO: move to root component
-		flex: 1,
-		// padding: 20,
-	},
-	loading: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	error: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	scroll: {
-		flex: 1,
-	},
-	ingredientsButton: {
-		marginTop: 10,
-		marginLeft: 10,
-		marginRight: 10,
-		marginBottom: 10,
-	},
-});

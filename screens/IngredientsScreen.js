@@ -3,6 +3,7 @@ import { ActivityIndicator, AsyncStorage, StyleSheet, Text, View, } from 'react-
 import { NavigationContext } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import DialogInput from 'react-native-dialog-input';
+
 import { getTheme } from '../theme';
 
 import Button from '../components/Button';
@@ -13,6 +14,22 @@ const STORE_INGREDIENTS = 'ingredients';
 
 export default class IngredientsScreen extends React.Component {
 	static contextType = NavigationContext;
+
+	colors = getTheme().colors;
+	styles = StyleSheet.create({
+		container: {
+			backgroundColor: this.colors.light,
+			flex: 1,
+		},
+		loading: {
+			flex: 1,
+			justifyContent: 'center',
+			alignItems: 'center'
+		},
+		buttonAddIngredient: {
+			margin: 10,
+		}
+	})
 
 	state = {
 		ingredients: [],
@@ -91,14 +108,14 @@ export default class IngredientsScreen extends React.Component {
 
 		if (this.state.loading) {
 			content = (
-				<View style={styles.loading}>
-					<ActivityIndicator size={Platform.OS === 'android' ? 60 : 'large'} color={colors.primary} />
+				<View style={this.styles.loading}>
+					<ActivityIndicator size={Platform.OS === 'android' ? 60 : 'large'} color={this.colors.primary} />
 				</View>
 			)
 		} else if (!this.state.ingredients || this.state.ingredients.length < 1) {
 			content = (
 				<View>
-					<Text style={{ color: colors.dark }}>Start by adding something...</Text>
+					<Text style={{ color: this.colors.dark }}>Start by adding something...</Text>
 				</View>
 			)
 		} else {
@@ -108,11 +125,11 @@ export default class IngredientsScreen extends React.Component {
 		}
 
 		return (
-			<SafeAreaView style={styles.container}>
+			<SafeAreaView style={this.styles.container}>
 				{content}
 
 				<Button title="ADD INGREDIENT"
-					style={styles.buttonAddIngredient}
+					style={this.styles.buttonAddIngredient}
 					onPress={this._addIngredient} />
 
 				<DialogInput
@@ -126,19 +143,3 @@ export default class IngredientsScreen extends React.Component {
 		);
 	}
 }
-
-const { colors } = getTheme();
-const styles = StyleSheet.create({
-	container: {
-		backgroundColor: colors.light,
-		flex: 1,
-	},
-	loading: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center'
-	},
-	buttonAddIngredient: {
-		margin: 10,
-	}
-});

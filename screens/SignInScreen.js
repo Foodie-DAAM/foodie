@@ -33,16 +33,60 @@ const validationSchema = Yup.object().shape({
 export default class SignInScreen extends React.Component {
 	static contextType = NavigationContext;
 
+	colors = getTheme().colors;
+	styles = StyleSheet.create({
+		container: {
+			flex: 1,
+			backgroundColor: this.colors.light,
+		},
+		form: {
+			flex: 1,
+			flexDirection: 'column',
+			justifyContent: 'center',
+			alignItems: 'stretch',
+		},
+		submitButton: {
+			marginTop: 10,
+			marginLeft: 40,
+			marginRight: 40,
+			marginBottom: 10,
+		},
+		text: {
+			color: this.colors.dark,
+			paddingRight: 2,
+			fontSize: 20,
+		},
+		error: {
+			fontSize: 16,
+			color: this.colors.dark,
+			marginLeft: 40,
+			marginRight: 40,
+			marginBottom: 20,
+		},
+		input: {
+			marginBottom: 10,
+			marginLeft: 40,
+			marginRight: 40,
+		},
+		buttonRegister: {
+			flexDirection: 'row',
+			justifyContent: 'center',
+			alignItems: 'center',
+			height: 48,
+		},
+	})
+
 	state = {
 		loading: false,
 		error: null,
-	};
+	}
 
 	constructor(props) {
 		super(props);
 		this._onSubmit = this._onSubmit.bind(this);
 		this._onSuccess = this._onSuccess.bind(this);
 		this._onError = this._onError.bind(this);
+		this._onCancel = this._onCancel.bind(this);
 		this._startLoading = this._startLoading.bind(this);
 		this._doAnonymousLogin = this._doAnonymousLogin.bind(this);
 		this.inputEmail = null;
@@ -58,17 +102,14 @@ export default class SignInScreen extends React.Component {
 
 		firebase.auth().signInWithEmailAndPassword(email, password)
 			.then(this._onSuccess)
-			.catch(this._onError)
-			.finally(() => setSubmitting(false));
+			.catch(error => {
+				setSubmitting(false)
+				this._onError(error);
+			});
 	}
 
 	_onSuccess(user) {
 		console.log('Logged in!', user);
-
-		this.setState({
-			loading: false,
-			error: null,
-		});
 
 		const navigation = this.context;
 		navigation.navigate('Main');
@@ -80,6 +121,13 @@ export default class SignInScreen extends React.Component {
 		this.setState({
 			loading: false,
 			error: error.message + ' (' + error.code + ')',
+		});
+	}
+
+	_onCancel() {
+		this.setState({
+			loading: false,
+			error: null,
 		});
 	}
 
@@ -101,12 +149,12 @@ export default class SignInScreen extends React.Component {
 
 		let error;
 		if (this.state.error) {
-			error = <Text style={styles.error}>{this.state.error}</Text>;
+			error = <Text style={this.styles.error}>{this.state.error}</Text>;
 		}
 
 		let content;
 		if (this.state.loading) {
-			content = <ActivityIndicator animating size={Platform.OS === 'android' ? 60 : 'large'} color={colors.primary} />;
+			content = <ActivityIndicator animating size={Platform.OS === 'android' ? 60 : 'large'} color={this.colors.primary} />;
 		} else {
 			content = (
 				<Formik
@@ -114,7 +162,7 @@ export default class SignInScreen extends React.Component {
 					validationSchema={validationSchema}
 					onSubmit={this._onSubmit}>
 					{props => (
-						<View style={styles.form}>
+						<View style={this.styles.form}>
 							{error}
 
 							<StyledInput
@@ -133,7 +181,7 @@ export default class SignInScreen extends React.Component {
 								blurOnSubmit={false}
 
 								icon="mail"
-								style={styles.input}
+								style={this.styles.input}
 							/>
 
 							<StyledInput
@@ -150,24 +198,24 @@ export default class SignInScreen extends React.Component {
 								onSubmitEditing={props.handleSubmit}
 
 								icon="lock"
-								style={styles.input}
+								style={this.styles.input}
 							/>
 
 							<Button title="SIGN IN"
 								onPress={props.handleSubmit}
 								disabled={props.isSubmitting}
-								style={styles.submitButton} />
+								style={this.styles.submitButton} />
 
 							<HideWithKeyboard>
-								<SignIn onSuccess={this._onSuccess} onError={this._onError} onLoading={this._startLoading} />
+								<SignIn onSuccess={this._onSuccess} onError={this._onError} onCancel={this._onCancel} onLoading={this._startLoading} />
 
-								<TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.buttonRegister}>
-									<Text style={styles.text}>New user?</Text>
-									<Text style={[ styles.text, { color: colors.primary } ]}>Create an account.</Text>
+								<TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={this.styles.buttonRegister}>
+									<Text style={this.styles.text}>New user?</Text>
+									<Text style={[ this.styles.text, { color: this.colors.primary } ]}>Create an account.</Text>
 								</TouchableOpacity>
 
-								<TouchableOpacity onPress={this._doAnonymousLogin} style={styles.buttonRegister}>
-									<Text style={[ styles.text, { color: colors.primary } ]}>Or enter without an account.</Text>
+								<TouchableOpacity onPress={this._doAnonymousLogin} style={this.styles.buttonRegister}>
+									<Text style={[ this.styles.text, { color: this.colors.primary } ]}>Or enter without an account.</Text>
 								</TouchableOpacity>
 							</HideWithKeyboard>
 
@@ -178,7 +226,7 @@ export default class SignInScreen extends React.Component {
 		}
 
 		return (
-			<SafeAreaView style={styles.container}>
+			<SafeAreaView style={this.styles.container}>
 				<Header title="Login" />
 
 				<View style={{ flex: 1, justifyContent: 'space-evenly' }}>
@@ -188,46 +236,3 @@ export default class SignInScreen extends React.Component {
 		)
 	}
 }
-
-const { colors } = getTheme();
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: colors.light,
-	},
-	form: {
-		flex: 1,
-		flexDirection: 'column',
-		justifyContent: 'center',
-		alignItems: 'stretch',
-	},
-	submitButton: {
-		marginTop: 10,
-		marginLeft: 40,
-		marginRight: 40,
-		marginBottom: 10,
-	},
-	text: {
-		color: colors.dark,
-		paddingRight: 2,
-		fontSize: 20,
-	},
-	error: {
-		fontSize: 16,
-		color: colors.dark,
-		marginLeft: 40,
-		marginRight: 40,
-		marginBottom: 20,
-	},
-	input: {
-		marginBottom: 10,
-		marginLeft: 40,
-		marginRight: 40,
-	},
-	buttonRegister: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-		height: 48,
-	},
-});

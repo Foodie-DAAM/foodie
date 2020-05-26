@@ -11,45 +11,46 @@ import Button from '../Button';
 
 
 export default class RecipeInfo extends React.Component {
+
+	colors = getTheme().colors;
+	styles = StyleSheet.create({
+		container: {
+			padding: 20,
+			paddingBottom: 0,
+			flex: 1,
+		},
+		descriptionContainer: {
+			flex: 1,
+			marginBottom: 20,
+		},
+		description: {
+			fontSize: 17,
+			color: this.colors.dark,
+		},
+		details: {
+		},
+		detailsItem: {
+			fontSize: 18,
+			color: this.colors.dark,
+		},
+	})
+
 	render() {
 		let { description, duration, servings } = this.props.recipe;
 
 		return (
-			<View style={styles.container}>
-				<ScrollView style={styles.descriptionContainer}>
-					<Text style={styles.description}>
+			<View style={this.styles.container}>
+				<ScrollView style={this.styles.descriptionContainer}>
+					<Text style={this.styles.description}>
 						{description}
 					</Text>
 				</ScrollView>
-				<Button secondary style={styles.details}>
-					<Text style={[styles.detailsItem, { paddingBottom: 8 }]}>{duration} minutes</Text>
-					<Text style={[styles.detailsItem, { paddingBottom: 8 }]}>{servings} servings</Text>
-					<Text style={styles.detailsItem}>100% positive | hard</Text>
+				<Button secondary style={this.styles.details}>
+					<Text style={[this.styles.detailsItem, { paddingBottom: 8 }]}>{duration} minutes</Text>
+					<Text style={this.styles.detailsItem}>{servings} servings</Text>
+					{/*<Text style={this.styles.detailsItem}>100% positive | hard</Text>*/}
 				</Button>
 			</View>
 		);
 	}
 }
-
-const { colors } = getTheme();
-const styles = StyleSheet.create({
-	container: {
-		padding: 20,
-		paddingBottom: 0,
-		flex: 1,
-	},
-	descriptionContainer: {
-		flex: 1,
-		marginBottom: 20,
-	},
-	description: {
-		fontSize: 17,
-		color: colors.dark,
-	},
-	details: {
-	},
-	detailsItem: {
-		fontSize: 18,
-		color: colors.dark,
-	},
-});

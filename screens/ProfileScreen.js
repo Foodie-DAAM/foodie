@@ -10,8 +10,40 @@ import ProfileInput from '../components/input/ProfileInput';
 import ErrorBoundary from '../components/ErrorBoundary';
 
 
+const DEFAULT_PHOTO = 'https://i.sandrohc.net/default-user.png';
+
 export default class ProfileScreen extends React.Component {
 	static contextType = NavigationContext;
+
+	colors = getTheme().colors;
+	styles = StyleSheet.create({
+		container: {
+			flex: 1,
+			backgroundColor: this.colors.light,
+		},
+		image: {
+			width: Dimensions.get('window').width,
+			height: 250,
+		},
+		title: {
+			fontWeight: 'bold',
+			fontSize: 30,
+			color: this.colors.dark,
+			marginLeft: 10,
+			marginTop: 10,
+		},
+		contentScrollView: {
+			flex: 1,
+			marginLeft: 10,
+			marginRight: 10,
+			marginBottom: 15,
+		},
+		buttonSave: {
+			margin: 10,
+			// backgroundColor: 'transparent',
+			// borderWidth: 0,
+		}
+	})
 
 	state = {
 		user: {
@@ -22,38 +54,33 @@ export default class ProfileScreen extends React.Component {
 			phoneNumber: '',
 		},
 		isAnonymous: false,
-	};
+	}
 
 	constructor(props) {
 		super(props);
-		this._onLogout = this._onLogout.bind(this);
+		this._onSave = this._onSave.bind(this);
 	}
 
 	componentDidMount() {
 		let user = firebase.auth().currentUser;
 		let { uid, displayName, email, photoURL, phoneNumber, isAnonymous } = user;
 
-		if (isAnonymous) {
-			displayName = 'Anonymous User';
-		}
-
 		console.log(`User: <uid:${uid}, displayName:${displayName}, email:${email}, photo:${photoURL}, phone:${phoneNumber}, anonymous:${isAnonymous}>`);
 
 		this.setState({
-			user: { uid, displayName, email, photoURL, phoneNumber },
+			user: {
+				uid,
+				displayName: isAnonymous ? 'Anonymous User' : displayName,
+				email,
+				photoURL: photoURL || DEFAULT_PHOTO,
+				phoneNumber
+			},
 			isAnonymous,
 		});
 	}
 
-	_onLogout() {
-		const navigation = this.context;
-		console.log('Attempting to log out...');
-
-		firebase.auth().signOut()
-			.then(() => {
-				console.log('Logout successful');
-				navigation.navigate('Welcome');
-			});
+	_onSave() {
+		alert('Save\n[NOT IMPLEMENTED]');
 	}
 
 	render() {
@@ -61,23 +88,23 @@ export default class ProfileScreen extends React.Component {
 		let isAnonymous = this.state.isAnonymous;
 
 		return (
-			<View style={styles.container}>
-				<Image source={{ uri: photoURL, cache: 'force-cache' }} style={ styles.image } />
+			<View style={this.styles.container}>
+				<Image source={{ uri: photoURL, cache: 'force-cache' }} style={this.styles.image} />
 
-				<Text style={styles.title}>Account Info</Text>
+				<Text style={this.styles.title}>Account Info</Text>
 
 				<SafeAreaConsumer>
 					{insets => (
 						<View style={{ paddingBottom: insets.bottom, paddingLeft: insets.left, paddingRight: insets.right, flex: 1 }}>
 							<ErrorBoundary>
-								<ScrollView style={styles.scrollView} contentContainerStyle={styles.contentScrollView}>
+								<ScrollView style={this.styles.scrollView} contentContainerStyle={this.styles.contentScrollView}>
 									<ProfileInput title="ID"    isReadonly={true} value={uid} />
 									<ProfileInput title="Name"  isReadonly={isAnonymous} value={displayName} />
 									<ProfileInput title="Email" isReadonly={isAnonymous} value={email} />
 									<ProfileInput title="Phone" isReadonly={isAnonymous} value={phoneNumber} />
 								</ScrollView>
 
-								<Button secondary title="Log Out" style={styles.logOut} onPress={this._onLogout} />
+								<Button title="Save" style={this.styles.buttonSave} onPress={this._onSave} />
 							</ErrorBoundary>
 						</View>
 					)}
@@ -86,30 +113,3 @@ export default class ProfileScreen extends React.Component {
 		);
 	}
 }
-
-const { colors } = getTheme();
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: colors.light,
-	},
-	image: {
-		width: Dimensions.get('window').width,
-		height: 250,
-	},
-	title: {
-		fontWeight: 'bold',
-		fontSize: 30,
-		color: colors.dark,
-		marginLeft: 5,
-		marginTop: 10,
-	},
-	contentScrollView: {
-		flex: 1,
-		marginBottom: 15,
-	},
-	logOut: {
-		backgroundColor: 'transparent',
-		borderWidth: 0,
-	}
-})

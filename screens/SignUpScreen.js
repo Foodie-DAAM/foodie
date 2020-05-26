@@ -35,16 +35,61 @@ const validationSchema = Yup.object().shape({
 export default class SignUpScreen extends React.Component {
 	static contextType = NavigationContext;
 
+	colors = getTheme().colors;
+	styles = StyleSheet.create({
+		container: {
+			flex: 1,
+			backgroundColor: this.colors.light,
+		},
+		form: {
+			flex: 1,
+			flexDirection: 'column',
+			justifyContent: 'center',
+			alignItems: 'stretch',
+		},
+		submitButton: {
+			marginTop: 10,
+			marginLeft: 40,
+			marginRight: 40,
+			marginBottom: 10,
+		},
+		text: {
+			color: this.colors.dark,
+			paddingRight: 2,
+			fontSize: 20,
+		},
+		error: {
+			fontSize: 16,
+			color: this.colors.dark,
+			marginLeft: 40,
+			marginRight: 40,
+			marginBottom: 20,
+		},
+		input: {
+			marginBottom: 10,
+			marginLeft: 40,
+			marginRight: 40,
+		},
+		buttonRegister: {
+			flexDirection: 'row',
+			justifyContent: 'center',
+			alignItems: 'center',
+			height: 48,
+		},
+	})
+
 	state = {
 		loading: false,
 		error: null,
-	};
+	}
 
 	constructor(props) {
 		super(props);
 		this._onSubmit = this._onSubmit.bind(this);
 		this._onSuccess = this._onSuccess.bind(this);
 		this._onError = this._onError.bind(this);
+		this._onCancel = this._onCancel.bind(this);
+		this._startLoading = this._startLoading.bind(this);
 		this.inputName = null;
 		this.inputEmail = null;
 		this.inputPassword = null;
@@ -53,6 +98,8 @@ export default class SignUpScreen extends React.Component {
 
 	_onSubmit(values, { setSubmitting }) {
 		let { name, email, password } = values;
+
+		this._startLoading();
 
 		console.log('SignUpnScreen _onSubmit', name, email, password);
 
@@ -70,11 +117,6 @@ export default class SignUpScreen extends React.Component {
 	_onSuccess(user) {
 		console.log('Registered!', user);
 
-		this.setState({
-			loading: false,
-			error: null,
-		});
-
 		const navigation = this.context;
 		navigation.navigate('Main');
 	}
@@ -88,17 +130,31 @@ export default class SignUpScreen extends React.Component {
 		});
 	}
 
+	_onCancel() {
+		this.setState({
+			loading: false,
+			error: null,
+		});
+	}
+
+	_startLoading() {
+		this.setState({
+			loading: true,
+			error: null,
+		});
+	}
+
 	render() {
 		const navigation = this.context;
 
 		let error;
 		if (this.state.error) {
-			error = <Text style={styles.error}>{this.state.error}</Text>;
+			error = <Text style={this.styles.error}>{this.state.error}</Text>;
 		}
 
 		let content;
 		if (this.state.loading) {
-			content = <ActivityIndicator animating size={Platform.OS === 'android' ? 60 : 'large'} color={colors.primary} />;
+			content = <ActivityIndicator animating size={Platform.OS === 'android' ? 60 : 'large'} color={this.colors.primary} />;
 		} else {
 			content = (
 				<Formik
@@ -106,7 +162,7 @@ export default class SignUpScreen extends React.Component {
 					validationSchema={validationSchema}
 					onSubmit={this._onSubmit}>
 					{props => (
-						<View style={styles.form}>
+						<View style={this.styles.form}>
 							{error}
 
 							<StyledInput
@@ -125,7 +181,7 @@ export default class SignUpScreen extends React.Component {
 								blurOnSubmit={false}
 
 								icon="person"
-								style={styles.input}
+								style={this.styles.input}
 							/>
 
 							<StyledInput
@@ -144,7 +200,7 @@ export default class SignUpScreen extends React.Component {
 								blurOnSubmit={false}
 
 								icon="mail"
-								style={styles.input}
+								style={this.styles.input}
 							/>
 
 							<StyledInput
@@ -163,7 +219,7 @@ export default class SignUpScreen extends React.Component {
 								blurOnSubmit={false}
 
 								icon="lock"
-								style={styles.input}
+								style={this.styles.input}
 							/>
 
 							<StyledInput
@@ -180,21 +236,21 @@ export default class SignUpScreen extends React.Component {
 								onSubmitEditing={props.handleSubmit}
 
 								icon="lock"
-								style={styles.input}
+								style={this.styles.input}
 							/>
 
 							<Button title="SIGN UP"
 								onPress={props.handleSubmit}
 								disabled={props.isSubmitting}
-								style={styles.submitButton} />
+								style={this.styles.submitButton} />
 
 							<HideWithKeyboard>
-								<SignIn />
+								<SignIn onSuccess={this._onSuccess} onError={this._onError} onCancel={this._onCancel} onLoading={this._startLoading} />
 
 								<TouchableOpacity onPress={() => navigation.navigate('SignIn')}
-									style={styles.buttonRegister}>
-									<Text style={styles.text}>Already have an account?</Text>
-									<Text style={[ styles.text, { color: colors.primary } ]}>Sign in.</Text>
+									style={this.styles.buttonRegister}>
+									<Text style={this.styles.text}>Already have an account?</Text>
+									<Text style={[ this.styles.text, { color: this.colors.primary } ]}>Sign in.</Text>
 								</TouchableOpacity>
 							</HideWithKeyboard>
 						</View>
@@ -204,7 +260,7 @@ export default class SignUpScreen extends React.Component {
 		}
 
 		return (
-			<SafeAreaView style={styles.container}>
+			<SafeAreaView style={this.styles.container}>
 				<Header title="Create an account" />
 
 				<View style={{ flex: 1, justifyContent: 'space-evenly' }}>
@@ -214,46 +270,3 @@ export default class SignUpScreen extends React.Component {
 		);
 	}
 }
-
-const { colors } = getTheme();
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: colors.light,
-	},
-	form: {
-		flex: 1,
-		flexDirection: 'column',
-		justifyContent: 'center',
-		alignItems: 'stretch',
-	},
-	submitButton: {
-		marginTop: 10,
-		marginLeft: 40,
-		marginRight: 40,
-		marginBottom: 10,
-	},
-	text: {
-		color: colors.dark,
-		paddingRight: 2,
-		fontSize: 20,
-	},
-	error: {
-		fontSize: 16,
-		color: colors.dark,
-		marginLeft: 40,
-		marginRight: 40,
-		marginBottom: 20,
-	},
-	input: {
-		marginBottom: 10,
-		marginLeft: 40,
-		marginRight: 40,
-	},
-	buttonRegister: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-		alignItems: 'center',
-		height: 48,
-	},
-});

@@ -1,7 +1,6 @@
 import * as React from 'react';
 import {
 	StyleSheet,
-	Dimensions,
 } from 'react-native';
 import { TabView, TabBar, SceneMap } from 'react-native-tab-view';
 import { getTheme } from '../../theme';
@@ -11,6 +10,17 @@ import RecipeIngredients from './RecipeIngredients';
 import RecipeNutrition from './RecipeNutrition';
 
 export default class RecipeTabView extends React.Component {
+
+	colors = getTheme().colors;
+	styles = StyleSheet.create({
+		tabBar: {
+			backgroundColor: 'transparent',
+		},
+		indicator: {
+			backgroundColor: 'orange',
+		},
+	})
+
 	state = {
 		index: 0,
 		routes: [
@@ -18,7 +28,7 @@ export default class RecipeTabView extends React.Component {
 			{ key: 'ingredients', title: 'Ingredients' },
 			{ key: 'nutrition', title: 'Nutrition' },
 		],
-	};
+	}
 
 	_renderScene = SceneMap({
 		info:        () => <RecipeInfo        recipe={this.props.recipe} />,
@@ -30,13 +40,13 @@ export default class RecipeTabView extends React.Component {
 		return (
 			<TabBar
 				{...props}
-				style={styles.tabBar}
-				indicatorStyle={styles.indicator}
-				// tabStyle={styles.tabStyle}
-				// labelStyle={styles.label}
+				style={this.styles.tabBar}
+				indicatorStyle={this.styles.indicator}
+				// tabStyle={this.styles.tabStyle}
+				// labelStyle={this.styles.label}
 
-				activeColor={colors.primary}
-				inactiveColor={colors.dark}
+				activeColor={this.colors.primary}
+				inactiveColor={this.colors.dark}
 			/>
 		)
 	};
@@ -54,13 +64,3 @@ export default class RecipeTabView extends React.Component {
 		)
 	}
 }
-
-const { colors } = getTheme();
-const styles = StyleSheet.create({
-	tabBar: {
-		backgroundColor: 'transparent',
-	},
-	indicator: {
-		backgroundColor: 'orange',
-	},
-});

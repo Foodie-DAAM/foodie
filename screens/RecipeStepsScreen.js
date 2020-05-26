@@ -16,6 +16,42 @@ import Button from '../components/Button';
 export default class RecipeStepsScreen extends React.Component {
 	static contextType = NavigationContext;
 
+	colors = getTheme().colors;
+	styles = StyleSheet.create({
+		container: {
+			backgroundColor: this.colors.light,
+			flex: 1,
+			flexDirection: 'column',
+			alignItems: 'stretch',
+		},
+		icon: {
+			padding: 15,
+			color: this.colors.dark,
+			width: 100, // larger box to make it easier to press
+		},
+		title: {
+			fontSize: 50,
+			marginLeft: 10,
+			// padding: 15,
+			color: this.colors.primary,
+		},
+		scrollView: {
+			flexGrow: 1,
+			margin: 10,
+		},
+		contentScrollView: {
+
+		},
+		description: {
+			color: this.colors.dark,
+			fontSize: 20,
+		},
+		buttonNext: {
+			margin: 10,
+			alignSelf: 'center',
+		},
+	})
+
 	state = {
 		recipe: null,
 		steps: null,
@@ -104,58 +140,22 @@ export default class RecipeStepsScreen extends React.Component {
 
 		return (
 			<ErrorBoundary style={{ flex: 1 }}>
-				<SafeAreaView style={styles.container}>
+				<SafeAreaView style={this.styles.container}>
 					<Ionicons
 						name={(Platform.OS === 'android' ? 'md-' : 'ios-') + (this.state.isFirst ? 'close' : 'arrow-back')}
 						size={34}
-						style={styles.icon}
+						style={this.styles.icon}
 						onPress={this._prevStep} />
 
-					<Text style={styles.title} numberOfLines={1}>{current + 1}.</Text>
+					<Text style={this.styles.title} numberOfLines={1}>{current + 1}.</Text>
 
-					<ScrollView style={styles.scrollView} contentContainerStyle={styles.contentScrollView}>
-						<Text style={styles.description}>{step.description}</Text>
+					<ScrollView style={this.styles.scrollView} contentContainerStyle={this.styles.contentScrollView}>
+						<Text style={this.styles.description}>{step.description}</Text>
 					</ScrollView>
 
-					<Button title={this.state.isLast ? 'RATE IT' : 'NEXT'} onPress={this._nextStep} style={styles.buttonNext} />
+					<Button title={this.state.isLast ? 'RATE IT' : 'NEXT'} onPress={this._nextStep} style={this.styles.buttonNext} />
 				</SafeAreaView>
 			</ErrorBoundary>
 		);
 	}
 }
-
-const { colors } = getTheme();
-const styles = StyleSheet.create({
-	container: {
-		backgroundColor: colors.light,
-		flex: 1,
-		flexDirection: 'column',
-		alignItems: 'stretch',
-	},
-	icon: {
-		padding: 15,
-		color: colors.dark,
-		width: 100, // larger box to make it easier to press
-	},
-	title: {
-		fontSize: 50,
-		marginLeft: 10,
-		// padding: 15,
-		color: colors.primary,
-	},
-	scrollView: {
-		flexGrow: 1,
-		margin: 10,
-	},
-	contentScrollView: {
-
-	},
-	description: {
-		color: colors.dark,
-		fontSize: 20,
-	},
-	buttonNext: {
-		margin: 10,
-		alignSelf: 'center',
-	},
-});

@@ -14,9 +14,12 @@ import ProfileScreen from './ProfileScreen';
 const Drawer = createDrawerNavigator();
 
 export default class MainScreen extends React.Component {
-	constructor(props) {
-		super(props);
-	}
+
+	colors = getTheme().colors;
+	styles = StyleSheet.create({
+		container: {
+		},
+	})
 
 	render() {
 		return (
@@ -30,9 +33,3 @@ export default class MainScreen extends React.Component {
 		);
 	}
 }
-
-const { colors } = getTheme();
-const styles = StyleSheet.create({
-	container: {
-	},
-});

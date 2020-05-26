@@ -17,31 +17,70 @@ import ErrorBoundary from './components/ErrorBoundary';
 import RecipeScreen from "./screens/RecipeScreen";
 import RecipeStepsScreen from "./screens/RecipeStepsScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { getTheme, loadTheme } from "./theme";
 
 
 enableScreens(); // https://reactnavigation.org/docs/react-native-screens
 const Stack = createStackNavigator();
 
-// TODO: wait until the user, theme, and language are initialized
 export default class App extends React.Component {
+
+	colors = getTheme().colors;
+	static styles = StyleSheet.create({
+		loading: {
+			flex: 1,
+			justifyContent: 'center',
+			alignItems: 'center',
+		},
+	})
+
 	state = {
-		loading: false,
+		loadingThemeData: true,
+		loadingUserData: true,
 		error: null,
-	};
+	}
 
 	constructor(props) {
 		super(props);
 		this._initialScreen = this._initialScreen.bind(this);
 	}
 
+	componentDidMount() {
+		// Load user data
+		let unsubscribe = firebase.auth().onAuthStateChanged(_ => {
+			console.log('[App]', 'Loaded user data');
+			unsubscribe();
+			this.setState({
+				loadingUserData: false,
+			});
+		});
+
+		// Load theme data
+		loadTheme().then(theme => {
+			console.log('[App]', 'Loaded theme:', theme);
+			this.setState({
+				loadingThemeData: false,
+			});
+		})
+	}
+
 	_initialScreen() {
-		let isAuthed = firebase.auth().currentUser; // TODO: user is loaded async; redirect in the 'firebase.auth().onAuthStateChanged'
-		console.log('IS AUTHED:', isAuthed);
-		return isAuthed ? 'Main' : 'Welcome';
+		if (firebase.auth().currentUser) {
+			console.log('[App]', 'User is authenticated, redirecting to home screen');
+			return 'Main';
+		} else {
+			console.log('[App]', 'User is NOT authenticated');
+			return 'Welcome';
+		}
 	}
 
 	_renderLoading() {
-		return null;
+		return (
+			<View style={App.styles.loading}>
+				<ActivityIndicator size={Platform.OS === 'android' ? 60 : 'large'} color={this.colors.primary} />
+			</View>
+		);
 	}
 
 	_renderNavigator() {
@@ -76,7 +115,7 @@ export default class App extends React.Component {
 	}
 
 	render() {
-		let content = this.state.loading ? this._renderLoading() : this._renderNavigator();
+		let content = this.state.loadingUserData || this.state.loadingThemeData ? this._renderLoading() : this._renderNavigator();
 
 		return (
 			<SafeAreaProvider>
@@ -92,6 +131,9 @@ export default class App extends React.Component {
 	}
 }
 
+
+
+
 if (!firebase.apps.length) {
 	firebase.initializeApp({
 		projectId: 'foodie-daam',
@@ -103,12 +145,11 @@ if (!firebase.apps.length) {
 
 	//firebase.analytics();
 	firebase.auth().useDeviceLanguage();
-	firebase.auth().onAuthStateChanged((user) => {
-		if (user != null) {
+	firebase.auth().onAuthStateChanged(user => {
+		if (user != null)
 			console.log('[Firebase]', 'Authenticated with ' + user.displayName + ' <mail:' + user.email + '> <photo:' + user.photoURL + '>');
-		} else {
+		else
 			console.log('[Firebase]', 'Unauthenticated');
-		}
 	});
 }
 

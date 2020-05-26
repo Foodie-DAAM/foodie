@@ -7,16 +7,35 @@ import {
 import { getTheme } from '../../theme';
 
 
-class NutritionItem extends React.Component {
+class NutritionItem extends React.PureComponent {
+
+	colors = getTheme().colors;
+	styles = StyleSheet.create({
+		item: {
+			flex: 1,
+			flexDirection: 'row',
+			padding: 15,
+		},
+		type: {
+			color: this.colors.dark,
+			flex: 1,
+		},
+		amount: {
+			color: this.colors.dark,
+			flex: 0,
+			textAlign: 'right',
+		},
+	})
+
 	render() {
 		let { type, text } = this.props.nutrition;
 
 		return (
-			<View style={styles.item}>
-				<Text style={[styles.itemText, { flex: 1 }]}>
+			<View style={this.styles.item}>
+				<Text style={this.styles.type}>
 					{type.toLowerCase()}
 				</Text>
-				<Text style={[styles.itemText, { flex: 0, textAlign: 'right' }]}>
+				<Text style={this.styles.amount}>
 					{text}
 				</Text>
 			</View>
@@ -24,10 +43,17 @@ class NutritionItem extends React.Component {
 	}
 }
 
-export default class RecipeInfo extends React.Component {
+export default class RecipeNutrition extends React.PureComponent {
+
+	static styles = StyleSheet.create({
+		container: {
+			padding: 20,
+		},
+	})
+
 	render() {
 		return (
-			<View style={styles.container}>
+			<View style={RecipeNutrition.styles.container}>
 				<FlatList
 					data={this.props.recipe.nutritionFacts}
 					renderItem={({ item }) => <NutritionItem nutrition={item} />}
@@ -37,18 +63,3 @@ export default class RecipeInfo extends React.Component {
 		);
 	}
 }
-
-const { colors } = getTheme();
-const styles = StyleSheet.create({
-	container: {
-		padding: 20,
-	},
-	item: {
-		flex: 1,
-		flexDirection: 'row',
-		padding: 15,
-	},
-	itemText: {
-		color: colors.dark,
-	},
-});

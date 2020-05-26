@@ -1,4 +1,11 @@
-import { Appearance } from "react-native-appearance";
+import { AsyncStorage } from 'react-native';
+import { Appearance } from 'react-native-appearance';
+
+
+export const DEFAULT_THEME = 'light';
+export let currentTheme = undefined;
+
+console.log('THEME EXECUTED');
 
 const palette = {
 	orange: '#E67332',
@@ -34,13 +41,17 @@ export const themedColors = {
 	},
 };
 
-export const getTheme = () => {
-	const theme = Appearance.getColorScheme();
-	// const theme = 'light'; // TODO: support dark theme
+export const loadTheme = () => {
+	return AsyncStorage.getItem('theme').then(theme => currentTheme = theme || Appearance.getColorScheme());
+}
 
-	const colors = themedColors[theme] || themedColors['light'];
+export const getTheme = () => {
+	const theme = currentTheme;
+	const colors = themedColors[theme] || themedColors[DEFAULT_THEME];
+	const status = theme === 'light' ? 'dark-content' : (theme === 'dark' ? 'light-content' : 'default')
 	return {
 		colors,
 		theme,
+		status,
 	}
 };

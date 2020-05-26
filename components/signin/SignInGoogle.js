@@ -20,7 +20,17 @@ const config = {
 	scopes: ['profile', 'email'],
 };
 
-export default class SignInGoogle extends React.Component {
+export default class SignInGoogle extends React.PureComponent {
+
+	static styles = StyleSheet.create({
+		touchable: {
+			padding: 20,
+		},
+		container: {
+			backgroundColor: 'white',
+			borderRadius: 120,
+		},
+	})
 
 	constructor(props) {
 		super(props);
@@ -32,8 +42,10 @@ export default class SignInGoogle extends React.Component {
 			this.props.onLoading();
 
 			const { type, idToken } = await Google.logInAsync(config);
-			if (type !== 'success')
+			if (type !== 'success') {
+				this.props.onCancel();
 				return;
+			}
 
 			const credential = firebase.auth.GoogleAuthProvider.credential(idToken);
 			firebase.auth().signInWithCredential(credential)
@@ -56,21 +68,11 @@ export default class SignInGoogle extends React.Component {
 
 	render() {
 		return (
-			<TouchableOpacity style={styles.touchable} onPress={this.signInAsync}  accessibilityLabel="Sign-in with Google">
-				<View style={styles.container}>
+			<TouchableOpacity style={SignInGoogle.styles.touchable} onPress={this.signInAsync}  accessibilityLabel="Sign-in with Google">
+				<View style={SignInGoogle.styles.container}>
 					<LogoGoogle width={60} height={60} />
 				</View>
 			</TouchableOpacity>
 		)
 	}
 }
-
-const styles = StyleSheet.create({
-	touchable: {
-		padding: 20,
-	},
-	container: {
-		backgroundColor: 'white',
-		borderRadius: 120,
-	},
-});

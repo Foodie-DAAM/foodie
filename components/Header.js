@@ -4,34 +4,36 @@ import {
 	View,
 	Text
 } from 'react-native';
-import Logo from '../assets/hamburger.svg';
-import { getTheme } from "../theme";
+import { getTheme } from '../theme';
 
-export default class Header extends React.Component {
+import Logo from '../assets/hamburger.svg';
+
+export default class Header extends React.PureComponent {
+
+	colors = getTheme().colors;
+	styles = StyleSheet.create({
+		header: {
+			alignItems: 'center',
+			marginTop: 20,
+		},
+		title: {
+			textAlign: 'center',
+			fontSize: 40,
+			color: this.colors.dark,
+			fontWeight: 'bold',
+			marginTop: 5,
+		},
+	})
+
 	render() {
 		return (
-			<View style={styles.header}>
+			<View style={this.styles.header}>
 				<Logo width={130} height={130} />
 
-				<Text style={styles.title}>
+				<Text style={this.styles.title}>
 					{this.props.title || 'Foodie'}
 				</Text>
 			</View>
 		);
 	}
 }
-
-const { colors } = getTheme();
-const styles = StyleSheet.create({
-	header: {
-		alignItems: 'center',
-		marginTop: 20,
-	},
-	title: {
-		textAlign: 'center',
-		fontSize: 40,
-		color: colors.dark,
-		fontWeight: 'bold',
-		marginTop: 5,
-	},
-});

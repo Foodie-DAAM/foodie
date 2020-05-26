@@ -4,12 +4,38 @@ import {
 	View,
 	TouchableHighlight,
 } from 'react-native';
-import { getTheme } from "../theme";
+import { getTheme } from '../theme';
 
-export default class Card extends React.Component {
+export default class Card extends React.PureComponent {
+
+	colors = getTheme().colors;
+	styles = StyleSheet.create({
+		container: {
+			flex: 1,
+			flexDirection: 'row',
+			borderRadius: 15,
+			backgroundColor: this.colors.light,
+
+			marginTop: 5,
+			marginBottom: 5,
+			marginLeft: 20,
+			marginRight: 20,
+
+			// https://ethercreative.github.io/react-native-shadow-generator
+			elevation: 5,
+			shadowColor: this.colors.dark,
+			shadowOffset: {
+				width: 0,
+				height: 2,
+			},
+			shadowOpacity: 0.25,
+			shadowRadius: 3.84,
+		},
+	})
+
 	render() {
 		const content = (
-			<View style={styles.container}>
+			<View style={this.styles.container}>
 				{this.props.children}
 			</View>
 		)
@@ -29,28 +55,3 @@ export default class Card extends React.Component {
 		}
 	}
 }
-
-const { colors } = getTheme();
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		flexDirection: 'row',
-		borderRadius: 15,
-		backgroundColor: colors.light,
-
-		marginTop: 5,
-		marginBottom: 5,
-		marginLeft: 20,
-		marginRight: 20,
-
-		// https://ethercreative.github.io/react-native-shadow-generator
-		elevation: 5,
-		shadowColor: colors.dark,
-		shadowOffset: {
-			width: 0,
-			height: 2,
-		},
-		shadowOpacity: 0.25,
-		shadowRadius: 3.84,
-	},
-});

@@ -14,7 +14,17 @@ import LogoFacebook from '../../assets/signin/facebook-2-opt.svg';
 const FACEBOOK_APP_ID = "780679612335829";
 const permissions = [ 'public_profile', 'email' ];
 
-export default class SignInFacebook extends React.Component {
+export default class SignInFacebook extends React.PureComponent {
+
+	static styles = StyleSheet.create({
+		touchable: {
+			padding: 20,
+		},
+		container: {
+			backgroundColor: '#1877f2',
+			borderRadius: 120,
+		},
+	})
 
 	constructor(props) {
 		super(props);
@@ -32,8 +42,10 @@ export default class SignInFacebook extends React.Component {
 			const { type, token } = await Facebook.logInWithReadPermissionsAsync({ permissions });
 
 			console.log("Facebook login type: " + type);
-			if (type !== 'success')
+			if (type !== 'success') {
+				this.props.onCancel();
 				return;
+			}
 
 			console.log("Firebase login");
 			const credential = firebase.auth.FacebookAuthProvider.credential(token);
@@ -60,21 +72,11 @@ export default class SignInFacebook extends React.Component {
 
 	render() {
 		return (
-			<TouchableOpacity style={styles.touchable} onPress={this.signInAsync} accessibilityLabel="Sign-in with Facebook">
-				<View style={styles.container}>
+			<TouchableOpacity style={SignInFacebook.styles.touchable} onPress={this.signInAsync} accessibilityLabel="Sign-in with Facebook">
+				<View style={SignInFacebook.styles.container}>
 					<LogoFacebook width={60} height={60} fill="#fff" />
 				</View>
 			</TouchableOpacity>
 		)
 	}
 }
-
-const styles = StyleSheet.create({
-	touchable: {
-		padding: 20,
-	},
-	container: {
-		backgroundColor: '#1877f2',
-		borderRadius: 120,
-	},
-});
