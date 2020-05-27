@@ -2,12 +2,14 @@ import React from 'react';
 import {
 	StyleSheet,
 	AsyncStorage,
+	Text,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Appearance } from 'react-native-appearance';
 import SettingsList from 'react-native-settings-list';
 import { NavigationContext } from "@react-navigation/native";
 import * as firebase from "firebase";
+import Constants from 'expo-constants';
 import i18n from 'i18n-js';
 
 import { getTheme, currentTheme } from '../theme';
@@ -20,11 +22,17 @@ export default class SettingsScreen extends React.Component {
 	styles = StyleSheet.create({
 		container: {
 			flex: 1,
+			justifyContent: 'space-between',
 			backgroundColor: this.colors.light,
 		},
 		item: {
 			color: this.colors.dark,
 			fontSize: 16,
+		},
+		version: {
+			fontSize: 20,
+			marginBottom: 60,
+			textAlign: 'center',
 		}
 	})
 
@@ -102,6 +110,10 @@ export default class SettingsScreen extends React.Component {
 						hasNavArrow={false}
 						onPress={this._onLogout} />
 				</SettingsList>
+
+				<Text style={this.styles.version}>
+					{i18n.t('version', { version: Constants.manifest.version })}
+				</Text>
 			</SafeAreaView>
 		);
 	}

@@ -1,5 +1,6 @@
 export default {
 	app: 'Foodie',
+	version: 'Foodie {{version}}',
 	nav: {
 		main: 'Main',
 		home: 'Home',
