@@ -11,6 +11,9 @@ To start the app, run `expo start`.
 
 * **Windows only:** Enable WDL, as specified [here](https://docs.expo.io/distribution/building-standalone-apps/#1-install-expo-cli)
 * Install the expo-cli: `yarn global add expo-cli`
+* Bump version:
+  * `yarn standard-version --release-as major/minor/patch --dry-run`
+  * `git push --follow-tags origin master`
 * Build for Android:
   * `expo start`
   * `expo build:android -t app-bundle`
@@ -45,4 +48,8 @@ In VSCode, open the `foodie.code-workspace` and run the VSCode debugging configu
   - [redux-persist](https://github.com/rt2zz/redux-persist)
     - [AsyncStorage](https://docs.expo.io/versions/latest/react-native/asyncstorage/) • [SecureStore](https://docs.expo.io/versions/latest/sdk/securestore/)
   - [react-redux](https://react-redux.js.org/using-react-redux/connect-mapstate)
+- [standard-version](https://github.com/conventional-changelog/standard-version)
+  - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+  - [Simplify Expo releases with Standard Version](https://dev.to/bycedric/simplify-expo-releases-with-standard-version-2f4o)
+  - [Versioning Android apps](https://medium.com/@maxirosson/versioning-android-apps-d6ec171cfd82)
 - [Laska ― https://laska.io](https://laska.io)
