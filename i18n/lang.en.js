@@ -81,10 +81,15 @@ export default {
 			other: '{{formatted}} servings',
 		},
 		steps: {
-			previous: 'Previous step',
+			previous: 'Previous',
 			next: 'Next',
-			rate: 'Rate It',
-		}
+		},
+		rate: {
+			description: 'Rate your experience with this recipe',
+			positive: 'Positive experience',
+			negative: 'Negative experience',
+			submit: 'Rate It',
+		},
 	},
 	settings: {
 		theme: {

@@ -79,10 +79,15 @@ export default {
 			other: '{{formatted}} porções',
 		},
 		steps: {
-			previous: 'Passo anterior',
+			previous: 'Anterior',
 			next: 'Seguinte',
-			rate: 'Avaliar',
-		}
+		},
+		rate: {
+			description: 'Avalie a sua experiência com esta receita',
+			positive: 'Experiência positiva',
+			negative: 'Experiência negativa',
+			submit: 'Avaliar',
+		},
 	},
 	settings: {
 		theme: {
