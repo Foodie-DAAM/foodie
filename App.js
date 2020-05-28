@@ -9,7 +9,8 @@ import { Ionicons } from "@expo/vector-icons";
 import * as Sentry from 'sentry-expo';
 import firebase from 'firebase';
 
-import * as i18n from './i18n';
+import * as i18nConfig from './i18n';
+import i18n from 'i18n-js';
 import { getTheme, loadTheme } from './theme';
 
 
@@ -104,7 +105,8 @@ export default class App extends React.Component {
 				<Stack.Screen name="Recipe" component={RecipeScreen}   options={() => ({ headerShown: false })} />
 				<Stack.Screen name="RecipeSteps" component={RecipeStepsScreen} options={() => ({ headerShown: false })} />
 				<Stack.Screen name="Ingredients" component={IngredientsScreen} />
-				<Stack.Screen name="Main" component={MainScreen} options={({ navigation }) => ({
+				<Stack.Screen name="Main" component={MainScreen} options={({ navigation, route }) => ({
+					headerTitle: this.getHeaderTitle(route),
 					headerLeft: props => (
 						<Ionicons
 							name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'menu'}
@@ -115,6 +117,15 @@ export default class App extends React.Component {
 				})} />
 			</Stack.Navigator>
 		)
+	}
+
+	getHeaderTitle(route) {
+		const routeName = route.state ? route.state.routes[route.state.index].name : route.params?.screen || 'Home';
+		switch (routeName) {
+			case 'Home':     return i18n.t('nav.home');
+			case 'Profile':  return i18n.t('nav.profile');
+			case 'Settings': return i18n.t('nav.settings');
+		}
 	}
 
 	render() {
@@ -160,4 +171,4 @@ Sentry.init({
 	debug: true
 });
 
-i18n.init();
+i18nConfig.init();

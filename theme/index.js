@@ -10,6 +10,7 @@ console.log('THEME EXECUTED');
 const palette = {
 	orange: '#E67332',
 	orangeDark: '#E63527',
+	blue: '#5CBBFF',
 	light: '#FFFFFF',
 	lightish: '#f2f2f2',
 	dark: '#000000',
@@ -26,6 +27,8 @@ export const colors = {
 	dark:     palette.dark,
 	darkish:  palette.darkish,
 	gray:     palette.gray,
+	navItem:       palette.dark,
+	navItemActive: palette.blue,
 };
 
 export const themedColors = {
@@ -38,6 +41,7 @@ export const themedColors = {
 		darkish:  palette.lightish,
 		light:    palette.dark,
 		lightish: palette.darkish,
+		navItem:  palette.light,
 	},
 };
 

@@ -1,7 +1,7 @@
 export default {
 	nav: {
-		main: 'Início',
-		home: 'Home',
+		main: 'Página Inicial',
+		home: 'Página Inicial',
 		profile: 'Perfil',
 		settings: 'Definições',
 	},
