@@ -51,8 +51,19 @@ export default class SettingsScreen extends React.Component {
 
 	componentDidMount() {
 		this.setState({
-			email: firebase.auth().currentUser?.email
+			email: this._getEmail(firebase.auth().currentUser),
 		})
+	}
+
+	_getEmail(user) {
+		if (user?.email)
+			return user.email;
+
+		for (let provider of user?.providerData)
+			if (provider.email)
+				return provider.email;
+
+		return null;
 	}
 
 	async onThemeChange(value) {

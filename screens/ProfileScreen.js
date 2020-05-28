@@ -1,14 +1,8 @@
 import React from 'react';
-import {
-	Dimensions,
-	Image,
-	ScrollView,
-	StyleSheet,
-	Text,
-	View,
-} from 'react-native';
+import { Dimensions, Image, ScrollView, StyleSheet, Text, View, } from 'react-native';
 import { SafeAreaConsumer } from 'react-native-safe-area-context';
 import { NavigationContext } from "@react-navigation/native";
+import HideWithKeyboard from 'react-native-hide-with-keyboard';
 import i18n from 'i18n-js';
 import * as firebase from "firebase";
 import { getTheme } from '../theme';
@@ -37,7 +31,7 @@ export default class ProfileScreen extends React.Component {
 			fontWeight: 'bold',
 			fontSize: 30,
 			color: this.colors.dark,
-			marginLeft: 10,
+			marginLeft: 15,
 			marginTop: 10,
 		},
 		contentScrollView: {
@@ -48,8 +42,6 @@ export default class ProfileScreen extends React.Component {
 		},
 		buttonSave: {
 			margin: 10,
-			// backgroundColor: 'transparent',
-			// borderWidth: 0,
 		}
 	})
 
@@ -59,7 +51,6 @@ export default class ProfileScreen extends React.Component {
 			displayName: 'Juan Luis Londoño Arias',
 			email: 'maluma@foodie.com',
 			photoURL: 'https://i.sandrohc.net/maluma.jpg',
-			phoneNumber: '',
 		},
 		isAnonymous: false,
 	}
@@ -67,13 +58,15 @@ export default class ProfileScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this._onSave = this._onSave.bind(this);
+		this.inputName = null;
 	}
 
 	componentDidMount() {
 		let user = firebase.auth().currentUser;
-		let { uid, displayName, email, photoURL, phoneNumber, isAnonymous } = user;
+		let { uid, displayName, photoURL, isAnonymous } = user;
+		let email = this._getEmail(user);
 
-		console.log(`User: <uid:${uid}, displayName:${displayName}, email:${email}, photo:${photoURL}, phone:${phoneNumber}, anonymous:${isAnonymous}>`);
+		console.log(`User: <uid:${uid}, displayName:${displayName}, email:${email}, photo:${photoURL}, anonymous:${isAnonymous}>`);
 
 		this.setState({
 			user: {
@@ -81,23 +74,50 @@ export default class ProfileScreen extends React.Component {
 				displayName: isAnonymous ? i18n.t('profile.anonymous') : displayName,
 				email,
 				photoURL: photoURL || DEFAULT_PHOTO,
-				phoneNumber
 			},
 			isAnonymous,
 		});
 	}
 
+	_getEmail(user) {
+		if (user.email)
+			return user.email;
+
+		for (let provider of user.providerData)
+			if (provider.email)
+				return provider.email;
+
+		return null;
+	}
+
 	_onSave() {
-		alert('Save\n[NOT IMPLEMENTED]');
+		let user = firebase.auth().currentUser;
+		if (!user)
+			return;
+
+		let name = this.inputName._lastNativeText;
+
+		console.log('Updating name to:', name);
+		user.updateProfile({
+			displayName: name
+		})
+			.then(() => alert('Account info saved'))
+			.catch(this._onError);
+	}
+
+	_onError(error) {
+		alert(error.message + ' (' + error.code + ')');
 	}
 
 	render() {
-		let { uid, displayName, email, photoURL, phoneNumber } = this.state.user;
+		let { uid, displayName, email, photoURL } = this.state.user;
 		let isAnonymous = this.state.isAnonymous;
 
 		return (
 			<View style={this.styles.container}>
-				<Image source={{ uri: photoURL, cache: 'force-cache' }} style={this.styles.image} accessibilityLabel={i18n.t('profile.photoLabel')} />
+				<HideWithKeyboard>
+					<Image source={{ uri: photoURL, cache: 'force-cache' }} style={this.styles.image} accessibilityLabel={i18n.t('profile.photoLabel')} />
+				</HideWithKeyboard>
 
 				<Text style={this.styles.title}>{i18n.t('profile.title')}</Text>
 
@@ -106,13 +126,12 @@ export default class ProfileScreen extends React.Component {
 						<View style={{ paddingBottom: insets.bottom, paddingLeft: insets.left, paddingRight: insets.right, flex: 1 }}>
 							<ErrorBoundary>
 								<ScrollView style={this.styles.scrollView} contentContainerStyle={this.styles.contentScrollView}>
-									<ProfileInput title={i18n.t('profile.id')}    isReadonly={true} value={uid} />
-									<ProfileInput title={i18n.t('profile.name')}  isReadonly={isAnonymous} value={displayName} />
-									<ProfileInput title={i18n.t('profile.email')} isReadonly={isAnonymous} value={email} />
-									<ProfileInput title={i18n.t('profile.phone')} isReadonly={isAnonymous} value={phoneNumber} />
+									<ProfileInput title={i18n.t('profile.id')}    isReadonly={true}        value={uid} />
+									<ProfileInput title={i18n.t('profile.email')} isReadonly={true}        value={email} />
+									<ProfileInput title={i18n.t('profile.name')}  isReadonly={isAnonymous} value={displayName} inputRef={input => this.inputName = input} />
 								</ScrollView>
 
-								<Button title={i18n.t('profile.save')} style={this.styles.buttonSave} onPress={this._onSave} />
+								{!isAnonymous && <Button title={i18n.t('profile.save').toUpperCase()} style={this.styles.buttonSave} onPress={this._onSave} />}
 							</ErrorBoundary>
 						</View>
 					)}
