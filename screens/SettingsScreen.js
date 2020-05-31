@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Appearance } from 'react-native-appearance';
 import SettingsList from 'react-native-settings-list';
 import { NavigationContext } from "@react-navigation/native";
+import { Updates } from 'expo';
 import * as Linking from 'expo-linking';
 import * as firebase from "firebase";
 import Constants from 'expo-constants';
@@ -77,6 +78,7 @@ export default class SettingsScreen extends React.Component {
 		Appearance.set({ colorScheme });
 		this.setState({ theme: colorScheme });
 		await AsyncStorage.setItem('theme', colorScheme);
+		await Updates.reload();
 	}
 
 	async onNavigationChange(value) {
@@ -84,6 +86,7 @@ export default class SettingsScreen extends React.Component {
 
 		this.setState({ navigation: nav });
 		await AsyncStorage.setItem('navigation', nav);
+		await Updates.reload();
 	}
 
 	_onReport() {
