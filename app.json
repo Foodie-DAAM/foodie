@@ -3,7 +3,7 @@
     "name": "Foodie",
     "slug": "foodie",
     "description": "All your favourite recipes just a click away",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "sdkVersion": "37.0.0",
     "icon": "./assets/icon.png",
     "githubUrl": "https://github.com/Foodie-DAAM/foodie",
@@ -27,7 +27,7 @@
     ],
     "ios": {
       "bundleIdentifier": "net.sandrohc.foodie",
-      "buildNumber": "1.0.0",
+      "buildNumber": "1.1.0",
       "supportsTablet": true,
       "config": {
         "googleSignIn": {
@@ -37,7 +37,7 @@
     },
     "android": {
       "package": "net.sandrohc.foodie",
-      "versionCode": 370010000,
+      "versionCode": 370010100,
       "config": {
         "googleSignIn": {
           "apiKey": "AIzaSyDMdUbrpsRRw-hdd9L1FoX0PNemBNfHEXA",
