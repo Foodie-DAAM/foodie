@@ -11,7 +11,7 @@ import { getTheme } from '../theme';
 import Card from './Card';
 
 
-export default class CardRecipe extends React.Component {
+export default class CardRecipe extends React.PureComponent {
 	static contextType = NavigationContext;
 
 	colors = getTheme().colors;

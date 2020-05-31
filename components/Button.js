@@ -54,9 +54,9 @@ export default class Button extends React.PureComponent {
 			)
 		} else {
 			return (
-				<View>
+				<>
 					{content}
-				</View>
+				</>
 			)
 		}
 	}

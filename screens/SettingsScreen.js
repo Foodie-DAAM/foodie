@@ -8,11 +8,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Appearance } from 'react-native-appearance';
 import SettingsList from 'react-native-settings-list';
 import { NavigationContext } from "@react-navigation/native";
+import * as Linking from 'expo-linking';
 import * as firebase from "firebase";
 import Constants from 'expo-constants';
 import i18n from 'i18n-js';
 
-import { getTheme, currentTheme } from '../theme';
+import { getTheme } from '../theme';
+import { getNavigation } from '../navigation';
 
 
 export default class SettingsScreen extends React.Component {
@@ -37,7 +39,8 @@ export default class SettingsScreen extends React.Component {
 	})
 
 	state = {
-		theme: currentTheme || Appearance.getColorScheme(),
+		theme: getTheme().theme,
+		navigation: getNavigation(),
 		unitSystem: false,
 		stages: 20,
 		email: null,
@@ -46,6 +49,8 @@ export default class SettingsScreen extends React.Component {
 	constructor(props) {
 		super(props);
 		this.onThemeChange = this.onThemeChange.bind(this);
+		this.onNavigationChange = this.onNavigationChange.bind(this);
+		this._onReport = this._onReport.bind(this);
 		this._onLogout = this._onLogout.bind(this);
 	}
 
@@ -69,9 +74,20 @@ export default class SettingsScreen extends React.Component {
 	async onThemeChange(value) {
 		let colorScheme = value ? 'dark' : 'light';
 
-		this.setState({ theme: colorScheme });
 		Appearance.set({ colorScheme });
+		this.setState({ theme: colorScheme });
 		await AsyncStorage.setItem('theme', colorScheme);
+	}
+
+	async onNavigationChange(value) {
+		let nav = value ? 'tab' : 'drawer';
+
+		this.setState({ navigation: nav });
+		await AsyncStorage.setItem('navigation', nav);
+	}
+
+	_onReport() {
+		Linking.openURL('mailto:foodie@sandrohc.net');
 	}
 
 	_onLogout() {
@@ -96,8 +112,16 @@ export default class SettingsScreen extends React.Component {
 						switchState={this.state.theme === 'dark'}
 						switchOnValueChange={this.onThemeChange}
 						hasNavArrow={false}
-						hasSwitch={true}
-					/>
+						hasSwitch={true} />
+
+					<SettingsList.Item
+						title={i18n.t('settings.nav._')}
+						titleInfo={this.state.navigation === 'drawer' ? i18n.t('settings.nav.drawer') : i18n.t('settings.nav.tab')}
+						titleStyle={this.styles.item}
+						switchState={this.state.navigation === 'tab'}
+						switchOnValueChange={this.onNavigationChange}
+						hasNavArrow={false}
+						hasSwitch={true} />
 
 					<SettingsList.Item
 						title={i18n.t('settings.units._')}
@@ -112,7 +136,7 @@ export default class SettingsScreen extends React.Component {
 						id="report"
 						title={i18n.t('settings.report._')}
 						titleStyle={this.styles.item}
-						onPress={() => alert('Report\n[NOT IMPLEMENTED]')} />
+						onPress={this._onReport} />
 
 					<SettingsList.Item
 						title={i18n.t('settings.logout._')}

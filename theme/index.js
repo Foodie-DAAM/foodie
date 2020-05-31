@@ -5,8 +5,6 @@ import { Appearance } from 'react-native-appearance';
 export const DEFAULT_THEME = 'light';
 export let currentTheme = undefined;
 
-console.log('THEME EXECUTED');
-
 const palette = {
 	orange: '#E67332',
 	orangeDark: '#E63527',
@@ -50,7 +48,7 @@ export const loadTheme = () => {
 }
 
 export const getTheme = () => {
-	const theme = currentTheme;
+	const theme = currentTheme || Appearance.getColorScheme();
 	const colors = themedColors[theme] || themedColors[DEFAULT_THEME];
 	const status = theme === 'light' ? 'dark-content' : (theme === 'dark' ? 'light-content' : 'default')
 	return {

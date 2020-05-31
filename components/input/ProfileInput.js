@@ -28,7 +28,7 @@ export default class ProfileInput extends React.Component {
         let { title, value, ...props } = this.props;
 
         return (
-            <View>
+            <>
                 <Text style={this.styles.title}>
                     {title}
                 </Text>
@@ -42,7 +42,7 @@ export default class ProfileInput extends React.Component {
                 >
                     {this.props.value}
                 </StyledInput>
-            </View>
+            </>
         )
     }
 }

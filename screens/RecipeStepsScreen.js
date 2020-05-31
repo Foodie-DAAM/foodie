@@ -294,7 +294,7 @@ export default class RecipeStepsScreen extends React.Component {
 
 		if (!steps) {
 			console.log('Steps not loaded');
-			return <View />;
+			return <></>;
 		}
 
 		console.log('STATE', JSON.stringify({  isFirst, isLast, current, total: this.state.total, steps: this.state.steps[current] }, null, 2))

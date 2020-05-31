@@ -102,6 +102,11 @@ export default {
 			imperial: 'Imperial',
 			metric: 'Metric',
 		},
+		nav: {
+			_: 'Navigation',
+			drawer: 'Drawer',
+			tab: 'Tab',
+		},
 		report: {
 			_: 'Report a problem',
 		},

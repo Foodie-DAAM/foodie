@@ -115,9 +115,9 @@ export default class IngredientsScreen extends React.Component {
 			)
 		} else if (!this.state.ingredients || this.state.ingredients.length < 1) {
 			content = (
-				<View>
-					<Text style={{ color: this.colors.dark }}>{i18n.t('ingredient.empty')}</Text>
-				</View>
+				<>
+					<Text style={{ color: this.colors.dark, textAlign: 'center' }}>{i18n.t('ingredient.empty')}</Text>
+				</>
 			)
 		} else {
 			content = <IngredientList

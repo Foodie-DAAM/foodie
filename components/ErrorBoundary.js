@@ -26,7 +26,7 @@ export default class ErrorBoundary extends React.Component {
 	render() {
 		if (this.state.hasError) {
 			return (
-				<View>
+				<>
 					<Text>Something went wrong</Text>
 					<Text>
 						{this.state.error && this.state.error.toString()}
@@ -34,7 +34,7 @@ export default class ErrorBoundary extends React.Component {
 					<Text>
 						{this.state.errorInfo && this.state.errorInfo.toString()}
 					</Text>
-				</View>
+				</>
 			);
 		}
 

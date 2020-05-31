@@ -12,6 +12,7 @@ import firebase from 'firebase';
 import * as i18nConfig from './i18n';
 import i18n from 'i18n-js';
 import { getTheme, loadTheme } from './theme';
+import { currentNavigation, loadNavigation } from './navigation';
 
 
 import IngredientsScreen from './screens/IngredientsScreen';
@@ -42,11 +43,13 @@ export default class App extends React.Component {
 	state = {
 		loadingThemeData: true,
 		loadingUserData: true,
+		loadingNavigationData: true,
 		error: null,
 	}
 
 	constructor(props) {
 		super(props);
+		this._isLoading = this._isLoading.bind(this);
 		this._initialScreen = this._initialScreen.bind(this);
 	}
 
@@ -67,6 +70,18 @@ export default class App extends React.Component {
 				loadingThemeData: false,
 			});
 		})
+
+		// Load navigation data
+		loadNavigation().then(navigation => {
+			console.log('[App]', 'Loaded navigation:', navigation);
+			this.setState({
+				loadingNavigationData: false,
+			});
+		})
+	}
+
+	_isLoading() {
+		return this.state.loadingUserData || this.state.loadingThemeData || this.state.loadingNavigationData;
 	}
 
 	_initialScreen() {
@@ -107,13 +122,11 @@ export default class App extends React.Component {
 				<Stack.Screen name="Ingredients" component={IngredientsScreen} />
 				<Stack.Screen name="Main" component={MainScreen} options={({ navigation, route }) => ({
 					headerTitle: this.getHeaderTitle(route),
-					headerLeft: props => (
-						<Ionicons
-							name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'menu'}
-							size={34}
-							style={{ marginLeft: 20, color: 'white' }}
-							onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} />
-					)
+					headerLeft: props => currentNavigation === 'tab' ? null : <Ionicons
+											name={(Platform.OS === 'android' ? 'md-' : 'ios-') + 'menu'}
+											size={34}
+											style={{ marginLeft: 20, color: 'white' }}
+											onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())} />
 				})} />
 			</Stack.Navigator>
 		)
@@ -129,7 +142,7 @@ export default class App extends React.Component {
 	}
 
 	render() {
-		let content = this.state.loadingUserData || this.state.loadingThemeData ? this._renderLoading() : this._renderNavigator();
+		let content = this._isLoading() ? this._renderLoading() : this._renderNavigator();
 
 		return (
 			<SafeAreaProvider>

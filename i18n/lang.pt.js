@@ -100,6 +100,11 @@ export default {
 			imperial: 'Imperial',
 			metric: 'Métrico',
 		},
+		nav: {
+			_: 'Navegação',
+			drawer: 'Drawer',
+			tab: 'Tab',
+		},
 		report: {
 			_: 'Reportar problema',
 		},
