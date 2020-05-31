@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/Foodie-DAAM/foodie/compare/v1.1.0...v1.2.0) (2020-05-31)
+
+
+### Features
+
+* Implemented bottom tab navigation ([3136ae0](https://github.com/Foodie-DAAM/foodie/commit/3136ae06dca4dd26668c061b14a2652d294e5121))
+
+
+### Bug Fixes
+
+* Changing theme or navigation preferences now correctly restarts the app ([800b535](https://github.com/Foodie-DAAM/foodie/commit/800b535ff7019caedbfa8e7174b7cc93449216ff))
+
 ## [1.1.0](https://github.com/Foodie-DAAM/foodie/compare/v1.0.0...v1.1.0) (2020-05-31)
 
 
